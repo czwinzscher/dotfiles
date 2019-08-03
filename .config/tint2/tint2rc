@@ -235,5 +235,5 @@ tooltip_hide_timeout = 0.1
 tooltip_padding = 2 2
 tooltip_background_id = 4
 tooltip_font_color = #f5f8f6 100
-tooltip_font = Noto Sans 10
+tooltip_font = Ubuntu 11
 
