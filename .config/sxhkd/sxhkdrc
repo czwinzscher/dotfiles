@@ -1,0 +1,46 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+    st
+
+# program launcher
+super + a
+    rofi -modi drun -show drun
+
+super + shift + Print
+    scrot -s
+
+# volume control
+XF86AudioRaiseVolume
+    pactl set-sink-volume 0 +5%
+XF86AudioLowerVolume
+    pactl set-sink-volume 0 -5%
+XF86AudioMute
+    pactl set-sink-mute 0 toggle
+
+# brightness
+XF86MonBrightnessUp
+    xbacklight -inc 5
+XF86MonBrightnessDown
+    xbacklight -dec 5
+
+# media player controls
+XF86AudioPlay
+    playerctl play-pause
+XF86AudioNext
+    playerctl next
+XF86AudioPrev
+    playerctl previous
+XF86AudioStop
+    playerctl stop
+
+# calculator
+XF86Calculator
+    speedcrunch
+
+# make sxhkd reload its configuration files:
+super + Escape
+    pkill -USR1 -x sxhkd

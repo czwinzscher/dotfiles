@@ -1,0 +1,17 @@
+set folder = "protocol://inbox_server:port"
+set smtp_url = "smtp://outbox_server:port"
+
+set spoolfile = "+INBOX"
+set record = "+Sent"
+set trash = "+Trash"
+set postponed = "+Drafts"
+
+mailboxes =INBOX =Sent =Trash =Junk =Other
+
+set from = "email_address"
+# set realname = "real_name"
+
+set sort = reverse-date-received
+
+# colorscheme
+source dracula.muttrc

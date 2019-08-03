@@ -1,0 +1,4 @@
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set bell-style visible
+set expand-tilde on
