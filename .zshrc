@@ -15,8 +15,8 @@ DISABLE_AUTO_UPDATE="true"
 . $ZSH/oh-my-zsh.sh
 
 . ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^[^M' autosuggest-execute
-bindkey '^ ' autosuggest-accept
+bindkey '^[^M' autosuggest-execute # alt-return
+bindkey '^ ' autosuggest-accept # ctrl-space
 
 # source aliases and inputrc
 . ~/.bash_aliases
