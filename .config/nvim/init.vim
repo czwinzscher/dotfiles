@@ -22,7 +22,7 @@ if dein#load_state('~/.cache/dein')
     " completion
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neopairs.vim')
-    call dein#add('ervandew/supertab')
+    " call dein#add('ervandew/supertab')
 
     " programming
     call dein#add('autozimu/LanguageClient-neovim', {
@@ -78,7 +78,6 @@ set listchars=tab:\ \ ,eol:$
 set showmatch
 set noshowcmd
 set noshowmode
-" set nostartofline
 set signcolumn=no
 set splitright
 set splitbelow
@@ -102,7 +101,6 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set expandtab
-autocmd FileType asm,html setlocal expandtab
 set hidden
 
 " Search
@@ -165,7 +163,7 @@ set pastetoggle=<F6>
 " use // instead of /* */
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " use ; for asm
-autocmd FileType asm setlocal commentstring=;\ %s
+" autocmd FileType asm setlocal commentstring=;\ %s
 
 " delete trailing whitespace on save
 au BufWritePre * %s/\s\+$//e
@@ -180,7 +178,7 @@ let g:netrw_dirhistmax = 0
 noremap <plug>(slash-after) zz
 
 " supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
+" let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " LanguageClient
 let g:LanguageClient_serverCommands = {
@@ -253,6 +251,7 @@ let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
             \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler" airline
+
 let g:fzf_layout = { 'down': '~20%' }
 
 " Rg [reg] [path]
@@ -266,7 +265,7 @@ command! -bang -nargs=* Rg
 " Rg in git project
 command! -nargs=* GRg
             \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always -S '.shellescape(<q-args>),
+            \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
             \   0, fzf#vim#with_preview({ 'dir': systemlist('git rev-parse --show-toplevel')[0] },
             \   'right:50%:hidden', '?'))
 
@@ -284,7 +283,8 @@ command! GFilesOrFiles call Get_files_command()
 let project_dirs = [
             \ "~/code/mission-uncuttable",
             \ "~/code/automata-lib",
-            \ "~/Nextcloud/Studium/Semester5"
+            \ "~/code/cpp-quizshows",
+            \ "~/Nextcloud/Studium/Semester5",
             \ ]
 
 function! s:proj_handler(dir)
@@ -300,7 +300,8 @@ command! Projects
 
 " change directory
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
-            \ {'source': 'fd -t d -I -H . '.(len(<q-args>) < 1 ? '.' : <q-args>), 'sink': 'cd'}))
+            \ {'source': 'fd -t d -I -H . '.(len(<q-args>) < 1 ? '.' : <q-args>),
+            \ 'sink': 'cd'}))
 
 " cd in git project
 command! GCd call fzf#run(fzf#wrap(
@@ -345,7 +346,7 @@ let g:lightline = {
 set termguicolors
 colorscheme onedark
 " highlight Search NONE
-hi QuickFixLine NONE
+highlight QuickFixLine NONE
 
 " functions
 function! Find_git_root()
