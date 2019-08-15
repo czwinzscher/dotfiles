@@ -197,11 +197,6 @@ bindsym $mod+Return exec --no-startup-id gnome-terminal
 # bindsym $mod+Return exec --no-startup-id st
 bindsym $mod+a exec --no-startup-id rofi -show drun
 bindsym $mod+shift+m exec --no-startup-id ls ~/.screenlayout | rofi -dmenu | awk '{print "~/.screenlayout/"$1}' | sh
-bindsym $mod+b exec --no-startup-id firefox
-bindsym $mod+e exec --no-startup-id emacs
-bindsym $mod+t exec --no-startup-id nemo
-bindsym $mod+m exec --no-startup-id spotify
-bindsym $mod+c exec --no-startup-id discord
 bindsym --release Print exec --no-startup-id scrot
 bindsym --release $mod+Print exec --no-startup-id scrot -s
 
