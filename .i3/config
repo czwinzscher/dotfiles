@@ -236,6 +236,7 @@ exec --no-startup-id compton
 exec --no-startup-id nm-applet
 exec --no-startup-id nextcloud
 exec --no-startup-id dunst
+exec --no-startup-id redshift-gtk
 exec --no-startup-id setxkbmap -layout de
 exec --no-startup-id xset r rate 200 28
 
