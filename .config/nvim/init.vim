@@ -109,9 +109,9 @@ set ignorecase
 set smartcase
 set inccommand=nosplit
 
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/bin/python3'
-let g:python3_host_skip_check = 1
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python'
+let g:python3_host_skip_check = 0
 
 " Mappings
 let mapleader=","
