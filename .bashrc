@@ -67,3 +67,5 @@ fi
 
 # shellcheck source=/home/clemens/.fzf.bash
 [ -f ~/.fzf.bash ] && . ~/.fzf.bash
+
+export LD_LIBRARY_PATH="/usr/local/lib"
