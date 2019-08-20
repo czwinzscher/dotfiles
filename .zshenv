@@ -22,7 +22,7 @@ rust_root=$(rustc --print sysroot)
 export RUST_SRC_PATH="$rust_root/lib/rustlib/src/rust/src"
 
 # FZF
-export FZF_DEFAULT_COMMAND='fdfind --type file --hidden'
+export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NNN
