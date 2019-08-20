@@ -12,7 +12,6 @@ alias autorm='sudo apt autoremove'
 alias sai='sudo apt install'
 alias sar='sudo apt remove'
 alias nvim='nvim.appimage'
-alias fd='fdfind'
 alias vf='vim $(fzf)'
 alias s='cd /home/clemens/Nextcloud/Studium/Semester5'
 
