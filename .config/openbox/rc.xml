@@ -767,7 +767,7 @@
         <y>center</y>
       </position>
     </application>
-    <application class="Firefox">
+    <application class="firefox">
       <decor>no</decor>
     </application>
     <application class="spotify">
