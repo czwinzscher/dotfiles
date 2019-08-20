@@ -1,6 +1,7 @@
 tint2 &
 xset r rate 190 28 &
 /usr/bin/setxkbmap -option "caps:escape" &
-# nm-applet &
+redshift-gtk &
+nm-applet &
 dunst &
 # volumeicon &
