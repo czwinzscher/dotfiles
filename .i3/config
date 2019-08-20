@@ -193,8 +193,7 @@ bindsym $mod+shift+x exec i3lock --color "$bg-color"
 bindsym $mod+shift+q [class=".*"] kill
 
 # application shortcuts
-bindsym $mod+Return exec --no-startup-id gnome-terminal
-# bindsym $mod+Return exec --no-startup-id st
+bindsym $mod+Return exec --no-startup-id xfce4-terminal
 bindsym $mod+a exec --no-startup-id rofi -show drun
 bindsym $mod+shift+m exec --no-startup-id ls ~/.screenlayout | rofi -dmenu | awk '{print "~/.screenlayout/"$1}' | sh
 bindsym --release Print exec --no-startup-id scrot

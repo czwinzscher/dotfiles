@@ -322,7 +322,7 @@
     </keybind>
     <keybind key="W-Return">
       <action name="Execute">
-        <command>gnome-terminal</command>
+        <command>xfce4-terminal</command>
       </action>
     </keybind>
     <keybind key="W-a">
