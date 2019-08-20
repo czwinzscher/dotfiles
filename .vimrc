@@ -4,10 +4,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-" Plug 'jiangmiao/auto-pairs'
 Plug 'tmsvg/pear-tree'
 Plug 'ervandew/supertab'
-Plug 'joshdick/onedark.vim'
 Plug 'PotatoesMaster/i3-vim-syntax'
 
 call plug#end()
@@ -74,5 +72,4 @@ let g:pear_tree_smart_openers = 0
 let g:pear_tree_smart_closers = 0
 let g:pear_tree_smart_backspace = 0
 
-colo onedark
 hi QuickFixLine NONE
