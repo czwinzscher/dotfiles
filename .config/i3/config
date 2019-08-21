@@ -231,7 +231,6 @@ bindsym $mod+Shift+Tab workspace prev
 # exec_always --no-startup-id feh --bg-scale /home/clemens/Bilder/Wallpapers/ergdfgfdgh.jpg
 # exec_always --no-startup-id polybar example
 
-exec --no-startup-id compton
 exec --no-startup-id nm-applet
 exec --no-startup-id nextcloud
 exec --no-startup-id dunst
