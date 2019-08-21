@@ -170,7 +170,7 @@ bar {
         separator_symbol "-"
         font pango: Ubuntu medium 11
         strip_workspace_numbers yes
-        status_command i3blocks -c /home/clemens/.i3/i3blocks.conf
+        status_command i3blocks -c /home/clemens/.config/i3/i3blocks.conf
         colors {
                 background  #000000
                 separator   #42f4a1
