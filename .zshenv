@@ -1,11 +1,10 @@
 # LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
-# standard editor
 export EDITOR=vim
 export VISUAL=vim
-export TERMINAL=/usr/bin/gnome-terminal
-export BROWSER=/usr/bin/firefox
+export TERMINAL=xfce4-terminal
+export BROWSER=firefox
 
 export TERM=xterm-256color
 
@@ -26,5 +25,5 @@ export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NNN
-export NNN_BMS='s:~/Nextcloud/Studium/Semester4'
+export NNN_BMS='s:~/Nextcloud/Studium/Semester5'
 export NNN_CONTEXT_COLORS='2222'
