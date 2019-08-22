@@ -1,14 +1,12 @@
-export ZSH="/home/clemens/.oh-my-zsh"
-
 ZSH_THEME="robbyrussell"
 
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=()
+#plugins=()
 
 source $ZSH/oh-my-zsh.sh
 
