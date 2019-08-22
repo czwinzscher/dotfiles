@@ -64,6 +64,3 @@ if ! shopt -oq posix; then
         . /etc/bash_completion
     fi
 fi
-
-# shellcheck source=/home/clemens/.fzf.bash
-[ -f ~/.fzf.bash ] && . ~/.fzf.bash

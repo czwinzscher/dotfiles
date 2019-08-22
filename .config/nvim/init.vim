@@ -41,7 +41,7 @@ if dein#load_state('~/.cache/dein')
                 \ })
 
     " fzf
-    call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+    call dein#add('junegunn/fzf', { 'merged': 0 })
     call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
     " lint

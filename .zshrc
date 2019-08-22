@@ -8,7 +8,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=()
 
-source $ZSH/oh-my-zsh.sh
+. $ZSH/oh-my-zsh.sh
 
 # autosuggestions
 . ~/.zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -18,5 +18,6 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 
 . ~/.bash_aliases
 . ~/.inputrc
-
-. ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && . ~/.fzf.zsh
+. /usr/share/fzf/key-bindings.zsh
+. /usr/share/fzf/completion.zsh
