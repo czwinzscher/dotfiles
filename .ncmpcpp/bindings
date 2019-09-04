@@ -1,3 +1,8 @@
+def_key "K"
+    move_home
+def_key "J"
+    move_end
+
 def_key "k"
     scroll_up
 def_key "j"
