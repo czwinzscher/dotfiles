@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tmsvg/pear-tree'
-Plug 'ervandew/supertab'
 Plug 'PotatoesMaster/i3-vim-syntax'
 
 call plug#end()
