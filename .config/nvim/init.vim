@@ -281,9 +281,7 @@ command! GFilesOrFiles call Get_files_command()
 
 " search projects
 let project_dirs = [
-            \ "~/code/mission-uncuttable",
-            \ "~/code/automata-lib",
-            \ "~/code/cpp-quizshows",
+            \ "~/code",
             \ "~/Nextcloud/Studium/Semester5",
             \ ]
 
