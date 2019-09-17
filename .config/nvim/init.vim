@@ -177,9 +177,6 @@ let g:netrw_dirhistmax = 0
 " center cursor on screen while searching
 noremap <plug>(slash-after) zz
 
-" supertab
-" let g:SuperTabDefaultCompletionType = "<c-n>"
-
 " LanguageClient
 let g:LanguageClient_serverCommands = {
             \ 'haskell': ['/home/clemens/.local/bin/hie-wrapper'],
