@@ -340,9 +340,14 @@
         <command>scrot</command>
       </action>
     </keybind>
-    <keybind key="A-Print">
+    <keybind key="W-S-Print">
       <action name="Execute">
         <command>scrot -s</command>
+      </action>
+    </keybind>
+    <keybind key="W-Print">
+      <action name="Execute">
+        <command>scrot -u</command>
       </action>
     </keybind>
     <keybind key="XF86Calculator">
