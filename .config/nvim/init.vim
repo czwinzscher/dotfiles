@@ -22,7 +22,6 @@ if dein#load_state('~/.cache/dein')
     " completion
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neopairs.vim')
-    " call dein#add('ervandew/supertab')
 
     " programming
     call dein#add('autozimu/LanguageClient-neovim', {
@@ -74,7 +73,7 @@ set nospell
 set title
 set titlestring=%f
 set listchars=tab:\ \ ,eol:$
-"set list listchars=tab:\ \ "cursor on tab at beginning not end
+" set list listchars=tab:\ \ "cursor on tab at beginning not end
 set showmatch
 set noshowcmd
 set noshowmode
@@ -232,10 +231,6 @@ let g:ale_linters = {
 " let g:ale_cpp_clang_options='-std=c++17 -Weverything -Wno-c++98-compat'
 let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
 
-" gutentags
-" let g:gutentags_ctags_tagfile = '.tags'
-" let g:gutentags_file_list_command = {'markers': {'.git': 'git ls-files'}}
-
 " Ultisnips
 let g:UltiSnipsEditSplit = "vertical"
 let g:UltiSnipsExpandTrigger = "<tab>"
@@ -262,8 +257,8 @@ command! -bang -nargs=* Rg
 " Rg in git project
 command! -nargs=* GRg
             \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
-            \   0, fzf#vim#with_preview({ 'dir': systemlist('git rev-parse --show-toplevel')[0] },
+            \   'rg --column -n --no-heading --color=always -S '.shellescape(<q-args>), 0,
+            \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]},
             \   'right:50%:hidden', '?'))
 
 function! Get_files_command()
