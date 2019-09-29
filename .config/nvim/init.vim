@@ -190,13 +190,11 @@ let g:LanguageClient_diagnosticsEnable = 0
 
 " function that enables lc keybindings
 function! LC_maps()
-    if has_key(g:LanguageClient_serverCommands, &filetype)
-        nnoremap <buffer> <F5> :call LanguageClient_contextMenu()<CR>
-        nnoremap <buffer> K :call LanguageClient#textDocument_hover()<CR>
-        nnoremap <buffer> gd :call LanguageClient#textDocument_definition()<CR>
-        nnoremap <buffer> <leader>r :call LanguageClient#textDocument_rename()<CR>
-        nnoremap <buffer> <leader>f :call LanguageClient#textDocument_formatting()<CR>
-    endif
+    nnoremap <buffer> <F5> :call LanguageClient_contextMenu()<CR>
+    nnoremap <buffer> K :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <buffer> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <buffer> <leader>r :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <buffer> <leader>f :call LanguageClient#textDocument_formatting()<CR>
 endfunction
 
 autocmd FileType haskell,cpp,python,rust,go call LC_maps()
@@ -220,12 +218,13 @@ let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 
 let g:ale_linters = {
-            \ 'cpp': ['clangcheck'],
+            \ 'asm': [],
             \ 'c': ['clang'],
+            \ 'cpp': ['clangcheck'],
+            \ 'go': ['golint', 'govet'],
+            \ 'haskell': ['ghc'],
             \ 'python': ['flake8'],
             \ 'rust': ['cargo'],
-            \ 'haskell': ['ghc'],
-            \ 'asm': [],
             \}
 
 " let g:ale_cpp_clang_options='-std=c++17 -Weverything -Wno-c++98-compat'
