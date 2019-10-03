@@ -1,7 +1,6 @@
 ZSH_THEME="robbyrussell"
 
-# DISABLE_AUTO_UPDATE="true"
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -18,6 +17,5 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 
 . ~/.bash_aliases
 . ~/.inputrc
-# [ -f ~/.fzf.zsh ] && . ~/.fzf.zsh
 . /usr/share/fzf/key-bindings.zsh
 . /usr/share/fzf/completion.zsh
