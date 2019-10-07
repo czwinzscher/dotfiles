@@ -179,11 +179,11 @@ noremap <plug>(slash-after) zz
 " LanguageClient
 let g:LanguageClient_serverCommands = {
             \ 'haskell': ['/home/clemens/.local/bin/hie-wrapper'],
-            \ 'cpp': ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
             \ 'python': ['/home/clemens/.local/bin/pyls'],
             \ 'rust': ['/home/clemens/.cargo/bin/rustup', 'run', 'stable', 'rls'],
             \ 'go': ['/home/clemens/go/bin/gopls']
             \ }
+            "\ 'cpp': ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
 
 " use ale for diagnostics
 let g:LanguageClient_diagnosticsEnable = 0
@@ -197,7 +197,7 @@ function! LC_maps()
     nnoremap <buffer> <leader>f :call LanguageClient#textDocument_formatting()<CR>
 endfunction
 
-autocmd FileType haskell,cpp,python,rust,go call LC_maps()
+autocmd FileType haskell,python,rust,go call LC_maps()
 " run gofmt on save
 autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 
@@ -206,6 +206,9 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_start_length = 3
 call deoplete#custom#option('auto_complete_delay', 200)
 call deoplete#custom#option('ignore_sources', {'_': ['ultisnips']})
+call deoplete#custom#option('sources', {
+      \ 'cpp': ['ale', 'buffer', 'around'],
+      \ })
 call deoplete#custom#source('_', 'matchers', ['matcher_length', 'matcher_head'])
 call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
 
@@ -220,7 +223,7 @@ let g:ale_lint_on_save = 1
 let g:ale_linters = {
             \ 'asm': [],
             \ 'c': ['clang'],
-            \ 'cpp': ['clangcheck'],
+            \ 'cpp': ['ccls'],
             \ 'go': ['golint', 'govet'],
             \ 'haskell': ['ghc'],
             \ 'python': ['flake8'],
@@ -256,9 +259,13 @@ command! -bang -nargs=* Rg
 " Rg in git project
 command! -nargs=* GRg
             \ call fzf#vim#grep(
-            \   'rg --column -n --no-heading --color=always -S '.shellescape(<q-args>), 0,
-            \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]},
-            \   'right:50%:hidden', '?'))
+            \   'rg --column -n --no-heading --color=always -S '.shellescape(<q-args>),
+            \   0,
+            \   fzf#vim#with_preview({
+            \     'dir': systemlist('git rev-parse --show-toplevel')[0]
+            \   },
+            \   'right:50%:hidden',
+            \   '?'))
 
 function! Get_files_command()
     if Find_git_root() == ""
