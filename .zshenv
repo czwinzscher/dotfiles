@@ -5,10 +5,10 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 export EDITOR=vim
 export VISUAL=vim
-export TERMINAL=xfce4-terminal
+export TERMINAL=kitty
 export BROWSER=firefox
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
 
 [ "$TMUX" = "" ] && export TERM="xterm-256color"
 

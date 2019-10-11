@@ -320,7 +320,7 @@
     </keybind>
     <keybind key="W-Return">
       <action name="Execute">
-        <command>xfce4-terminal</command>
+        <command>kitty</command>
       </action>
     </keybind>
     <keybind key="W-a">
