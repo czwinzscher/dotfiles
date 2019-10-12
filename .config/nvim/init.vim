@@ -178,10 +178,10 @@ noremap <plug>(slash-after) zz
 
 " LanguageClient
 let g:LanguageClient_serverCommands = {
-            \ 'haskell': ['/home/clemens/.local/bin/hie-wrapper'],
-            \ 'python': ['/home/clemens/.local/bin/pyls'],
-            \ 'rust': ['/home/clemens/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-            \ 'go': ['/home/clemens/go/bin/gopls']
+            \ 'haskell': ['~/.local/bin/hie-wrapper'],
+            \ 'python': ['~/.local/bin/pyls'],
+            \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+            \ 'go': ['~/go/bin/gopls']
             \ }
             "\ 'cpp': ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
 
