@@ -172,6 +172,12 @@ au BufWritePre * %s/\s\+$//e
 " netrw
 let g:netrw_dirhistmax = 0
 
+" onedark
+augroup colorextend
+    autocmd!
+    autocmd ColorScheme * call onedark#extend_highlight("MatchParen", { "gui": "bold" })
+augroup END
+
 " slash
 " center cursor on screen while searching
 noremap <plug>(slash-after) zz
