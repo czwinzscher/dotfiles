@@ -1,7 +1,7 @@
 # Additional git repositories to pull
-#git_repos = [
-#    "~/.config/emacs"
-#]
+git_repos = [
+    "~/.config/emacs"
+]
 
 # Disable specific steps - same options as the command line flag
 #disable = ["system", "emacs"]
