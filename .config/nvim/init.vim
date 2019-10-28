@@ -13,7 +13,6 @@ if dein#load_state('~/.cache/dein')
     call dein#add('tpope/vim-surround')
     call dein#add('tpope/vim-commentary')
     call dein#add('jiangmiao/auto-pairs')
-    call dein#add('terryma/vim-multiple-cursors')
 
     " navigation
     call dein#add('justinmk/vim-sneak')
@@ -28,7 +27,7 @@ if dein#load_state('~/.cache/dein')
                 \ 'build': './install.sh',
                 \ 'rev': 'next',
                 \ })
-    call dein#add('maksimr/vim-jsbeautify')
+    " call dein#add('maksimr/vim-jsbeautify')
     call dein#add('sheerun/vim-polyglot')
 
     " git
@@ -189,7 +188,7 @@ let g:LanguageClient_serverCommands = {
             \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
             \ 'go': ['~/go/bin/gopls']
             \ }
-            "\ 'cpp': ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
+            " \ 'cpp': ['clangd'],
 
 " use ale for diagnostics
 let g:LanguageClient_diagnosticsEnable = 0
@@ -229,14 +228,13 @@ let g:ale_lint_on_save = 1
 let g:ale_linters = {
             \ 'asm': [],
             \ 'c': ['clang'],
-            \ 'cpp': ['ccls'],
+            \ 'cpp': ['clangd'],
             \ 'go': ['golint', 'govet'],
             \ 'haskell': ['ghc'],
             \ 'python': ['flake8'],
             \ 'rust': ['cargo'],
             \}
 
-" let g:ale_cpp_clang_options='-std=c++17 -Weverything -Wno-c++98-compat'
 let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
 
 " Ultisnips
