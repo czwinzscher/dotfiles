@@ -1,69 +1,53 @@
-if &compatible
-    set nocompatible
-endif
-" Add the dein installation directory into runtimepath
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+" Plugins
+call plug#begin()
 
-if dein#load_state('~/.cache/dein')
-    call dein#begin('~/.cache/dein')
+" general
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
 
-    call dein#add('~/.cache/dein')
+" navigation
+Plug 'justinmk/vim-sneak'
+Plug 'junegunn/vim-slash'
 
-    " general
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-commentary')
-    call dein#add('jiangmiao/auto-pairs')
+" completion
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/neopairs.vim'
 
-    " navigation
-    call dein#add('justinmk/vim-sneak')
-    call dein#add('junegunn/vim-slash')
+" programming
+Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \ }
+" Plug 'maksimr/vim-jsbeautify'
+Plug 'sheerun/vim-polyglot'
 
-    " completion
-    call dein#add('Shougo/deoplete.nvim')
-    call dein#add('Shougo/neopairs.vim')
+" git
+Plug 'tpope/vim-fugitive'
+Plug 'rhysd/git-messenger.vim'
 
-    " programming
-    call dein#add('autozimu/LanguageClient-neovim', {
-                \ 'build': './install.sh',
-                \ 'rev': 'next',
-                \ })
-    " call dein#add('maksimr/vim-jsbeautify')
-    call dein#add('sheerun/vim-polyglot')
+" fzf
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
-    " git
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('rhysd/git-messenger.vim', {
-                \   'lazy' : 1,
-                \   'on_cmd' : 'GitMessenger',
-                \   'on_map' : '<Plug>(git-messenger',
-                \ })
+" lint
+Plug 'dense-analysis/ale'
 
-    " fzf
-    call dein#add('junegunn/fzf', { 'merged': 0 })
-    call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+" snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
-    " lint
-    call dein#add('dense-analysis/ale')
+" statusline
+" Plug 'itchyny/lightline.vim'
+" Plug 'maximbaz/lightline-ale'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-    " snippets
-    call dein#add('SirVer/ultisnips')
-    call dein#add('honza/vim-snippets')
+" color schemes
+Plug 'joshdick/onedark.vim'
+Plug 'gruvbox-community/gruvbox'
 
-    " statusline
-    call dein#add('itchyny/lightline.vim')
-    call dein#add('maximbaz/lightline-ale')
-
-    " color schemes
-    call dein#add('joshdick/onedark.vim')
-    call dein#add('gruvbox-community/gruvbox')
-
-    call dein#end()
-    call dein#save_state()
-endif
-
-if dein#check_install()
-    call dein#install()
-endif
+call plug#end()
 
 " general
 filetype plugin indent on
@@ -90,7 +74,7 @@ set tags+=./.tags;/
 set clipboard+=unnamedplus
 set completeopt-=preview
 set encoding=utf-8
-set fcs=eob:\ "hides tildes after eof
+set fillchars=eob:\ "hides tildes after eof
 set confirm
 set lazyredraw
 
@@ -163,13 +147,16 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " use ; for asm
 " autocmd FileType asm setlocal commentstring=;\ %s
 
-" delete trailing whitespace on save
-au BufWritePre * %s/\s\+$//e
+" dont insert comments in the next line automatically
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" plugins
+" delete trailing whitespace on save
+" au BufWritePre * %s/\s\+$//e
 
 " netrw
 let g:netrw_dirhistmax = 0
+
+" plugins
 
 " onedark
 augroup colorextend
@@ -183,15 +170,16 @@ noremap <plug>(slash-after) zz
 
 " LanguageClient
 let g:LanguageClient_serverCommands = {
+            \ 'cpp': ['clangd'],
+            \ 'go': ['~/go/bin/gopls'],
             \ 'haskell': ['~/.local/bin/hie-wrapper'],
             \ 'python': ['~/.local/bin/pyls'],
             \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-            \ 'go': ['~/go/bin/gopls']
             \ }
-            " \ 'cpp': ['clangd'],
 
-" use ale for diagnostics
-let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_changeThrottle = 0.1
+let g:LanguageClient_useVirtualText = 0
+let g:LanguageClient_diagnosticsEnable = 1
 
 " function that enables lc keybindings
 function! LC_maps()
@@ -202,7 +190,7 @@ function! LC_maps()
     nnoremap <buffer> <leader>f :call LanguageClient#textDocument_formatting()<CR>
 endfunction
 
-autocmd FileType haskell,python,rust,go call LC_maps()
+autocmd FileType cpp,haskell,python,rust,go call LC_maps()
 " run gofmt on save
 autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 
@@ -211,9 +199,9 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_start_length = 3
 call deoplete#custom#option('auto_complete_delay', 200)
 call deoplete#custom#option('ignore_sources', {'_': ['ultisnips']})
-call deoplete#custom#option('sources', {
-      \ 'cpp': ['ale', 'buffer', 'around'],
-      \ })
+" call deoplete#custom#option('sources', {
+"             \ 'cpp': ['ale', 'buffer', 'around'],
+"             \ })
 call deoplete#custom#source('_', 'matchers', ['matcher_length', 'matcher_head'])
 call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
 
@@ -228,14 +216,14 @@ let g:ale_lint_on_save = 1
 let g:ale_linters = {
             \ 'asm': [],
             \ 'c': ['clang'],
-            \ 'cpp': ['clangd'],
-            \ 'go': ['golint', 'govet'],
-            \ 'haskell': ['ghc'],
-            \ 'python': ['flake8'],
-            \ 'rust': ['cargo'],
+            \ 'cpp': [],
+            \ 'go': [],
+            \ 'haskell': [],
+            \ 'python': [],
+            \ 'rust': [],
             \}
 
-let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
+" let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
 
 " Ultisnips
 let g:UltiSnipsEditSplit = "vertical"
@@ -247,32 +235,10 @@ let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 " fzf
 " hide statusline when fzf is active
 autocmd! FileType fzf
-autocmd  FileType fzf set laststatus=0 noshowmode noruler
-            \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler" airline
+autocmd  FileType fzf set laststatus=0 noruler
+            \| autocmd BufLeave <buffer> set laststatus=2 ruler
 
 let g:fzf_layout = { 'down': '~20%' }
-" let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  call setbufvar(buf, '&signcolumn', 'no')
-
-  let height = float2nr(10)
-  let width = float2nr(80)
-  let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 1
-
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': vertical,
-        \ 'col': horizontal,
-        \ 'width': width,
-        \ 'height': height,
-        \ 'style': 'minimal'
-        \ }
-
-  call nvim_open_win(buf, v:true, opts)
-endfunction
 
 " Rg [reg] [path]
 command! -bang -nargs=* Rg
@@ -329,40 +295,44 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
 command! GCd call fzf#run(fzf#wrap(
             \ {'source': 'fd -t d -I -H . '.(Find_git_root()), 'sink': 'cd'}))
 
+" airline
+let g:airline_section_c = '%t'
+let g:airline_section_y = []
+
 " lightline
-function! LightlineFilename()
-    let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-    let modified = &modified ? ' +' : ''
-    return filename . modified
-endfunction
+" function! LightlineFilename()
+"     let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+"     let modified = &modified ? ' +' : ''
+"     return filename . modified
+" endfunction
 
-function! LightlineFiletype()
-    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-endfunction
+" function! LightlineFiletype()
+"     return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+" endfunction
 
-let g:lightline = {
-            \ 'colorscheme': 'one',
-            \ 'active': {
-            \   'left': [ [ 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename' ] ],
-            \   'right': [ [ 'linter_errors', 'linter_warnings' ],
-            \              [ 'percent', 'lineinfo' ],
-            \              [ 'filetype' ] ],
-            \ },
-            \ 'component_function': {
-            \   'gitbranch': 'fugitive#head',
-            \   'filename': 'LightlineFilename',
-            \   'filetype': 'LightlineFiletype',
-            \ },
-            \ 'component_expand': {
-            \  'linter_warnings': 'lightline#ale#warnings',
-            \  'linter_errors': 'lightline#ale#errors',
-            \ },
-            \ 'component_type': {
-            \     'linter_warnings': 'warning',
-            \     'linter_errors': 'error',
-            \ },
-            \ }
+" let g:lightline = {
+"             \ 'colorscheme': 'one',
+"             \ 'active': {
+"             \   'left': [ [ 'paste' ],
+"             \             [ 'gitbranch', 'readonly', 'filename' ] ],
+"             \   'right': [ [ 'linter_errors', 'linter_warnings' ],
+"             \              [ 'percent', 'lineinfo' ],
+"             \              [ 'filetype' ] ],
+"             \ },
+"             \ 'component_function': {
+"             \   'gitbranch': 'fugitive#head',
+"             \   'filename': 'LightlineFilename',
+"             \   'filetype': 'LightlineFiletype',
+"             \ },
+"             \ 'component_expand': {
+"             \  'linter_warnings': 'lightline#ale#warnings',
+"             \  'linter_errors': 'lightline#ale#errors',
+"             \ },
+"             \ 'component_type': {
+"             \     'linter_warnings': 'warning',
+"             \     'linter_errors': 'error',
+"             \ },
+"             \ }
 
 " colors
 set termguicolors
