@@ -38,10 +38,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " statusline
-" Plug 'itchyny/lightline.vim'
-" Plug 'maximbaz/lightline-ale'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 
 " color schemes
 Plug 'joshdick/onedark.vim'
@@ -295,44 +293,40 @@ command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
 command! GCd call fzf#run(fzf#wrap(
             \ {'source': 'fd -t d -I -H . '.(Find_git_root()), 'sink': 'cd'}))
 
-" airline
-let g:airline_section_c = '%t'
-let g:airline_section_y = []
-
 " lightline
-" function! LightlineFilename()
-"     let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-"     let modified = &modified ? ' +' : ''
-"     return filename . modified
-" endfunction
+function! LightlineFilename()
+    let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+    let modified = &modified ? ' +' : ''
+    return filename . modified
+endfunction
 
-" function! LightlineFiletype()
-"     return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-" endfunction
+function! LightlineFiletype()
+    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
 
-" let g:lightline = {
-"             \ 'colorscheme': 'one',
-"             \ 'active': {
-"             \   'left': [ [ 'paste' ],
-"             \             [ 'gitbranch', 'readonly', 'filename' ] ],
-"             \   'right': [ [ 'linter_errors', 'linter_warnings' ],
-"             \              [ 'percent', 'lineinfo' ],
-"             \              [ 'filetype' ] ],
-"             \ },
-"             \ 'component_function': {
-"             \   'gitbranch': 'fugitive#head',
-"             \   'filename': 'LightlineFilename',
-"             \   'filetype': 'LightlineFiletype',
-"             \ },
-"             \ 'component_expand': {
-"             \  'linter_warnings': 'lightline#ale#warnings',
-"             \  'linter_errors': 'lightline#ale#errors',
-"             \ },
-"             \ 'component_type': {
-"             \     'linter_warnings': 'warning',
-"             \     'linter_errors': 'error',
-"             \ },
-"             \ }
+let g:lightline = {
+            \ 'colorscheme': 'one',
+            \ 'active': {
+            \   'left': [ [ 'paste' ],
+            \             [ 'gitbranch', 'readonly', 'filename' ] ],
+            \   'right': [ [ 'linter_errors', 'linter_warnings' ],
+            \              [ 'percent', 'lineinfo' ],
+            \              [ 'filetype' ] ],
+            \ },
+            \ 'component_function': {
+            \   'gitbranch': 'fugitive#head',
+            \   'filename': 'LightlineFilename',
+            \   'filetype': 'LightlineFiletype',
+            \ },
+            \ 'component_expand': {
+            \  'linter_warnings': 'lightline#ale#warnings',
+            \  'linter_errors': 'lightline#ale#errors',
+            \ },
+            \ 'component_type': {
+            \     'linter_warnings': 'warning',
+            \     'linter_errors': 'error',
+            \ },
+            \ }
 
 " colors
 set termguicolors
