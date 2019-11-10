@@ -19,8 +19,8 @@ Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
             \ 'do': 'bash install.sh',
             \ }
-" Plug 'maksimr/vim-jsbeautify'
 Plug 'sheerun/vim-polyglot'
+Plug 'bfrg/vim-cpp-modern'
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -34,8 +34,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 
 " snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " statusline
 Plug 'itchyny/lightline.vim'
@@ -53,8 +53,8 @@ syntax enable
 set nospell
 set title
 set titlestring=%f
-set listchars=tab:\ \ ,eol:$
-" set list listchars=tab:\ \ "cursor on tab at beginning not end
+set list
+set listchars=tab:\ \ "cursor on tab at beginning not end
 set showmatch
 set noshowcmd
 set noshowmode
@@ -148,6 +148,9 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " dont insert comments in the next line automatically
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
+" c indentation
+set cinoptions=N-s,g0,+0
+
 " delete trailing whitespace on save
 " au BufWritePre * %s/\s\+$//e
 
@@ -176,7 +179,7 @@ let g:LanguageClient_serverCommands = {
             \ }
 
 let g:LanguageClient_changeThrottle = 0.1
-let g:LanguageClient_useVirtualText = 0
+" let g:LanguageClient_useVirtualText = 0
 let g:LanguageClient_diagnosticsEnable = 1
 
 " function that enables lc keybindings
@@ -224,11 +227,11 @@ let g:ale_linters = {
 " let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
 
 " Ultisnips
-let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
+" let g:UltiSnipsEditSplit = "vertical"
+" let g:UltiSnipsExpandTrigger = "<tab>"
+" let g:UltiSnipsJumpForwardTrigger = "<tab>"
+" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 
 " fzf
 " hide statusline when fzf is active
