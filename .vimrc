@@ -4,8 +4,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'tmsvg/pear-tree'
+Plug 'jiangmiao/auto-pairs'
 Plug 'PotatoesMaster/i3-vim-syntax'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -32,8 +33,11 @@ set lazyredraw
 set laststatus=0
 set wildmenu
 set backspace=indent,eol,start
+set laststatus=2
 
 autocmd BufWritePre * %s/\s\+$//e
+
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Tabs
 set shiftwidth=4
@@ -66,9 +70,6 @@ nnoremap <C-H> <C-W><C-H>
 
 nnoremap <leader>c :e ~/.vimrc<CR>
 
-" plugins
-let g:pear_tree_smart_openers = 0
-let g:pear_tree_smart_closers = 0
-let g:pear_tree_smart_backspace = 0
-
+" colors
+colorscheme onedark
 hi QuickFixLine NONE
