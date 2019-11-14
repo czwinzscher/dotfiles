@@ -15,10 +15,9 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neopairs.vim'
 
 " programming
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
+Plug 'neovim/nvim-lsp'
+
+" syntax
 Plug 'sheerun/vim-polyglot'
 Plug 'bfrg/vim-cpp-modern'
 
@@ -43,7 +42,6 @@ Plug 'maximbaz/lightline-ale'
 
 " color schemes
 Plug 'joshdick/onedark.vim'
-Plug 'gruvbox-community/gruvbox'
 
 call plug#end()
 
@@ -74,7 +72,6 @@ set completeopt-=preview
 set encoding=utf-8
 set fillchars=eob:\ "hides tildes after eof
 set confirm
-set lazyredraw
 
 " Tabs
 set shiftwidth=4
@@ -154,6 +151,22 @@ set cinoptions=N-s,g0,+0
 " delete trailing whitespace on save
 " au BufWritePre * %s/\s\+$//e
 
+" lsp
+lua require("lsp_setup").setup()
+
+function! LC_maps()
+    nnoremap <buffer> <silent> <leader>gd :call lsp#text_document_declaration()<CR>
+    nnoremap <buffer> <silent> gd :call lsp#text_document_definition()<CR>
+    nnoremap <buffer> <silent> K  :call lsp#text_document_hover()<CR>
+    nnoremap <buffer> <silent> <leader>d :lua require("vim.lsp.util").show_line_diagnostics()<CR>
+endfunction
+
+autocmd FileType cpp,haskell,python,rust,go,tex call LC_maps()
+autocmd Filetype cpp,haskell,python,rust,go,tex setl omnifunc=lsp#omnifunc
+
+" run gofmt on save
+" autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+
 " netrw
 let g:netrw_dirhistmax = 0
 
@@ -169,40 +182,11 @@ augroup END
 " center cursor on screen while searching
 noremap <plug>(slash-after) zz
 
-" LanguageClient
-let g:LanguageClient_serverCommands = {
-            \ 'cpp': ['clangd'],
-            \ 'go': ['~/go/bin/gopls'],
-            \ 'haskell': ['~/.local/bin/hie-wrapper'],
-            \ 'python': ['~/.local/bin/pyls'],
-            \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-            \ }
-
-let g:LanguageClient_changeThrottle = 0.1
-" let g:LanguageClient_useVirtualText = 0
-let g:LanguageClient_diagnosticsEnable = 1
-
-" function that enables lc keybindings
-function! LC_maps()
-    nnoremap <buffer> <F5> :call LanguageClient_contextMenu()<CR>
-    nnoremap <buffer> K :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <buffer> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <buffer> <leader>r :call LanguageClient#textDocument_rename()<CR>
-    nnoremap <buffer> <leader>f :call LanguageClient#textDocument_formatting()<CR>
-endfunction
-
-autocmd FileType cpp,haskell,python,rust,go call LC_maps()
-" run gofmt on save
-autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
-
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_start_length = 3
 call deoplete#custom#option('auto_complete_delay', 200)
 call deoplete#custom#option('ignore_sources', {'_': ['ultisnips']})
-" call deoplete#custom#option('sources', {
-"             \ 'cpp': ['ale', 'buffer', 'around'],
-"             \ })
 call deoplete#custom#source('_', 'matchers', ['matcher_length', 'matcher_head'])
 call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
 
@@ -239,7 +223,7 @@ autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noruler
             \| autocmd BufLeave <buffer> set laststatus=2 ruler
 
-let g:fzf_layout = { 'down': '~20%' }
+let g:fzf_layout = { 'down': '~15%' }
 
 " Rg [reg] [path]
 command! -bang -nargs=* Rg
