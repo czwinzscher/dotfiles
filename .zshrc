@@ -2,11 +2,6 @@ ZSH_THEME="robbyrussell"
 
 DISABLE_AUTO_UPDATE="true"
 
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-#plugins=()
-
 . $ZSH/oh-my-zsh.sh
 
 # autosuggestions
@@ -19,3 +14,6 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 . ~/.inputrc
 . /usr/share/fzf/key-bindings.zsh
 . /usr/share/fzf/completion.zsh
+
+# https://github.com/gsamokovarov/jump
+eval "$(jump shell)"
