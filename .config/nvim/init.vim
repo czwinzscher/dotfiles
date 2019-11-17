@@ -16,6 +16,7 @@ Plug 'Shougo/neopairs.vim'
 
 " programming
 Plug 'neovim/nvim-lsp'
+" Plug '~/code/nvim-lsp'
 
 " syntax
 Plug 'sheerun/vim-polyglot'
@@ -139,8 +140,6 @@ set pastetoggle=<F6>
 " commentstrings
 " use // instead of /* */
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
-" use ; for asm
-" autocmd FileType asm setlocal commentstring=;\ %s
 
 " dont insert comments in the next line automatically
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -152,17 +151,20 @@ set cinoptions=N-s,g0,+0
 " au BufWritePre * %s/\s\+$//e
 
 " lsp
+" see lua/lsp_setup.lua
 lua require("lsp_setup").setup()
 
-function! LC_maps()
+function! LSP_maps()
     nnoremap <buffer> <silent> <leader>gd :call lsp#text_document_declaration()<CR>
     nnoremap <buffer> <silent> gd :call lsp#text_document_definition()<CR>
     nnoremap <buffer> <silent> K  :call lsp#text_document_hover()<CR>
     nnoremap <buffer> <silent> <leader>d :lua require("vim.lsp.util").show_line_diagnostics()<CR>
 endfunction
 
-autocmd FileType cpp,haskell,python,rust,go,tex call LC_maps()
-autocmd Filetype cpp,haskell,python,rust,go,tex setl omnifunc=lsp#omnifunc
+autocmd FileType cpp,haskell,python,rust,go,tex call LSP_maps()
+autocmd Filetype cpp,haskell,python,rust,go,tex setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
+autocmd FileType tex nnoremap <buffer> <silent> <leader>b :TexlabBuild<CR>
 
 " run gofmt on save
 " autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
