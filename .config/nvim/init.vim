@@ -12,11 +12,11 @@ Plug 'junegunn/vim-slash'
 
 " completion
 Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete-lsp'
 Plug 'Shougo/neopairs.vim'
 
-" programming
+" lsp
 Plug 'neovim/nvim-lsp'
-" Plug '~/code/nvim-lsp'
 
 " syntax
 Plug 'sheerun/vim-polyglot'
@@ -47,8 +47,6 @@ Plug 'joshdick/onedark.vim'
 call plug#end()
 
 " general
-filetype plugin indent on
-syntax enable
 set nospell
 set title
 set titlestring=%f
@@ -57,22 +55,22 @@ set listchars=tab:\ \ "cursor on tab at beginning not end
 set showmatch
 set noshowcmd
 set noshowmode
-set signcolumn=no
+set autochdir
 set splitright
 set splitbelow
 set breakindent
+set confirm
+set signcolumn=no
 set pumheight=5
 set scrolloff=5
-set autochdir
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*.fls,*.tar*
-set wildoptions+=pum
 set shortmess+=c
-set tags+=./.tags;/
+set tags+=./.tags
 set clipboard+=unnamedplus
 set completeopt-=preview
-set encoding=utf-8
 set fillchars=eob:\ "hides tildes after eof
-set confirm
+set cinoptions=N-s,g0,+0
+set pastetoggle=<F6>
 
 " Tabs
 set shiftwidth=4
@@ -89,7 +87,7 @@ set inccommand=nosplit
 
 let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python'
-let g:python3_host_skip_check = 0
+let g:python3_host_skip_check = 1
 
 " Mappings
 let mapleader=","
@@ -135,8 +133,6 @@ nnoremap <silent> <leader>gi :e ~/.config/nvim/init.vim<CR>
 " use escape to go to normal mode in terminal
 tnoremap <Esc> <C-\><C-n>
 
-set pastetoggle=<F6>
-
 " commentstrings
 " use // instead of /* */
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
@@ -144,30 +140,29 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " dont insert comments in the next line automatically
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" c indentation
-set cinoptions=N-s,g0,+0
-
 " delete trailing whitespace on save
-" au BufWritePre * %s/\s\+$//e
+" autocmd BufWritePre * %s/\s\+$//e
 
 " lsp
 " see lua/lsp_setup.lua
 lua require("lsp_setup").setup()
 
 function! LSP_maps()
-    nnoremap <buffer> <silent> <leader>gd :call lsp#text_document_declaration()<CR>
-    nnoremap <buffer> <silent> gd :call lsp#text_document_definition()<CR>
-    nnoremap <buffer> <silent> K  :call lsp#text_document_hover()<CR>
-    nnoremap <buffer> <silent> <leader>d :lua require("vim.lsp.util").show_line_diagnostics()<CR>
+    nnoremap <buffer> <silent> K  <cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <buffer> <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <buffer> <silent> <leader>gd <cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <buffer> <silent> <leader>f <cmd>lua vim.lsp.buf.formatting()<CR>
+    nnoremap <buffer> <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<CR>
+    nnoremap <buffer> <silent> <leader>d <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 endfunction
 
 autocmd FileType cpp,haskell,python,rust,go,tex call LSP_maps()
 autocmd Filetype cpp,haskell,python,rust,go,tex setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
-autocmd FileType tex nnoremap <buffer> <silent> <leader>b :TexlabBuild<CR>
+autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
 
 " run gofmt on save
-" autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
 
 " netrw
 let g:netrw_dirhistmax = 0
@@ -208,16 +203,16 @@ let g:ale_linters = {
             \ 'haskell': [],
             \ 'python': [],
             \ 'rust': [],
-            \}
+            \ }
 
 " let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
 
 " Ultisnips
-" let g:UltiSnipsEditSplit = "vertical"
-" let g:UltiSnipsExpandTrigger = "<tab>"
-" let g:UltiSnipsJumpForwardTrigger = "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-" let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
+let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 
 " fzf
 " hide statusline when fzf is active
@@ -230,7 +225,7 @@ let g:fzf_layout = { 'down': '~15%' }
 " Rg [reg] [path]
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always -S '
+            \   'rg --column --line-number --no-heading --color=always --smart-case '
             \  . (len(<q-args>) > 0 ? <q-args> : '""'), 1,
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'))
@@ -238,7 +233,8 @@ command! -bang -nargs=* Rg
 " Rg in git project
 command! -nargs=* GRg
             \ call fzf#vim#grep(
-            \   'rg --column -n --no-heading --color=always -S '.shellescape(<q-args>),
+            \   'rg --column -n --no-heading --color=always --smart-case '
+            \   . shellescape(<q-args>),
             \   0,
             \   fzf#vim#with_preview({
             \     'dir': systemlist('git rev-parse --show-toplevel')[0]
