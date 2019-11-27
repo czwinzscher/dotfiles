@@ -31,15 +31,15 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 " lint
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 
 " snippets
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
 
 " statusline
-Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
+" Plug 'itchyny/lightline.vim'
+" Plug 'maximbaz/lightline-ale'
 
 " color schemes
 Plug 'joshdick/onedark.vim'
@@ -51,7 +51,7 @@ set nospell
 set title
 set titlestring=%f
 set list
-set listchars=tab:\ \ "cursor on tab at beginning not end
+set listchars=tab:\ \ 
 set showmatch
 set noshowcmd
 set noshowmode
@@ -63,14 +63,15 @@ set confirm
 set signcolumn=no
 set pumheight=5
 set scrolloff=5
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*.fls,*.tar*
+set wildignore+=*.so,*.swp,*.zip,*.o,*.tar*
 set shortmess+=c
 set tags+=./.tags
 set clipboard+=unnamedplus
 set completeopt-=preview
-set fillchars=eob:\ "hides tildes after eof
+set fillchars=eob:\ 
 set cinoptions=N-s,g0,+0
 set pastetoggle=<F6>
+set termguicolors
 
 " Tabs
 set shiftwidth=4
@@ -84,6 +85,16 @@ set nohlsearch
 set ignorecase
 set smartcase
 set inccommand=nosplit
+
+" Colors
+augroup colorextend
+    autocmd!
+    autocmd ColorScheme * call onedark#extend_highlight("MatchParen", { "gui": "bold" })
+augroup END
+
+colorscheme onedark
+highlight Search NONE
+highlight QuickFixLine NONE
 
 let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python'
@@ -145,35 +156,27 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " lsp
 " see lua/lsp_setup.lua
-lua require("lsp_setup").setup()
+lua require('lsp_setup').setup()
 
 function! LSP_maps()
-    nnoremap <buffer> <silent> K  <cmd>lua vim.lsp.buf.hover()<CR>
-    nnoremap <buffer> <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-    nnoremap <buffer> <silent> <leader>gd <cmd>lua vim.lsp.buf.declaration()<CR>
-    nnoremap <buffer> <silent> <leader>f <cmd>lua vim.lsp.buf.formatting()<CR>
-    nnoremap <buffer> <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<CR>
-    nnoremap <buffer> <silent> <leader>d <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+    nnoremap <buffer> <silent> K  :lua vim.lsp.buf.hover()<CR>
+    nnoremap <buffer> <silent> gd :lua vim.lsp.buf.definition()<CR>
+    nnoremap <buffer> <silent> <leader>f :lua vim.lsp.buf.formatting()<CR>
+    nnoremap <buffer> <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
+    " nnoremap <buffer> <silent> <leader>d :lua vim.lsp.util.show_line_diagnostics()<CR>
+    nnoremap <buffer> <silent> <leader>d :lua require('lsp_utils').show_line_diagnostics()<CR>
 endfunction
 
 autocmd FileType cpp,haskell,python,rust,go,tex call LSP_maps()
 autocmd Filetype cpp,haskell,python,rust,go,tex setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
-
-" run gofmt on save
-autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+" autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
 
 " netrw
 let g:netrw_dirhistmax = 0
 
 " plugins
-
-" onedark
-augroup colorextend
-    autocmd!
-    autocmd ColorScheme * call onedark#extend_highlight("MatchParen", { "gui": "bold" })
-augroup END
 
 " slash
 " center cursor on screen while searching
@@ -226,7 +229,8 @@ let g:fzf_layout = { 'down': '~15%' }
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
             \   'rg --column --line-number --no-heading --color=always --smart-case '
-            \  . (len(<q-args>) > 0 ? <q-args> : '""'), 1,
+            \   . (len(<q-args>) > 0 ? <q-args> : '""'),
+            \   1,
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'))
 
@@ -270,12 +274,14 @@ command! Projects
             \ 'sink': function('<sid>proj_handler') }))
 
 " change directory
-command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
+command! -nargs=* -complete=dir Cd
+            \ call fzf#run(fzf#wrap(
             \ {'source': 'fd -t d -I -H . '.(len(<q-args>) < 1 ? '.' : <q-args>),
             \ 'sink': 'cd'}))
 
 " cd in git project
-command! GCd call fzf#run(fzf#wrap(
+command! GCd
+            \ call fzf#run(fzf#wrap(
             \ {'source': 'fd -t d -I -H . '.(Find_git_root()), 'sink': 'cd'}))
 
 " lightline
@@ -313,13 +319,10 @@ let g:lightline = {
             \ },
             \ }
 
-" colors
-set termguicolors
-colorscheme onedark
-" highlight Search NONE
-highlight QuickFixLine NONE
-
 " functions
 function! Find_git_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
+
+" commands
+command DeleteTrailingWhitespace :%s/\s\+$//e
