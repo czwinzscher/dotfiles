@@ -29,15 +29,10 @@ set encoding=utf-8
 set nostartofline
 set scrolloff=5
 set confirm
-set lazyredraw
 set laststatus=0
 set wildmenu
 set backspace=indent,eol,start
 set laststatus=2
-
-autocmd BufWritePre * %s/\s\+$//e
-
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Tabs
 set shiftwidth=4
@@ -53,8 +48,11 @@ set incsearch
 set ignorecase
 set smartcase
 
+" autocmd BufWritePre * %s/\s\+$//e
+
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 " Time
-set timeout timeoutlen=1500
 set ttimeout ttimeoutlen=200
 
 " Mappings
