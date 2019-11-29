@@ -1,6 +1,7 @@
 # Additional git repositories to pull
 git_repos = [
-    "~/.config/emacs"
+    "~/.config/emacs",
+    "~/.zsh-autosuggestions"
 ]
 
 # Disable specific steps - same options as the command line flag
