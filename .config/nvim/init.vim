@@ -43,6 +43,7 @@ Plug 'junegunn/fzf.vim'
 
 " color schemes
 Plug 'joshdick/onedark.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 
@@ -63,15 +64,15 @@ set confirm
 set signcolumn=no
 set pumheight=5
 set scrolloff=5
+set cinoptions=N-s,g0,+0
+set pastetoggle=<F6>
+set termguicolors
 set wildignore+=*.so,*.swp,*.zip,*.o,*.tar*
 set shortmess+=c
 set tags+=./.tags
 set clipboard+=unnamedplus
 set completeopt-=preview
 set fillchars=eob:\ 
-set cinoptions=N-s,g0,+0
-set pastetoggle=<F6>
-set termguicolors
 
 " Tabs
 set shiftwidth=4
@@ -86,22 +87,28 @@ set ignorecase
 set smartcase
 set inccommand=nosplit
 
-" Colors
+" colorscheme
 augroup colorextend
     autocmd!
     autocmd ColorScheme * call onedark#extend_highlight("MatchParen", { "gui": "bold" })
 augroup END
 
 colorscheme onedark
+
+" highlighting
 highlight Search NONE
 highlight QuickFixLine NONE
 
+" python
 let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python'
 let g:python3_host_skip_check = 1
 
-" Mappings
-let mapleader=","
+" netrw
+let g:netrw_dirhistmax = 0
+
+" mappings
+let g:mapleader=","
 
 map Y y$
 inoremap jj <esc>
@@ -146,16 +153,21 @@ tnoremap <Esc> <C-\><C-n>
 
 " commentstrings
 " use // instead of /* */
-autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+augroup commentstrings
+    autocmd!
+    autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+augroup END
 
 " dont insert comments in the next line automatically
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup fmtoptions
+    autocmd!
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
 
 " delete trailing whitespace on save
 " autocmd BufWritePre * %s/\s\+$//e
 
 " lsp
-" see lua/lsp_setup.lua
 lua require('lsp_setup').setup()
 
 function! LSP_maps()
@@ -167,14 +179,13 @@ function! LSP_maps()
     nnoremap <buffer> <silent> <leader>d :lua require('lsp_utils').show_line_diagnostics()<CR>
 endfunction
 
-autocmd FileType cpp,haskell,python,rust,go,tex call LSP_maps()
-autocmd Filetype cpp,haskell,python,rust,go,tex setlocal omnifunc=v:lua.vim.lsp.omnifunc
-
-autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
-" autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
-
-" netrw
-let g:netrw_dirhistmax = 0
+augroup lsp
+    autocmd!
+    autocmd FileType cpp,haskell,python,rust,go,tex call LSP_maps()
+    autocmd Filetype cpp,haskell,python,rust,go,tex setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
+    " autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+augroup END
 
 " plugins
 
@@ -219,9 +230,11 @@ let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
 
 " fzf
 " hide statusline when fzf is active
-autocmd! FileType fzf
-autocmd  FileType fzf set laststatus=0 noruler
-            \| autocmd BufLeave <buffer> set laststatus=2 ruler
+augroup fzf
+    autocmd!
+    autocmd  FileType fzf set laststatus=0 noruler
+                \| autocmd BufLeave <buffer> set laststatus=2 ruler
+augroup END
 
 let g:fzf_layout = { 'down': '~15%' }
 

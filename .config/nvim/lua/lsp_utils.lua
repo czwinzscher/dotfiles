@@ -94,7 +94,7 @@ function M.show_line_diagnostics()
 
         local prefix = string.format("%d. ", i)
         local hiname = util.get_severity_highlight_name(diagnostic.severity)
-        local message_lines = vim.split(diagnostics.message, '\n', true)
+        local message_lines = vim.split(diagnostic.message, '\n', true)
         table.insert(lines, prefix..message_lines[1])
         table.insert(highlights, {#prefix + 1, hiname})
 
