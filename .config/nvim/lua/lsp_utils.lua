@@ -1,10 +1,24 @@
 local M = {}
 
 local api = vim.api
-local util = vim.lsp.util
+local lsp = vim.lsp
+local util = lsp.util
 
 local all_buffer_diagnostics = {}
 local diagnostic_ns = api.nvim_create_namespace("vim_lsp_diagnostics")
+
+function M.formatting_sync()
+    local options = vim.tbl_extend('keep', {}, {
+            tabSize = vim.bo.tabstop;
+            insertSpaces = vim.bo.expandtab;
+        })
+    local params = {
+        textDocument = { uri = vim.uri_from_bufnr(0) },
+        options = options
+    }
+
+    return lsp.buf_request_sync(0, 'textDocument/formatting', params)
+end
 
 function M.buf_diagnostics_save_positions(bufnr, diagnostics)
     vim.validate {
