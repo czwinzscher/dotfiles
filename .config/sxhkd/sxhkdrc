@@ -1,3 +1,7 @@
+# screen lock
+super + x
+    i3lock --color "#000000"
+
 # terminal emulator
 super + Return
     kitty
@@ -6,6 +10,16 @@ super + Return
 super + a
     rofi -modi drun -show drun
 
+# screenshots
+# full screen
+Print
+    scrot
+
+# current window
+super + Print
+    scrot -u
+
+# selection
 super + shift + Print
     scrot -s
 

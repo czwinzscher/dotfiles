@@ -247,12 +247,12 @@
     <keybind key="W-f">
       <action name="ToggleMaximize"/>
     </keybind>
-    <keybind key="W-h">
+    <keybind key="W-u">
       <action name="Lower"/>
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
-    <keybind key="W-Left">
+    <keybind key="W-h">
       <action name="UnmaximizeFull"/>
       <action name="MoveResizeTo">
         <x>0</x>
@@ -261,7 +261,7 @@
         <width>50%</width>
       </action>
     </keybind>
-    <keybind key="W-Right">
+    <keybind key="W-l">
       <action name="UnmaximizeFull"/>
       <action name="MoveResizeTo">
         <x>-0</x>
@@ -270,7 +270,7 @@
         <width>50%</width>
       </action>
     </keybind>
-    <keybind key="W-Up">
+    <keybind key="W-k">
       <action name="UnmaximizeFull"/>
       <action name="MoveResizeTo">
         <x>0</x>
@@ -279,7 +279,7 @@
         <width>100%</width>
       </action>
     </keybind>
-    <keybind key="W-Down">
+    <keybind key="W-j">
       <action name="UnmaximizeFull"/>
       <action name="MoveResizeTo">
         <x>0</x>
@@ -313,92 +313,9 @@
       </action>
     </keybind>
     <!-- Keybindings for running applications -->
-    <keybind key="W-l">
-      <action name="Execute">
-        <command>i3lock --color "#000000"</command>
-      </action>
-    </keybind>
-    <keybind key="W-Return">
-      <action name="Execute">
-        <command>kitty</command>
-      </action>
-    </keybind>
-    <keybind key="W-a">
-      <action name="Execute">
-        <command>rofi -modi drun -show drun</command>
-      </action>
-    </keybind>
     <keybind key="W-w">
       <action name="Execute">
         <command>rofi -show window</command>
-      </action>
-    </keybind>
-    <keybind key="Print">
-      <action name="Execute">
-        <command>scrot</command>
-      </action>
-    </keybind>
-    <keybind key="W-S-Print">
-      <action name="Execute">
-        <command>scrot -s</command>
-      </action>
-    </keybind>
-    <keybind key="W-Print">
-      <action name="Execute">
-        <command>scrot -u</command>
-      </action>
-    </keybind>
-    <keybind key="XF86Calculator">
-      <action name="Execute">
-        <command>speedcrunch</command>
-      </action>
-    </keybind>
-    <!-- Brightness -->
-    <keybind key="XF86MonBrightnessUp">
-      <action name="Execute">
-        <command>xbacklight +10</command>
-      </action>
-    </keybind>
-    <keybind key="XF86MonBrightnessDown">
-      <action name="Execute">
-        <command>xbacklight -10</command>
-      </action>
-    </keybind>
-    <!-- Volume -->
-    <keybind key="XF86AudioRaiseVolume">
-      <action name="Execute">
-        <command>pactl set-sink-volume 0 +5%</command>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioLowerVolume">
-      <action name="Execute">
-        <command>pactl set-sink-volume 0 -5%</command>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioMute">
-      <action name="Execute">
-        <command>pactl set-sink-mute 0 toggle</command>
-      </action>
-    </keybind>
-    <!-- Media Control -->
-    <keybind key="XF86AudioPlay">
-      <action name="Execute">
-        <command>playerctl play-pause</command>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioNext">
-      <action name="Execute">
-        <command>playerctl next</command>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioPrev">
-      <action name="Execute">
-        <command>playerctl previous</command>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioStop">
-      <action name="Execute">
-        <command>playerctl stop</command>
       </action>
     </keybind>
   </keyboard>

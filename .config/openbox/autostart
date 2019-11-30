@@ -1,8 +1,9 @@
-xset r rate 190 28 &
-setxkbmap -option "caps:escape" &
 tint2 &
 redshift-gtk &
 nm-applet &
 dunst &
 nextcloud &
+sxhkd &
+xset r rate 190 28 &
+setxkbmap -option "caps:escape" &
 # volumeicon &
