@@ -9,6 +9,7 @@ function M.setup()
     nvim_lsp.pyls.setup { callbacks = lsp_callbacks }
     nvim_lsp.rust_analyzer.setup { callbacks = lsp_callbacks }
     nvim_lsp.texlab.setup { callbacks = lsp_callbacks }
+    nvim_lsp.tsserver.setup { callbacks = lsp_callbacks }
 
     nvim_lsp.hie.setup {
         callbacks = lsp_callbacks,
