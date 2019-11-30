@@ -15,8 +15,9 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/deoplete-lsp'
 Plug 'Shougo/neopairs.vim'
 
-" lsp
+" programming
 Plug 'neovim/nvim-lsp'
+Plug 'mattn/emmet-vim'
 
 " syntax
 Plug 'sheerun/vim-polyglot'
@@ -41,9 +42,11 @@ Plug 'junegunn/fzf.vim'
 " Plug 'itchyny/lightline.vim'
 " Plug 'maximbaz/lightline-ale'
 
+" colorizer
+Plug 'norcalli/nvim-colorizer.lua'
+
 " color schemes
 Plug 'joshdick/onedark.vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 
@@ -61,12 +64,13 @@ set splitright
 set splitbelow
 set breakindent
 set confirm
+set termguicolors
+set lazyredraw
 set signcolumn=no
 set pumheight=5
 set scrolloff=5
 set cinoptions=N-s,g0,+0
 set pastetoggle=<F6>
-set termguicolors
 set wildignore+=*.so,*.swp,*.zip,*.o,*.tar*
 set shortmess+=c
 set tags+=./.tags
@@ -99,6 +103,11 @@ colorscheme onedark
 highlight Search NONE
 highlight QuickFixLine NONE
 
+" augroup cmdmsg
+"     autocmd!
+"     autocmd CursorMoved * :echo ""
+" augroup END
+
 " python
 let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python'
@@ -110,7 +119,7 @@ let g:netrw_dirhistmax = 0
 " mappings
 let g:mapleader=","
 
-map Y y$
+nnoremap Y y$
 inoremap jj <esc>
 
 " insert new line with enter in normal mode
@@ -151,8 +160,6 @@ nnoremap <silent> <leader>gi :e ~/.config/nvim/init.vim<CR>
 " use escape to go to normal mode in terminal
 tnoremap <Esc> <C-\><C-n>
 
-" commentstrings
-" use // instead of /* */
 augroup commentstrings
     autocmd!
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
@@ -164,9 +171,6 @@ augroup fmtoptions
     autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END
 
-" delete trailing whitespace on save
-" autocmd BufWritePre * %s/\s\+$//e
-
 " lsp
 lua require('lsp_setup').setup()
 
@@ -175,22 +179,32 @@ function! LSP_maps()
     nnoremap <buffer> <silent> gd :lua vim.lsp.buf.definition()<CR>
     nnoremap <buffer> <silent> <leader>f :lua vim.lsp.buf.formatting()<CR>
     nnoremap <buffer> <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
-    " nnoremap <buffer> <silent> <leader>d :lua vim.lsp.util.show_line_diagnostics()<CR>
     nnoremap <buffer> <silent> <leader>d :lua require('lsp_utils').show_line_diagnostics()<CR>
 endfunction
 
 augroup lsp
     autocmd!
-    autocmd FileType cpp,haskell,python,rust,go,tex call LSP_maps()
-    autocmd Filetype cpp,haskell,python,rust,go,tex setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd FileType cpp,haskell,python,rust,go,tex,typescript call LSP_maps()
+    autocmd Filetype cpp,haskell,python,rust,go,tex,typescript 
+                \ setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
-    " autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+    " autocmd BufWritePre *.go lua require('lsp_utils').formatting_sync()
 augroup END
+
+" functions
+function! Find_git_root()
+    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+" commands
+command DeleteTrailingWhitespace :%s/\s\+$//e
 
 " plugins
 
+" colorizer
+lua require('colorizer').setup( { css = { rgb_fn = true } } )
+
 " slash
-" center cursor on screen while searching
 noremap <plug>(slash-after) zz
 
 " deoplete
@@ -220,6 +234,14 @@ let g:ale_linters = {
             \ }
 
 " let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
+
+" Emmet
+let g:user_emmet_leader_key='<C-Z>'
+let g:user_emmet_install_global = 0
+augroup emmet
+    autocmd!
+    autocmd FileType html,css EmmetInstall
+augroup END
 
 " Ultisnips
 let g:UltiSnipsEditSplit = "vertical"
@@ -256,8 +278,7 @@ command! -nargs=* GRg
             \   fzf#vim#with_preview({
             \     'dir': systemlist('git rev-parse --show-toplevel')[0]
             \   },
-            \   'right:50%:hidden',
-            \   '?'))
+            \   'right:50%:hidden', '?'))
 
 function! Get_files_command()
     if Find_git_root() == ""
@@ -301,6 +322,7 @@ command! GCd
 function! LightlineFilename()
     let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
     let modified = &modified ? ' +' : ''
+
     return filename . modified
 endfunction
 
@@ -331,11 +353,3 @@ let g:lightline = {
             \     'linter_errors': 'error',
             \ },
             \ }
-
-" functions
-function! Find_git_root()
-    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-
-" commands
-command DeleteTrailingWhitespace :%s/\s\+$//e
