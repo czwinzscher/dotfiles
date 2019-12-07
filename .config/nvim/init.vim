@@ -65,7 +65,6 @@ set splitbelow
 set breakindent
 set confirm
 set termguicolors
-set lazyredraw
 set signcolumn=no
 set pumheight=5
 set scrolloff=5
@@ -102,6 +101,8 @@ colorscheme onedark
 " highlighting
 highlight Search NONE
 highlight QuickFixLine NONE
+highlight TrailingWhitespace ctermbg=red guibg=red
+match TrailingWhitespace /\s\+\%#\@<!$/
 
 " augroup cmdmsg
 "     autocmd!
@@ -185,7 +186,7 @@ endfunction
 augroup lsp
     autocmd!
     autocmd FileType cpp,haskell,python,rust,go,tex,typescript call LSP_maps()
-    autocmd Filetype cpp,haskell,python,rust,go,tex,typescript 
+    autocmd Filetype cpp,haskell,python,rust,go,tex,typescript
                 \ setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
     " autocmd BufWritePre *.go lua require('lsp_utils').formatting_sync()
