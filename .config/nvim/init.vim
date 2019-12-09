@@ -208,6 +208,21 @@ lua require('colorizer').setup( { css = { rgb_fn = true } } )
 " slash
 noremap <plug>(slash-after) zz
 
+" polyglot
+let g:vim_markdown_folding_disabled = 1
+
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+
+" Emmet
+let g:user_emmet_leader_key='<C-Z>'
+let g:user_emmet_install_global = 0
+augroup emmet
+    autocmd!
+    autocmd FileType html,css EmmetInstall
+augroup END
+
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_start_length = 3
@@ -235,14 +250,6 @@ let g:ale_linters = {
             \ }
 
 " let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
-
-" Emmet
-let g:user_emmet_leader_key='<C-Z>'
-let g:user_emmet_install_global = 0
-augroup emmet
-    autocmd!
-    autocmd FileType html,css EmmetInstall
-augroup END
 
 " Ultisnips
 let g:UltiSnipsEditSplit = "vertical"
