@@ -7,7 +7,8 @@ super + Return
     kitty
 
 # program launcher
-super + a
+#super + a
+super + shift + space
     rofi -modi drun -show drun
 
 # screenshots
