@@ -16,7 +16,8 @@ syntax on
 set background=dark
 set nospell
 set ruler
-set listchars=tab:\ \ ,eol:$
+set list
+set listchars=tab:\ \ 
 set showmatch
 set showmode
 set splitright
