@@ -12,6 +12,7 @@ function M.formatting_sync()
             tabSize = vim.bo.tabstop;
             insertSpaces = vim.bo.expandtab;
         })
+
     local params = {
         textDocument = { uri = vim.uri_from_bufnr(0) },
         options = options
@@ -74,7 +75,7 @@ function M.show_marks(bufnr, diagnostics)
         local virt_texts = {}
 
         for i = 1, #line_diags do
-            table.insert(virt_texts, 
+            table.insert(virt_texts,
                 {"■", util.get_severity_highlight_name(line_diags[i].severity)})
         end
 
