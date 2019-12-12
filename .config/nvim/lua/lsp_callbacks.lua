@@ -19,7 +19,12 @@ lsp_callbacks['textDocument/publishDiagnostics'] = function(_, _, result)
     lsp_utils.buf_diagnostics_save_positions(bufnr, result.diagnostics)
     util.buf_diagnostics_underline(bufnr, result.diagnostics)
     lsp_utils.show_marks(bufnr, result.diagnostics)
-    -- util.set_loclist(result.diagnostics)
+    if result.diagnostics then
+        for _, v in ipairs(result.diagnostics) do
+            v.uri = v.uri or result.uri
+        end
+        util.set_loclist(result.diagnostics)
+    end
 end
 
 return lsp_callbacks
