@@ -138,7 +138,7 @@ xnoremap >  >gv
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 nnoremap <C-B> :Buffers<CR>
-nnoremap <expr> <C-P> Find_git_root() == "" ? ":Files<CR>" : ":GFiles<CR>"
+nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Files<CR>" : ":GFiles<CR>"
 nnoremap <expr> gr Find_git_root() == "" ? ":Rg<CR>" : ":GRg<CR>"
 nnoremap gh :History<CR>
 nnoremap gl :BLines<CR>
@@ -185,8 +185,8 @@ endfunction
 
 augroup lsp
     autocmd!
-    autocmd FileType cpp,haskell,python,rust,go,tex,typescript call LSP_maps()
-    autocmd Filetype cpp,haskell,python,rust,go,tex,typescript
+    autocmd FileType c,cpp,haskell,python,rust,go,tex,typescript call LSP_maps()
+    autocmd Filetype c,cpp,haskell,python,rust,go,tex,typescript
                 \ setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
     " autocmd BufWritePre *.go lua require('lsp_utils').formatting_sync()
