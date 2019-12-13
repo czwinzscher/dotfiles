@@ -6,10 +6,11 @@ set $mod Mod4
 
 set $bg-color #2f343f
 set $inactive-bg-color #2f343f
-set $text-color #f3f4f5
+set $text-color #ffffff
 set $inactive-text-color #676E7D
 set $urgent-bg-color #E53935
-set $client-focus #8c0264
+#set $client-focus #8c0264
+set $client-focus #FFFFFF
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -132,28 +133,28 @@ client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-co
 client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
-bar {
-        position top
-        tray_output primary
-        tray_padding 3
-        separator_symbol "-"
-        font pango: Ubuntu medium 11
-        strip_workspace_numbers yes
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf
-        colors {
-                background  #000000
-                separator   #42f4a1
-                # class             border  backgr. text
-                focused_workspace   #000000 #000000 #ea6282
-                active_workspace    #ea6282 #ea6282 #000000
-                inactive_workspace  #000000 #000000 #FFFFFF
-                urgent_workspace    #2F343A #D64E4E #FFFFFF
-        }
-}
+# bar {
+#         position top
+#         tray_output primary
+#         tray_padding 3
+#         separator_symbol "-"
+#         font pango: Ubuntu medium 11
+#         strip_workspace_numbers yes
+#         status_command i3blocks -c ~/.config/i3/i3blocks.conf
+#         colors {
+#                 background  #000000
+#                 separator   #42f4a1
+#                 # class             border  backgr. text
+#                 focused_workspace   #000000 #000000 #ea6282
+#                 active_workspace    #ea6282 #ea6282 #000000
+#                 inactive_workspace  #000000 #000000 #FFFFFF
+#                 urgent_workspace    #2F343A #D64E4E #FFFFFF
+#         }
+# }
 
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 1
 
-gaps inner 0
+gaps inner 7
 smart_gaps on
 smart_borders on
 
@@ -173,7 +174,7 @@ bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
 # exec_always --no-startup-id feh --bg-scale /home/clemens/Bilder/Wallpapers/ergdfgfdgh.jpg
-# exec_always --no-startup-id polybar example
+exec_always --no-startup-id polybar bar
 
 exec --no-startup-id nm-applet
 exec --no-startup-id nextcloud
@@ -189,4 +190,4 @@ for_window [class="discord"] move to workspace $w6
 
 for_window [urgent="latest"] focus
 
-# vim:filetype=i3
+# vim:filetype=i3config
