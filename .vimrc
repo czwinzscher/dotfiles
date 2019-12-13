@@ -5,7 +5,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
-Plug 'PotatoesMaster/i3-vim-syntax'
+Plug 'sheerun/vim-polyglot'
 Plug 'joshdick/onedark.vim'
 
 call plug#end()
