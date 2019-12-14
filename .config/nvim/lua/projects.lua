@@ -61,9 +61,6 @@ function M.remove_project(path)
 end
 
 function M.check_path()
-    -- os.execute('sleep 1')
-    print('test')
-
     local uri = vim.uri_from_bufnr(0)
     local path = vim.uri_to_fname(uri)
 
