@@ -66,12 +66,6 @@ bindsym $mod+Shift+f floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-# focus the parent container
-#bindsym $mod+Shift+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
-
 set $w1 "1"
 set $w2 "2"
 set $w3 "3"
@@ -132,25 +126,6 @@ client.focused          $client-focus       $client-focus      $000000          
 client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
 client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
-
-# bar {
-#         position top
-#         tray_output primary
-#         tray_padding 3
-#         separator_symbol "-"
-#         font pango: Ubuntu medium 11
-#         strip_workspace_numbers yes
-#         status_command i3blocks -c ~/.config/i3/i3blocks.conf
-#         colors {
-#                 background  #000000
-#                 separator   #42f4a1
-#                 # class             border  backgr. text
-#                 focused_workspace   #000000 #000000 #ea6282
-#                 active_workspace    #ea6282 #ea6282 #000000
-#                 inactive_workspace  #000000 #000000 #FFFFFF
-#                 urgent_workspace    #2F343A #D64E4E #FFFFFF
-#         }
-# }
 
 for_window [class="^.*"] border pixel 1
 
