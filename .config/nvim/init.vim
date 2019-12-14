@@ -47,6 +47,7 @@ Plug 'norcalli/nvim-colorizer.lua'
 
 " color schemes
 Plug 'joshdick/onedark.vim'
+Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
 
@@ -91,12 +92,13 @@ set smartcase
 set inccommand=nosplit
 
 " colorscheme
-augroup colorextend
-    autocmd!
-    autocmd ColorScheme * call onedark#extend_highlight("MatchParen", { "gui": "bold" })
-augroup END
+" augroup colorextend
+"     autocmd!
+"     autocmd ColorScheme * call onedark#extend_highlight("MatchParen", { "gui": "bold" })
+" augroup END
 
-colorscheme onedark
+" colorscheme onedark
+colorscheme codedark
 
 " highlighting
 highlight Search NONE
@@ -299,11 +301,6 @@ endfunction
 command! GFilesOrFiles call Get_files_command()
 
 " search projects
-let project_dirs = [
-            \ "~/code",
-            \ "~/Nextcloud/Studium/Semester5",
-            \ ]
-
 function! s:proj_handler(dir)
     execute 'lcd '.a:dir
     GFilesOrFiles
@@ -312,7 +309,7 @@ endfunction
 
 command! Projects
             \ call fzf#run(fzf#wrap({
-            \ 'source': project_dirs,
+            \ 'source': luaeval('require("projects").get_projects()'),
             \ 'sink': function('<sid>proj_handler') }))
 
 " change directory
@@ -361,3 +358,6 @@ let g:lightline = {
             \     'linter_errors': 'error',
             \ },
             \ }
+
+" projects
+lua require('projects').setup()
