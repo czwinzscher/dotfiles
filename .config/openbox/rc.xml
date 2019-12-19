@@ -224,15 +224,16 @@
         <follow>no</follow>
       </action>
     </keybind>
-    <keybind key="W-S-Right">
+    <keybind key="W-S-l">
       <action name="SendToDesktop">
         <to>right</to>
         <follow>no</follow>
       </action>
     </keybind>
-    <keybind key="W-S-Left">
+    <keybind key="W-S-h">
       <action name="SendToDesktop">
         <to>left</to>
+        <follow>no</follow>
       </action>
     </keybind>
     <keybind key="W-S-1">
@@ -257,6 +258,26 @@
       <action name="SendToDesktop">
         <to>4</to>
         <follow>no</follow>
+      </action>
+    </keybind>
+    <keybind key="W-S-F1">
+      <action name="SendToDesktop">
+        <to>1</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-F2">
+      <action name="SendToDesktop">
+        <to>2</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-F3">
+      <action name="SendToDesktop">
+        <to>3</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-F4">
+      <action name="SendToDesktop">
+        <to>4</to>
       </action>
     </keybind>
     <keybind key="W-d">
