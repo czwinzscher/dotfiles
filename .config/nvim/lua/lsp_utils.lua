@@ -8,17 +8,19 @@ local all_buffer_diagnostics = {}
 local diagnostic_ns = api.nvim_create_namespace("vim_lsp_diagnostics")
 
 function M.formatting_sync()
-    local options = vim.tbl_extend('keep', {}, {
-            tabSize = vim.bo.tabstop;
-            insertSpaces = vim.bo.expandtab;
-        })
-
     local params = {
         textDocument = { uri = vim.uri_from_bufnr(0) },
-        options = options
+        options = {
+            tabSize = vim.bo.tabstop;
+            insertSpaces = vim.bo.expandtab;
+        }
     }
 
-    return lsp.buf_request_sync(0, 'textDocument/formatting', params)
+    res = lsp.buf_request_sync(0, 'textDocument/formatting', params)
+
+    for _, r in ipairs(res) do
+        util.apply_text_edits(r.result)
+    end
 end
 
 function M.buf_diagnostics_save_positions(bufnr, diagnostics)
@@ -66,7 +68,7 @@ function M.buf_clear_diagnostics(bufnr)
     api.nvim_buf_clear_namespace(bufnr, diagnostic_ns, 0, -1)
 end
 
-function M.show_marks(bufnr, diagnostics)
+function M.buf_show_marks(bufnr, diagnostics)
     local buffer_line_diagnostics = all_buffer_diagnostics[bufnr]
 
     if not buffer_line_diagnostics then return end
