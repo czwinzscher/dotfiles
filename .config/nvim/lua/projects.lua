@@ -1,12 +1,16 @@
 local path_utils = require 'path'
 
+local M = {}
+
 local data_dir = vim.api.nvim_call_function('stdpath', {'data'})
 local data_file = path_utils.join(data_dir, 'projects.txt')
 local root_markers = {'.git/'}
 
-local M = {}
+function M.get_project_file()
+    return data_file
+end
 
-function M.get_projects()
+function M.get_project_list()
     local projects_file = io.open(data_file, 'r')
 
     if not projects_file then return {} end
@@ -36,7 +40,7 @@ function M.is_project(dir)
 end
 
 function project_exists(path)
-    local projects = M.get_projects()
+    local projects = M.get_project_list()
 
     for _, val in ipairs(projects) do
         if path == val then
@@ -81,7 +85,7 @@ end
 -- end
 
 -- function M.switch_project()
---     local projects = M.get_projects()
+--     local projects = M.get_project_list()
 
 --     local fzf_config = {
 --         source = projects,
