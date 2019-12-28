@@ -11,9 +11,9 @@ Plug 'justinmk/vim-sneak'
 Plug 'junegunn/vim-slash'
 
 " completion
-Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/deoplete-lsp'
-Plug 'Shougo/neopairs.vim'
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'Shougo/deoplete-lsp'
+" Plug 'Shougo/neopairs.vim'
 
 " programming
 Plug 'neovim/nvim-lsp'
@@ -21,32 +21,23 @@ Plug 'mattn/emmet-vim'
 
 " syntax
 Plug 'sheerun/vim-polyglot'
-Plug 'bfrg/vim-cpp-modern'
 
 " git
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'rhysd/git-messenger.vim'
 
 " fzf
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
-" lint
-" Plug 'dense-analysis/ale'
-
 " snippets
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
-
-" statusline
-" Plug 'itchyny/lightline.vim'
-" Plug 'maximbaz/lightline-ale'
 
 " colorizer
 Plug 'norcalli/nvim-colorizer.lua'
 
 " color schemes
-Plug 'joshdick/onedark.vim'
 Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
@@ -60,22 +51,24 @@ set listchars=tab:\ \
 set showmatch
 set noshowcmd
 set noshowmode
+set nofoldenable
 set autochdir
 set splitright
 set splitbelow
 set breakindent
 set confirm
 set termguicolors
+set laststatus=0
 set signcolumn=no
 set pumheight=5
-set scrolloff=5
+set scrolloff=7
 set cinoptions=N-s,g0,+0
 set pastetoggle=<F6>
 set wildignore+=*.so,*.swp,*.zip,*.o,*.tar*
-set shortmess+=c
+set shortmess+=caI
 set tags+=./.tags
 set clipboard+=unnamedplus
-set completeopt-=preview
+set completeopt=menu,noselect
 set fillchars=eob:\ 
 
 " Tabs
@@ -92,12 +85,6 @@ set smartcase
 set inccommand=nosplit
 
 " colorscheme
-" augroup colorextend
-"     autocmd!
-"     autocmd ColorScheme * call onedark#extend_highlight("MatchParen", { "gui": "bold" })
-" augroup END
-
-" colorscheme onedark
 colorscheme codedark
 
 " highlighting
@@ -106,15 +93,9 @@ highlight QuickFixLine NONE
 highlight TrailingWhitespace ctermbg=red guibg=red
 match TrailingWhitespace /\s\+\%#\@<!$/
 
-" augroup cmdmsg
-"     autocmd!
-"     autocmd CursorMoved * :echo ""
-" augroup END
-
 " python
-let g:python_host_prog = '/usr/bin/python2'
+let g:loaded_python_provider = 0
 let g:python3_host_prog = '/usr/bin/python'
-let g:python3_host_skip_check = 1
 
 " netrw
 let g:netrw_dirhistmax = 0
@@ -140,21 +121,18 @@ xnoremap >  >gv
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 nnoremap <C-B> :Buffers<CR>
-nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Files<CR>" : ":GFiles<CR>"
+nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Files<CR>"
+            \ : ":GFiles<CR>"
 nnoremap <expr> gr Find_git_root() == "" ? ":Rg<CR>" : ":GRg<CR>"
 nnoremap gh :History<CR>
 nnoremap gl :BLines<CR>
 nnoremap gb :BTags<CR>
-nnoremap gt :Tags<CR>
 nnoremap gp :Projects<CR>
 
-" jump between ale errors
-nnoremap gen :ALENext<CR>zz
-nnoremap gep :ALEPrevious<CR>zz
 nnoremap gel :lopen<CR>
 
 " git
-nnoremap gs :Gstatus<CR>
+" nnoremap gs :Gstatus<CR>
 nnoremap <leader>gs :GitMessenger<CR>
 
 " quickly open config file
@@ -168,30 +146,10 @@ augroup commentstrings
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 augroup END
 
-" dont insert comments in the next line automatically
 augroup fmtoptions
     autocmd!
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-augroup END
-
-" lsp
-lua require('lsp_setup').setup()
-
-function! LSP_maps()
-    nnoremap <buffer> <silent> K  :lua vim.lsp.buf.hover()<CR>
-    nnoremap <buffer> <silent> gd :lua vim.lsp.buf.definition()<CR>
-    nnoremap <buffer> <silent> <leader>f :lua vim.lsp.buf.formatting()<CR>
-    nnoremap <buffer> <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
-    nnoremap <buffer> <silent> <leader>d :lua require('lsp_utils').show_line_diagnostics()<CR>
-endfunction
-
-augroup lsp
-    autocmd!
-    autocmd FileType c,cpp,haskell,python,rust,go,tex,typescript call LSP_maps()
-    autocmd Filetype c,cpp,haskell,python,rust,go,tex,typescript
-                \ setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
-    " autocmd BufWritePre *.go lua require('lsp_utils').formatting_sync()
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r
+                \ formatoptions-=o
 augroup END
 
 " functions
@@ -226,49 +184,49 @@ augroup emmet
 augroup END
 
 " deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 3
-call deoplete#custom#option('auto_complete_delay', 200)
-call deoplete#custom#option('ignore_sources', {'_': ['ultisnips']})
-call deoplete#custom#source('_', 'matchers', ['matcher_length', 'matcher_head'])
-call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
-
-" ALE
-let g:ale_open_list = 0
-let g:ale_keep_list_window_open = 0
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-
-let g:ale_linters = {
-            \ 'asm': [],
-            \ 'c': ['clang'],
-            \ 'cpp': [],
-            \ 'go': [],
-            \ 'haskell': [],
-            \ 'python': [],
-            \ 'rust': [],
-            \ }
-
-" let g:ale_type_map = { 'flake8': {'ES': 'WS'}, }
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#auto_complete_start_length = 1
+" call deoplete#custom#option('auto_complete_delay', 50)
+" call deoplete#custom#option('ignore_sources', {'_': ['ultisnips']})
+" call deoplete#custom#source('_', 'matchers', ['matcher_length', 'matcher_head'])
+" call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
 
 " Ultisnips
-let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetDirectories = ['~/.config/nvim/UltiSnips', 'UltiSnips']
+" let g:UltiSnipsEditSplit = 'vertical'
+" let g:UltiSnipsExpandTrigger = '<c-k>'
+" let g:UltiSnipsJumpForwardTrigger = '<c-f>'
+" let g:UltiSnipsJumpBackwardTrigger = '<c-b>'
+" let g:UltiSnipsSnippetDirectories = [stdpath('config').'/UltiSnips', 'UltiSnips']
 
 " fzf
-" hide statusline when fzf is active
 augroup fzf
     autocmd!
-    autocmd  FileType fzf set laststatus=0 noruler
-                \| autocmd BufLeave <buffer> set laststatus=2 ruler
+    autocmd  FileType fzf set noruler
+                \ | autocmd BufLeave <buffer> set ruler
 augroup END
 
-let g:fzf_layout = { 'down': '~15%' }
+let $FZF_DEFAULT_OPTS .= ' --layout=reverse'
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+" let g:fzf_layout = { 'down': '~20%' }
+
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
+
+  let height = &lines / 2
+  let width = float2nr(&columns - (&columns * 2 / 10))
+  let col = float2nr((&columns - width) / 2)
+
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': &lines / 3,
+        \ 'col': col,
+        \ 'width': width,
+        \ 'height': height
+        \ }
+
+  call nvim_open_win(buf, v:true, opts)
+endfunction
 
 " Rg [reg] [path]
 command! -bang -nargs=* Rg
@@ -309,7 +267,7 @@ endfunction
 
 command! Projects
             \ call fzf#run(fzf#wrap({
-            \ 'source': luaeval('require("projects").get_projects()'),
+            \ 'source': 'cat '.(luaeval('require("projects").get_project_file()')),
             \ 'sink': function('<sid>proj_handler') }))
 
 " change directory
@@ -323,41 +281,25 @@ command! GCd
             \ call fzf#run(fzf#wrap(
             \ {'source': 'fd -t d -I -H . '.(Find_git_root()), 'sink': 'cd'}))
 
-" lightline
-function! LightlineFilename()
-    let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-    let modified = &modified ? ' +' : ''
+" lsp
+lua require('lsp_config').setup()
 
-    return filename . modified
+function! LSP_maps()
+    nnoremap <buffer> <silent> K  :lua vim.lsp.buf.hover()<CR>
+    nnoremap <buffer> <silent> gd :lua vim.lsp.buf.definition()<CR>
+    nnoremap <buffer> <silent> <leader>f :lua vim.lsp.buf.formatting()<CR>
+    nnoremap <buffer> <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
+    nnoremap <buffer> <silent> <leader>d :lua require('lsp_config').show_line_diagnostics()<CR>
+    setlocal omnifunc=v:lua.vim.lsp.omnifunc
 endfunction
 
-function! LightlineFiletype()
-    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-endfunction
-
-let g:lightline = {
-            \ 'colorscheme': 'one',
-            \ 'active': {
-            \   'left': [ [ 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename' ] ],
-            \   'right': [ [ 'linter_errors', 'linter_warnings' ],
-            \              [ 'percent', 'lineinfo' ],
-            \              [ 'filetype' ] ],
-            \ },
-            \ 'component_function': {
-            \   'gitbranch': 'fugitive#head',
-            \   'filename': 'LightlineFilename',
-            \   'filetype': 'LightlineFiletype',
-            \ },
-            \ 'component_expand': {
-            \  'linter_warnings': 'lightline#ale#warnings',
-            \  'linter_errors': 'lightline#ale#errors',
-            \ },
-            \ 'component_type': {
-            \     'linter_warnings': 'warning',
-            \     'linter_errors': 'error',
-            \ },
-            \ }
+augroup lsp
+    autocmd!
+    autocmd FileType c,cpp,go,haskell,lua,python,rust,tex,typescript
+                \ call LSP_maps()
+    autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
+    autocmd BufWritePre *.go lua require('lsp_config').formatting_sync()
+augroup END
 
 " projects
 lua require('projects').setup()
