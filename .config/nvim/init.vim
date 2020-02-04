@@ -109,10 +109,13 @@ inoremap jj <esc>
 " insert new line with enter in normal mode
 nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : "o<Esc>"
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
+
+nnoremap <C-J> <C-D>
+nnoremap <C-K> <C-U>
 
 xnoremap <  <gv
 xnoremap >  >gv
@@ -124,8 +127,8 @@ nnoremap <C-B> :Buffers<CR>
 nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Files<CR>"
             \ : ":GFiles<CR>"
 nnoremap <expr> gr Find_git_root() == "" ? ":Rg<CR>" : ":GRg<CR>"
-nnoremap gh :History<CR>
-nnoremap gl :BLines<CR>
+" nnoremap gh :History<CR>
+" nnoremap gl :BLines<CR>
 nnoremap gb :BTags<CR>
 nnoremap gp :Projects<CR>
 
@@ -205,7 +208,7 @@ augroup fzf
                 \ | autocmd BufLeave <buffer> set ruler
 augroup END
 
-let $FZF_DEFAULT_OPTS .= ' --layout=reverse'
+let $FZF_DEFAULT_OPTS .= ' --layout=reverse --border'
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 " let g:fzf_layout = { 'down': '~20%' }
 
@@ -219,7 +222,7 @@ function! FloatingFZF()
 
   let opts = {
         \ 'relative': 'editor',
-        \ 'row': &lines / 3,
+        \ 'row': &lines / 10,
         \ 'col': col,
         \ 'width': width,
         \ 'height': height
@@ -297,7 +300,8 @@ augroup lsp
     autocmd!
     autocmd FileType c,cpp,go,haskell,lua,python,rust,tex,typescript
                 \ call LSP_maps()
-    autocmd FileType tex nnoremap <buffer> <silent> <leader>b <cmd>TexlabBuild<CR>
+    autocmd FileType tex nnoremap <buffer> <silent> <leader>b
+                \ <cmd>TexlabBuild<CR>
     autocmd BufWritePre *.go lua require('lsp_config').formatting_sync()
 augroup END
 
