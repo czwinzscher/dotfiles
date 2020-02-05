@@ -9,6 +9,7 @@ Plug 'jiangmiao/auto-pairs'
 " navigation
 Plug 'justinmk/vim-sneak'
 Plug 'junegunn/vim-slash'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
 " completion
 " Plug 'Shougo/deoplete.nvim'
@@ -25,10 +26,6 @@ Plug 'sheerun/vim-polyglot'
 " git
 " Plug 'tpope/vim-fugitive'
 Plug 'rhysd/git-messenger.vim'
-
-" fzf
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 
 " snippets
 " Plug 'SirVer/ultisnips'
@@ -109,11 +106,6 @@ inoremap jj <esc>
 " insert new line with enter in normal mode
 nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : "o<Esc>"
 
-" nnoremap <C-J> <C-W><C-J>
-" nnoremap <C-K> <C-W><C-K>
-" nnoremap <C-L> <C-W><C-L>
-" nnoremap <C-H> <C-W><C-H>
-
 nnoremap <C-J> <C-D>
 nnoremap <C-K> <C-U>
 
@@ -123,14 +115,11 @@ xnoremap >  >gv
 " accept pum item with enter
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-nnoremap <C-B> :Buffers<CR>
-nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Files<CR>"
-            \ : ":GFiles<CR>"
-nnoremap <expr> gr Find_git_root() == "" ? ":Rg<CR>" : ":GRg<CR>"
-" nnoremap gh :History<CR>
-" nnoremap gl :BLines<CR>
-nnoremap gb :BTags<CR>
-nnoremap gp :Projects<CR>
+nnoremap <C-B> :Clap buffers<CR>
+nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Clap files<CR>"
+            \ : ":Clap gfiles<CR>"
+nnoremap gp :Clap projects<CR>
+nnoremap gf :Clap filer<CR>
 
 nnoremap gel :lopen<CR>
 
@@ -201,88 +190,10 @@ augroup END
 " let g:UltiSnipsJumpBackwardTrigger = '<c-b>'
 " let g:UltiSnipsSnippetDirectories = [stdpath('config').'/UltiSnips', 'UltiSnips']
 
-" fzf
-augroup fzf
-    autocmd!
-    autocmd  FileType fzf set noruler
-                \ | autocmd BufLeave <buffer> set ruler
-augroup END
-
-let $FZF_DEFAULT_OPTS .= ' --layout=reverse --border'
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-" let g:fzf_layout = { 'down': '~20%' }
-
-function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  call setbufvar(buf, '&signcolumn', 'no')
-
-  let height = &lines / 2
-  let width = float2nr(&columns - (&columns * 2 / 10))
-  let col = float2nr((&columns - width) / 2)
-
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': &lines / 10,
-        \ 'col': col,
-        \ 'width': width,
-        \ 'height': height
-        \ }
-
-  call nvim_open_win(buf, v:true, opts)
-endfunction
-
-" Rg [reg] [path]
-command! -bang -nargs=* Rg
-            \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always --smart-case '
-            \   . (len(<q-args>) > 0 ? <q-args> : '""'),
-            \   1,
-            \   <bang>0 ? fzf#vim#with_preview('up:60%')
-            \           : fzf#vim#with_preview('right:50%:hidden', '?'))
-
-" Rg in git project
-command! -nargs=* GRg
-            \ call fzf#vim#grep(
-            \   'rg --column -n --no-heading --color=always --smart-case '
-            \   . shellescape(<q-args>),
-            \   0,
-            \   fzf#vim#with_preview({
-            \     'dir': systemlist('git rev-parse --show-toplevel')[0]
-            \   },
-            \   'right:50%:hidden', '?'))
-
-function! Get_files_command()
-    if Find_git_root() == ""
-        Files
-    else
-        GFiles
-    endif
-endfunction
-
-command! GFilesOrFiles call Get_files_command()
-
-" search projects
-function! s:proj_handler(dir)
-    execute 'lcd '.a:dir
-    GFilesOrFiles
-    call feedkeys('i')
-endfunction
-
-command! Projects
-            \ call fzf#run(fzf#wrap({
-            \ 'source': 'cat '.(luaeval('require("projects").get_project_file()')),
-            \ 'sink': function('<sid>proj_handler') }))
-
-" change directory
-command! -nargs=* -complete=dir Cd
-            \ call fzf#run(fzf#wrap(
-            \ {'source': 'fd -t d -I -H . '.(len(<q-args>) < 1 ? '.' : <q-args>),
-            \ 'sink': 'cd'}))
-
-" cd in git project
-command! GCd
-            \ call fzf#run(fzf#wrap(
-            \ {'source': 'fd -t d -I -H . '.(Find_git_root()), 'sink': 'cd'}))
+let g:clap_provider_projects = {
+            \ 'source': 'cat '.luaeval('require("projects").get_project_file()'),
+            \ 'sink': 'Clap files'
+            \ }
 
 " lsp
 lua require('lsp_config').setup()
