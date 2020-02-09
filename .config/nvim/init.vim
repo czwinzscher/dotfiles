@@ -115,17 +115,17 @@ xnoremap >  >gv
 " accept pum item with enter
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-nnoremap <C-B> :Clap buffers<CR>
+nnoremap <silent> <C-B> :Clap buffers<CR>
 nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Clap files<CR>"
             \ : ":Clap gfiles<CR>"
-nnoremap gp :Clap projects<CR>
-nnoremap gf :Clap filer<CR>
+nnoremap <silent> gp :Clap projects<CR>
+nnoremap <silent> gf :Clap filer<CR>
 
-nnoremap gel :lopen<CR>
+nnoremap <silent> gel :lopen<CR>
 
 " git
 " nnoremap gs :Gstatus<CR>
-nnoremap <leader>gs :GitMessenger<CR>
+nnoremap <silent> <leader>gs :GitMessenger<CR>
 
 " quickly open config file
 nnoremap <silent> <leader>gi :e ~/.config/nvim/init.vim<CR>
