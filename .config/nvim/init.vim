@@ -125,7 +125,7 @@ nnoremap <silent> gel :lopen<CR>
 
 " git
 " nnoremap gs :Gstatus<CR>
-nnoremap <silent> <leader>gs :GitMessenger<CR>
+nnoremap <silent> gm :GitMessenger<CR>
 
 " quickly open config file
 nnoremap <silent> <leader>gi :e ~/.config/nvim/init.vim<CR>
@@ -153,6 +153,9 @@ endfunction
 command DeleteTrailingWhitespace :%s/\s\+$//e
 
 " plugins
+
+" clap
+let g:clap_disable_bottom_top = 1
 
 " colorizer
 lua require('colorizer').setup( { css = { rgb_fn = true } } )
