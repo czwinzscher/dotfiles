@@ -8,25 +8,17 @@ function M.exists(filename)
 end
 
 function M.is_dir(filename)
-    return exists(filename) == 'directory'
+    return M.exists(filename) == 'directory'
 end
 
 function M.is_file(filename)
-    return exists(filename) == 'file'
+    return M.exists(filename) == 'file'
 end
 
-local is_windows = uv.os_uname().version:match("Windows")
-local path_sep = is_windows and "\\" or "/"
+local path_sep = "/"
 
-local is_fs_root
-if is_windows then
-    is_fs_root = function(path)
-        return path:match("^%a:$")
-    end
-else
-    is_fs_root = function(path)
-        return path == "/"
-    end
+local is_fs_root = function(path)
+    return path == "/"
 end
 
 local dirname
@@ -79,7 +71,7 @@ end
 function M.iterate_parents(path)
     path = uv.fs_realpath(path)
 
-    local function it(s, v)
+    local function it(_, v)
         if not v then return end
 
         if is_fs_root(v) then return end
