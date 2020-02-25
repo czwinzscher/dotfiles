@@ -84,16 +84,6 @@ local function buf_show_marks(bufnr, _)
         local virt_text = {{"■", lsp.util.get_severity_highlight_name(highest_severity)}}
 
         api.nvim_buf_set_virtual_text(bufnr, diagnostic_ns, line, virt_text, {})
-
-        -- local virt_texts = {}
-
-        -- for i = 1, #line_diags do
-        --     table.insert(virt_texts, {"■",
-        --         lsp.util.get_severity_highlight_name(line_diags[i].severity)})
-        -- end
-
-        -- api.nvim_buf_set_virtual_text(bufnr, diagnostic_ns, line,
-        --     virt_texts, {})
     end
 end
 
@@ -169,7 +159,7 @@ end
 -- setup
 local function setup()
     nvim_lsp.clangd.setup { callbacks = lsp_callbacks }
-    nvim_lsp.gopls.setup { callbacks = lsp_callbacks }
+    -- nvim_lsp.gopls.setup { callbacks = lsp_callbacks }
     nvim_lsp.pyls.setup { callbacks = lsp_callbacks }
     nvim_lsp.rust_analyzer.setup { callbacks = lsp_callbacks }
     nvim_lsp.sumneko_lua.setup { callbacks = lsp_callbacks }
@@ -177,7 +167,8 @@ local function setup()
 
     nvim_lsp.hie.setup {
         callbacks = lsp_callbacks,
-        settings = {
+        cmd = {"hie-wrapper", "--lsp"},
+        init_options = {
             languageServerHaskell = {
                 hlintOn = true
             }
