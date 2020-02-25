@@ -11,11 +11,6 @@ Plug 'justinmk/vim-sneak'
 Plug 'junegunn/vim-slash'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
-" completion
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'Shougo/deoplete-lsp'
-" Plug 'Shougo/neopairs.vim'
-
 " programming
 Plug 'neovim/nvim-lsp'
 Plug 'mattn/emmet-vim'
@@ -24,12 +19,7 @@ Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 
 " git
-" Plug 'tpope/vim-fugitive'
 Plug 'rhysd/git-messenger.vim'
-
-" snippets
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
 
 " colorizer
 Plug 'norcalli/nvim-colorizer.lua'
@@ -45,7 +35,6 @@ set title
 set titlestring=%f
 set list
 set listchars=tab:\ \ 
-set showmatch
 set noshowcmd
 set noshowmode
 set nofoldenable
@@ -55,6 +44,7 @@ set splitbelow
 set breakindent
 set confirm
 set termguicolors
+set hidden
 set laststatus=0
 set signcolumn=no
 set pumheight=5
@@ -73,7 +63,6 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set expandtab
-set hidden
 
 " Search
 set nohlsearch
@@ -123,12 +112,9 @@ nnoremap <silent> gf :Clap filer<CR>
 
 nnoremap <silent> gel :lopen<CR>
 
-" git
-" nnoremap gs :Gstatus<CR>
 nnoremap <silent> gm :GitMessenger<CR>
 
-" quickly open config file
-nnoremap <silent> <leader>gi :e ~/.config/nvim/init.vim<CR>
+nnoremap <silent> <leader>i :e ~/.config/nvim/init.vim<CR>
 
 " use escape to go to normal mode in terminal
 tnoremap <Esc> <C-\><C-n>
@@ -173,26 +159,13 @@ let g:cpp_class_decl_highlight = 1
 " Emmet
 let g:user_emmet_leader_key='<C-Z>'
 let g:user_emmet_install_global = 0
+
 augroup emmet
     autocmd!
     autocmd FileType html,css EmmetInstall
 augroup END
 
-" deoplete
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#auto_complete_start_length = 1
-" call deoplete#custom#option('auto_complete_delay', 50)
-" call deoplete#custom#option('ignore_sources', {'_': ['ultisnips']})
-" call deoplete#custom#source('_', 'matchers', ['matcher_length', 'matcher_head'])
-" call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
-
-" Ultisnips
-" let g:UltiSnipsEditSplit = 'vertical'
-" let g:UltiSnipsExpandTrigger = '<c-k>'
-" let g:UltiSnipsJumpForwardTrigger = '<c-f>'
-" let g:UltiSnipsJumpBackwardTrigger = '<c-b>'
-" let g:UltiSnipsSnippetDirectories = [stdpath('config').'/UltiSnips', 'UltiSnips']
-
+" Clap
 let g:clap_provider_projects = {
             \ 'source': 'cat '.luaeval('require("projects").get_project_file()'),
             \ 'sink': 'Clap files'
@@ -206,7 +179,7 @@ function! LSP_maps()
     nnoremap <buffer> <silent> gd :lua vim.lsp.buf.definition()<CR>
     nnoremap <buffer> <silent> <leader>f :lua vim.lsp.buf.formatting()<CR>
     nnoremap <buffer> <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
-    nnoremap <buffer> <silent> <leader>d :lua require('lsp_config').show_line_diagnostics()<CR>
+    nnoremap <buffer> <silent> <leader>d :lua require'lsp_config'.show_line_diagnostics()<CR>
     setlocal omnifunc=v:lua.vim.lsp.omnifunc
 endfunction
 
@@ -216,7 +189,7 @@ augroup lsp
                 \ call LSP_maps()
     autocmd FileType tex nnoremap <buffer> <silent> <leader>b
                 \ <cmd>TexlabBuild<CR>
-    autocmd BufWritePre *.go lua require('lsp_config').formatting_sync()
+    autocmd BufWritePre *.go lua require'lsp_config'.formatting_sync()
 augroup END
 
 " projects
