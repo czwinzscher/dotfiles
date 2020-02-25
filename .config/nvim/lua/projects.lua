@@ -23,7 +23,7 @@ function M.get_project_list()
     return list
 end
 
-function M.is_project(dir)
+function M.get_root(path)
     local function is_match(path)
         for _, pattern in ipairs(root_markers) do
             if path_utils.exists(path_utils.join(path, pattern)) then
@@ -32,14 +32,14 @@ function M.is_project(dir)
         end
     end
 
-    for path in path_utils.iterate_parents(dir) do
-        if is_match(path) then
-            return path
+    for dir in path_utils.iterate_parents(path) do
+        if is_match(dir) then
+            return dir
         end
     end
 end
 
-function project_exists(path)
+local function project_exists(path)
     local projects = M.get_project_list()
 
     for _, val in ipairs(projects) do
@@ -61,15 +61,16 @@ function M.add_project(path)
     projects_file:close()
 end
 
-function M.remove_project(path)
-end
+-- TODO
+-- function M.remove_project(path)
+-- end
 
 function M.check_path()
     local uri = vim.uri_from_bufnr(0)
     local path = vim.uri_to_fname(uri)
 
-    local root = M.is_project(path)
-    M.add_project(root)
+    local root = M.get_root(path)
+    if root then M.add_project(root) end
 end
 
 function M.setup(patterns)
@@ -80,19 +81,5 @@ function M.setup(patterns)
     vim.api.nvim_command('autocmd BufAdd * lua require("projects").check_path()')
     vim.api.nvim_command('augroup END')
 end
-
--- function M.fzf_handler(path)
--- end
-
--- function M.switch_project()
---     local projects = M.get_project_list()
-
---     local fzf_config = {
---         source = projects,
---         sink = ''  -- todo
---     }
-
---     vim.fn['fzf#run'](vim.fn['fzf#wrap'](fzf_config))
--- end
 
 return M
