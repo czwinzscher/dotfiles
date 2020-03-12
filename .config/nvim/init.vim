@@ -26,6 +26,7 @@ Plug 'norcalli/nvim-colorizer.lua'
 
 " color schemes
 Plug 'tomasiser/vim-code-dark'
+Plug 'arzg/vim-colors-xcode'
 
 call plug#end()
 
@@ -45,7 +46,7 @@ set breakindent
 set confirm
 set termguicolors
 set hidden
-set laststatus=0
+" set laststatus=0
 set signcolumn=no
 set pumheight=5
 set scrolloff=7
@@ -71,7 +72,8 @@ set smartcase
 set inccommand=nosplit
 
 " colorscheme
-colorscheme codedark
+" colorscheme codedark
+colorscheme xcodedarkhc
 
 " highlighting
 highlight Search NONE
@@ -104,9 +106,10 @@ xnoremap >  >gv
 " accept pum item with enter
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-nnoremap <silent> <C-B> :Clap buffers<CR>
+nnoremap <silent> <leader>c :Clap providers<CR>
 nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Clap files<CR>"
             \ : ":Clap gfiles<CR>"
+nnoremap <silent> <C-B> :Clap buffers<CR>
 nnoremap <silent> gp :Clap projects<CR>
 nnoremap <silent> gf :Clap filer<CR>
 
