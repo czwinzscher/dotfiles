@@ -181,7 +181,8 @@ local function setup()
         cmd = {"hie-wrapper", "--lsp"},
         init_options = {
             languageServerHaskell = {
-                hlintOn = true
+                hlintOn = true,
+                formattingProvider = "floskell"
             }
         }
     }
