@@ -1,6 +1,5 @@
 # Additional git repositories to pull
 git_repos = [
-    "~/.config/emacs",
     "~/.zsh-autosuggestions"
 ]
 
