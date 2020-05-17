@@ -1,4 +1,4 @@
-export ZSH="/home/clemens/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 export EDITOR=vim
 export VISUAL=vim
@@ -24,7 +24,7 @@ export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NNN
-export NNN_BMS='s:~/Nextcloud/Studium/Semester5'
+export NNN_BMS='s:~/Nextcloud/Studium'
 export NNN_CONTEXT_COLORS='2222'
 
 # CMake
