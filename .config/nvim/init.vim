@@ -1,30 +1,20 @@
 " Plugins
 call plug#begin()
 
-" general
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
-
-" navigation
 Plug 'justinmk/vim-sneak'
 Plug 'junegunn/vim-slash'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-
-" programming
 Plug 'neovim/nvim-lsp'
 Plug 'mattn/emmet-vim'
-
-" syntax
 Plug 'sheerun/vim-polyglot'
-
-" git
+Plug 'bfrg/vim-cpp-modern'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'rhysd/git-messenger.vim'
-
-" colorizer
 Plug 'norcalli/nvim-colorizer.lua'
-
-" color schemes
 Plug 'tomasiser/vim-code-dark'
 Plug 'arzg/vim-colors-xcode'
 
@@ -69,17 +59,23 @@ set expandtab
 set nohlsearch
 set ignorecase
 set smartcase
+set wildignorecase
 set inccommand=nosplit
 
 " colorscheme
-" colorscheme codedark
-colorscheme xcodedarkhc
+colorscheme codedark
+" colorscheme xcodedarkhc
+" colorscheme xcodelighthc
 
 " highlighting
 highlight Search NONE
 highlight QuickFixLine NONE
 highlight TrailingWhitespace ctermbg=red guibg=red
 match TrailingWhitespace /\s\+\%#\@<!$/
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 1000)
+augroup END
 
 " python
 let g:loaded_python_provider = 0
@@ -92,7 +88,7 @@ let g:netrw_dirhistmax = 0
 let g:mapleader=","
 
 nnoremap Y y$
-inoremap jj <esc>
+inoremap hh <esc>
 
 " insert new line with enter in normal mode
 nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : "o<Esc>"
@@ -122,6 +118,12 @@ nnoremap <silent> <leader>i :e ~/.config/nvim/init.vim<CR>
 " use escape to go to normal mode in terminal
 tnoremap <Esc> <C-\><C-n>
 
+" neo mappings
+noremap r j
+noremap j r
+noremap t k
+noremap k t
+
 augroup commentstrings
     autocmd!
     autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
@@ -141,10 +143,10 @@ endfunction
 " commands
 command DeleteTrailingWhitespace :%s/\s\+$//e
 
-" plugins
-
+"" plugins
 " clap
 let g:clap_disable_bottom_top = 1
+let g:clap_insert_mode_only = v:true
 
 " colorizer
 lua require('colorizer').setup( { css = { rgb_fn = true } } )

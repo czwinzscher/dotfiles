@@ -6,7 +6,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'sheerun/vim-polyglot'
-Plug 'joshdick/onedark.vim'
+Plug 'bfrg/vim-cpp-modern'
+Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
 
@@ -59,16 +60,18 @@ set ttimeout ttimeoutlen=200
 " Mappings
 set pastetoggle=<F6>
 map Y y$
-inoremap jj <esc>
+inoremap hh <esc>
 let mapleader=","
 nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : "o<Esc>"
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
 
-nnoremap <leader>c :e ~/.vimrc<CR>
+nnoremap <leader>i :e ~/.vimrc<CR>
 
 " colors
-colorscheme onedark
+colorscheme codedark
 hi QuickFixLine NONE
+
+" neo mappings
+noremap r j
+noremap j r
+noremap t k
+noremap k t
