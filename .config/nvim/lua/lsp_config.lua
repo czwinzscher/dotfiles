@@ -159,7 +159,6 @@ end
 -- setup
 local function setup()
     -- nvim_lsp.clangd.setup { callbacks = lsp_callbacks }
-    nvim_lsp.clangd.setup {}
     nvim_lsp.gopls.setup { callbacks = lsp_callbacks }
     nvim_lsp.pyls.setup { callbacks = lsp_callbacks }
     nvim_lsp.rust_analyzer.setup { callbacks = lsp_callbacks }
@@ -171,6 +170,9 @@ local function setup()
             Lua = {
                 diagnostics = {
                     globals = { "vim" }
+                },
+                runtime = {
+                    version = "LuaJIT"
                 }
             }
         }
@@ -178,11 +180,11 @@ local function setup()
 
     nvim_lsp.hie.setup {
         callbacks = lsp_callbacks,
-        cmd = {"hie-wrapper", "--lsp"},
+        cmd = {"haskell-language-server-wrapper", "--lsp"},
         init_options = {
-            languageServerHaskell = {
+            haskell = {
                 hlintOn = true,
-                formattingProvider = "floskell"
+                formattingProvider = "ormolu"
             }
         }
     }
