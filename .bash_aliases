@@ -6,13 +6,7 @@ alias c='clear'
 alias cc='cd && clear'
 alias la='ls -lhA'
 alias ll='ls -A1'
-alias upd='sudo apt update'
-alias upg='sudo apt upgrade'
-alias autorm='sudo apt autoremove'
-alias sai='sudo apt install'
-alias sar='sudo apt remove'
 alias vf='vim $(fzf)'
-alias s='cd /home/clemens/Nextcloud/Studium/Semester5'
 
 # git
 alias depp='git'
