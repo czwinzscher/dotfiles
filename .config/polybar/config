@@ -15,6 +15,7 @@ width = 100%
 height = 24
 ;offset-x = 1%
 ;offset-y = 1%
+bottom = true
 radius = 6.0
 fixed-center = false
 
