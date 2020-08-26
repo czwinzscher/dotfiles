@@ -158,7 +158,7 @@ end
 
 -- setup
 local function setup()
-    -- nvim_lsp.clangd.setup { callbacks = lsp_callbacks }
+    nvim_lsp.clangd.setup { callbacks = lsp_callbacks }
     nvim_lsp.gopls.setup { callbacks = lsp_callbacks }
     nvim_lsp.pyls.setup { callbacks = lsp_callbacks }
     nvim_lsp.rust_analyzer.setup { callbacks = lsp_callbacks }
