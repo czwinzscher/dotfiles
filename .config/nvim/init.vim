@@ -64,8 +64,6 @@ set inccommand=nosplit
 
 " colorscheme
 colorscheme codedark
-" colorscheme xcodedarkhc
-" colorscheme xcodelighthc
 
 " highlighting
 highlight Search NONE
@@ -74,7 +72,9 @@ highlight TrailingWhitespace ctermbg=red guibg=red
 match TrailingWhitespace /\s\+\%#\@<!$/
 augroup highlight_yank
     autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 1000)
+    autocmd TextYankPost *
+                \ silent! lua vim.highlight.on_yank
+                \ {higroup="IncSearch", timeout=1000, on_visual=false}
 augroup END
 
 " python
