@@ -2,7 +2,7 @@
 #     move_home
 # def_key "J"
 #     move_end
-# 
+#
 # def_key "k"
 #     scroll_up
 # def_key "j"
@@ -11,10 +11,10 @@
 #     previous_column
 # def_key "l"
 #     next_column
-# 
+#
 # def_key "t"
 #     show_lyrics
-# 
+#
 # def_key "ctrl-j"
 #     play_item
 
