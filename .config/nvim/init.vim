@@ -8,6 +8,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'junegunn/vim-slash'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'neovim/nvim-lsp'
+Plug 'nvim-lua/completion-nvim'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'bfrg/vim-cpp-modern'
@@ -46,7 +47,7 @@ set wildignore+=*.so,*.swp,*.zip,*.o,*.tar*
 set shortmess+=caI
 set tags+=./.tags
 set clipboard+=unnamedplus
-set completeopt=menu,noselect
+set completeopt=menu,noselect,noinsert
 set fillchars=eob:\ 
 
 " Tabs
@@ -196,6 +197,10 @@ augroup lsp
                 \ <cmd>TexlabBuild<CR>
     autocmd BufWritePre *.go lua require'lsp_config'.formatting_sync()
 augroup END
+
+" completion
+autocmd BufEnter * lua require'completion'.on_attach()
+let g:completion_matching_ignore_case = 1
 
 " projects
 lua require('projects').setup()
