@@ -6,7 +6,8 @@ alias c='clear'
 alias cc='cd && clear'
 alias la='ls -lhA'
 alias ll='ls -A1'
-alias vf='vim $(fzf)'
+alias df='df -h'
+alias free='free -h'
 
 # git
 alias depp='git'
