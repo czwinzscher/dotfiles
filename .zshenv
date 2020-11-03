@@ -1,9 +1,8 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-export EDITOR=vim
-export VISUAL=vim
-export TERMINAL=kitty
-export TERM=xterm-kitty
+export EDITOR=nvim
+export VISUAL=nvim
+export TERMINAL=gnome-terminal
 export BROWSER=firefox
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 

@@ -4,7 +4,7 @@ super + x
 
 # terminal emulator
 super + Return
-    kitty
+    gnome-terminal
 
 # program launcher
 #super + a
@@ -36,6 +36,11 @@ XF86AudioMute
 XF86MonBrightnessUp
     xbacklight -inc 5
 XF86MonBrightnessDown
+    xbacklight -dec 5
+
+XF86Forward
+    xbacklight -inc 5
+XF86Back
     xbacklight -dec 5
 
 # media player controls
