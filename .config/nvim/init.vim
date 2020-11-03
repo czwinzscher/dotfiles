@@ -9,9 +9,11 @@ Plug 'junegunn/vim-slash'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 Plug 'neovim/nvim-lsp'
 Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'bfrg/vim-cpp-modern'
+Plug 'neovimhaskell/haskell-vim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'rhysd/git-messenger.vim'
@@ -64,7 +66,7 @@ set wildignorecase
 set inccommand=nosplit
 
 " colorscheme
-colorscheme codedark
+" colorscheme codedark
 
 " highlighting
 highlight Search NONE
@@ -104,8 +106,9 @@ xnoremap >  >gv
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 nnoremap <silent> <leader>c :Clap providers<CR>
-nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Clap files<CR>"
-            \ : ":Clap gfiles<CR>"
+" nnoremap <silent> <expr> <C-P> Find_git_root() == "" ? ":Clap files<CR>"
+"             \ : ":Clap gfiles<CR>"
+nnoremap <silent> <C-P> :Clap files<CR>
 nnoremap <silent> <C-B> :Clap buffers<CR>
 nnoremap <silent> gp :Clap projects<CR>
 nnoremap <silent> gf :Clap filer<CR>
@@ -185,7 +188,9 @@ function! LSP_maps()
     nnoremap <buffer> <silent> gd :lua vim.lsp.buf.definition()<CR>
     nnoremap <buffer> <silent> <leader>f :lua vim.lsp.buf.formatting()<CR>
     nnoremap <buffer> <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
-    nnoremap <buffer> <silent> <leader>d :lua require'lsp_config'.show_line_diagnostics()<CR>
+    nnoremap <buffer> <silent> <leader>d :lua vim.lsp.util.show_line_diagnostics()<CR>
+    nnoremap <buffer> <silent> gen :NextDiagnosticCycle<CR>
+    nnoremap <buffer> <silent> gep :PrevDiagnosticCycle<CR>
     setlocal omnifunc=v:lua.vim.lsp.omnifunc
 endfunction
 
@@ -193,14 +198,20 @@ augroup lsp
     autocmd!
     autocmd FileType c,cpp,go,haskell,lua,python,rust,tex,typescript
                 \ call LSP_maps()
-    autocmd FileType tex nnoremap <buffer> <silent> <leader>b
-                \ <cmd>TexlabBuild<CR>
+    " autocmd FileType tex nnoremap <buffer> <silent> <leader>b
+    "             \ <cmd>TexlabBuild<CR>
     autocmd BufWritePre *.go lua require'lsp_config'.formatting_sync()
 augroup END
 
 " completion
 autocmd BufEnter * lua require'completion'.on_attach()
 let g:completion_matching_ignore_case = 1
+
+" diagnostic
+let g:diagnostic_enable_virtual_text = 1
+let g:diagnostic_trimmed_virtual_text = '0'
+let g:diagnostic_show_sign = 0
+let g:diagnostic_insert_delay = 1
 
 " projects
 lua require('projects').setup()
