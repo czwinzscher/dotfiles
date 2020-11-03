@@ -4,7 +4,7 @@ nm-applet &
 dunst &
 nextcloud &
 sxhkd &
-# xset r rate 190 28 &
+xset r rate 190 28 &
 # setxkbmap -option "caps:escape" &
 xcape -e 'Super_L=Super_L|Shift_L|space' &
 setxkbmap de neo -option &
