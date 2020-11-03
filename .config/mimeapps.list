@@ -20,7 +20,7 @@ image/png=feh.desktop
 image/jpeg=feh.desktop
 
 [Added Associations]
-application/pdf=chromium.desktop;firefox.desktop;org.pwmt.zathura.desktop;
+application/pdf=org.gnome.Evince.desktop;chromium.desktop;firefox.desktop;org.pwmt.zathura.desktop;
 x-scheme-handler/http=firefox.desktop;
 x-scheme-handler/https=firefox.desktop;
 x-scheme-handler/ftp=firefox.desktop;
@@ -32,7 +32,7 @@ application/x-extension-shtml=firefox.desktop;
 application/xhtml+xml=firefox.desktop;
 application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
-text/plain=vim.desktop;emacs.desktop;
+text/plain=org.gnome.gedit.desktop;vim.desktop;emacs.desktop;
 application/vnd.ms-excel=libreoffice-calc.desktop;vim.desktop;
 text/x-python=emacs.desktop;
 application/x-yaml=emacs.desktop;
@@ -43,3 +43,5 @@ x-scheme-handler/remmina=org.remmina.Remmina.desktop;
 application/x-remmina=org.remmina.Remmina.desktop;
 image/png=feh.desktop;
 image/jpeg=feh.desktop;
+application/sql=emacs.desktop;
+application/x-bibtex=org.gnome.gedit.desktop;
