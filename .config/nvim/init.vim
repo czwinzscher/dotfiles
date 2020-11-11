@@ -67,6 +67,7 @@ set inccommand=nosplit
 
 " colorscheme
 " colorscheme codedark
+colorscheme darkblue
 
 " highlighting
 highlight Search NONE
@@ -188,6 +189,7 @@ function! LSP_maps()
     nnoremap <buffer> <silent> gd :lua vim.lsp.buf.definition()<CR>
     nnoremap <buffer> <silent> <leader>f :lua vim.lsp.buf.formatting()<CR>
     nnoremap <buffer> <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
+    nnoremap <buffer> <silent> <leader>a :lua vim.lsp.buf.code_action()<CR>
     nnoremap <buffer> <silent> <leader>d :lua vim.lsp.util.show_line_diagnostics()<CR>
     nnoremap <buffer> <silent> gen :NextDiagnosticCycle<CR>
     nnoremap <buffer> <silent> gep :PrevDiagnosticCycle<CR>
@@ -198,9 +200,7 @@ augroup lsp
     autocmd!
     autocmd FileType c,cpp,go,haskell,lua,python,rust,tex,typescript
                 \ call LSP_maps()
-    " autocmd FileType tex nnoremap <buffer> <silent> <leader>b
-    "             \ <cmd>TexlabBuild<CR>
-    autocmd BufWritePre *.go lua require'lsp_config'.formatting_sync()
+    autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync()
 augroup END
 
 " completion
