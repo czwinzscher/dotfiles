@@ -160,7 +160,6 @@ bindsym $mod+shift+m exec --no-startup-id ls ~/.screenlayout | rofi -dmenu | awk
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
-# exec_always --no-startup-id feh --bg-scale /home/clemens/Bilder/Wallpapers/ergdfgfdgh.jpg
 exec_always --no-startup-id polybar bar
 
 exec --no-startup-id nm-applet
