@@ -1,7 +1,0 @@
--f .tags
--R
---extra=+f
---exclude=.git
---exclude=*.pyc
---exclude=*.pyo
---exclude=*.swp
