@@ -160,7 +160,8 @@ bindsym $mod+shift+m exec --no-startup-id ls ~/.screenlayout | rofi -dmenu | awk
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
-exec_always --no-startup-id polybar bar
+# exec_always --no-startup-id polybar bar
+exec_always --no-startup-id ~/.config/i3/polybar.sh
 
 exec --no-startup-id nm-applet
 exec --no-startup-id nextcloud
@@ -173,7 +174,6 @@ exec --no-startup-id setxkbmap de neo -option &
 exec --no-startup-id xcape -e 'Super_L=Super_L|Shift_L|space'
 
 for_window [class="Spotify"] move to workspace $w5
-for_window [class="discord"] move to workspace $w6
 
 for_window [urgent="latest"] focus
 

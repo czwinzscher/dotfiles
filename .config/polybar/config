@@ -140,7 +140,7 @@ type = internal/battery
 battery = BAT0
 adapter = AC0
 full-at = 98
- 
+
 label-charging = CHR %percentage%%
 format-charging = <animation-charging> <label-charging>
 format-charging-underline = #ffb52a
