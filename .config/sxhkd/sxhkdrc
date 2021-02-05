@@ -14,15 +14,19 @@ super + shift + space
 # screenshots
 # full screen
 Print
-    scrot
+    maim --quality 10 $(date +%s).png
 
 # current window
 super + Print
-    scrot -u
+    maim --quality 10 --window $(xdotool getactivewindow) $(date +%s).png
 
 # selection
 super + shift + Print
-    scrot -s
+    maim --quality 10 --select $(date +%s).png
+
+# selection and copy to clipboard
+super + control + Print
+    maim --quality 10 --select | xclip -selection clipboard -t image/png
 
 # volume control
 XF86AudioRaiseVolume
