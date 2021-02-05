@@ -1,5 +1,5 @@
 # Disable specific steps - same options as the command line flag
-#disable = ["system", "emacs"]
+disable = ["node"]
 
 # Run specific steps - same options as the command line flag
 #only = ["system", "emacs"]
@@ -36,5 +36,5 @@
 [linux]
 yay_arguments = "--nodevel"
 
-[git]
-repos = ["~/.zsh-autosuggestions"]
+# [git]
+# repos = ["~/.zsh-autosuggestions"]
