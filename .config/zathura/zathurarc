@@ -9,9 +9,5 @@ set statusbar-home-tilde true
 set incremental-search
 map r scroll down
 map t scroll up
-map n scroll left
-map d scroll right
-map ) navigate next
-map - navigate previous
-map h search next
-map < search previous
+map T navigate previous
+map R navigate next
