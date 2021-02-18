@@ -50,6 +50,8 @@ XF86Back
 # media player controls
 XF86AudioPlay
     playerctl play-pause
+XF86AudioPause
+    playerctl play-pause
 XF86AudioNext
     playerctl next
 XF86AudioPrev
