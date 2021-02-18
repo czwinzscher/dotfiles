@@ -167,11 +167,11 @@ exec --no-startup-id nm-applet
 exec --no-startup-id nextcloud
 exec --no-startup-id dunst
 exec --no-startup-id redshift-gtk
-exec --no-startup-id sxhkd
 exec --no-startup-id xset r rate 200 28
 # exec --no-startup-id setxkbmap -option "caps:escape"
 exec --no-startup-id setxkbmap de neo -option
 exec --no-startup-id xcape -e 'Super_L=Super_L|Shift_L|space'
+exec --no-startup-id sxhkd
 exec --no-startup-id cryptomator
 
 for_window [class="Spotify"] move to workspace $w5
