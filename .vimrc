@@ -6,8 +6,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'sheerun/vim-polyglot'
-Plug 'bfrg/vim-cpp-modern'
-Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
 
@@ -67,7 +65,6 @@ nnoremap <expr> <CR> &buftype ==# 'quickfix' ? "\<CR>" : "o<Esc>"
 nnoremap <leader>i :e ~/.vimrc<CR>
 
 " colors
-colorscheme codedark
 hi QuickFixLine NONE
 
 " neo mappings
