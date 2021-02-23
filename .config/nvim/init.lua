@@ -1,6 +1,4 @@
 local cmd = vim.cmd
-local fn = vim.fn
-local g = vim.g
 local api = vim.api
 
 --- plugins
@@ -50,9 +48,11 @@ vim.o.spell = false
 vim.o.title = true
 vim.o.titlestring = '%f'
 vim.o.list = true
+vim.wo.list = true
 vim.o.showcmd = false
 vim.o.showmode = false
 vim.o.foldenable = false
+vim.wo.foldenable = false
 vim.o.autochdir = true
 vim.o.splitright = true
 vim.o.splitbelow = true
@@ -61,6 +61,7 @@ vim.o.confirm = true
 vim.o.termguicolors = true
 vim.o.hidden = true
 vim.o.signcolumn = 'no'
+vim.wo.signcolumn = 'no'
 vim.o.pumheight = 5
 vim.o.scrolloff = 7
 vim.o.cinoptions = 'N-s,g0,+0'
@@ -73,9 +74,13 @@ vim.o.listchars = [[tab:  ]]
 vim.o.fillchars = [[eob: ]]
 
 vim.o.shiftwidth = 4
+vim.bo.shiftwidth = 4
 vim.o.tabstop = 4
+vim.bo.tabstop = 4
 vim.o.softtabstop = 4
+vim.bo.softtabstop = 4
 vim.o.expandtab = true
+vim.bo.expandtab = true
 
 vim.o.hlsearch = false
 vim.o.ignorecase = true
@@ -83,8 +88,8 @@ vim.o.smartcase = true
 vim.o.wildignorecase = true
 vim.o.inccommand = 'nosplit'
 
-cmd 'colorscheme default'
--- cmd 'colorscheme one-nvim'
+-- cmd 'colorscheme default'
+cmd 'colorscheme one-nvim'
 
 --- variables
 vim.g.loaded_python_provider = 0
@@ -143,7 +148,7 @@ map('i', '<cr>', [[pumvisible() ? compe#confirm('<cr>') : "\<cr>"]], {expr = tru
 
 --- treesitter
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"cpp", "lua", "rust", "typescript"},
+    ensure_installed = {"cpp", "lua", "rust", "typescript", "go"},
     highlight = {
         enable = true,
     },
@@ -221,37 +226,47 @@ local function lsp_on_attach(client)
 end
 
 nvim_lsp.clangd.setup {
-    on_attach = lsp_on_attach
+    on_attach = lsp_on_attach,
 }
 
+-- TODO format on save
 nvim_lsp.gopls.setup {
-    on_attach = lsp_on_attach
+    settings = {
+        gopls = {
+            analyses = {
+                unreachable = true,
+                unusedparams = true,
+            },
+            staticcheck = true,
+        },
+    },
+    on_attach = lsp_on_attach,
 }
 
 nvim_lsp.rust_analyzer.setup {
-    on_attach = lsp_on_attach
+    on_attach = lsp_on_attach,
 }
 
 nvim_lsp.texlab.setup {
-    on_attach = lsp_on_attach
+    on_attach = lsp_on_attach,
 }
 
 nvim_lsp.tsserver.setup {
-    on_attach = lsp_on_attach
+    on_attach = lsp_on_attach,
 }
 
 nvim_lsp.sumneko_lua.setup {
     settings = {
         Lua = {
             diagnostics = {
-                globals = { "vim" }
+                globals = { "vim" },
             },
             runtime = {
-                version = "LuaJIT"
-            }
-        }
+                version = "LuaJIT",
+            },
+        },
     },
-    on_attach = lsp_on_attach
+    on_attach = lsp_on_attach,
 }
 
 nvim_lsp.hls.setup{
@@ -261,9 +276,9 @@ nvim_lsp.hls.setup{
             formattingProvider = "ormolu",
             completionSnippetsOn = true,
             formatOnImportOn = true,
-        }
+        },
     },
-    on_attach = lsp_on_attach
+    on_attach = lsp_on_attach,
 }
 
 --- slash
