@@ -742,6 +742,12 @@
     <application class="telegram-desktop">
       <decor>no</decor>
     </application>
+    <application class="Element">
+      <decor>no</decor>
+    </application>
+    <application class="Thunderbird">
+      <decor>no</decor>
+    </application>
   </applications>
   <!-- <application name="tint2"> -->
   <!--   <desktop>all</desktop> -->
