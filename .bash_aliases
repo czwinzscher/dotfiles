@@ -8,6 +8,7 @@ alias la='ls -lhA'
 alias ll='ls -A1'
 alias df='df -h'
 alias free='free -h'
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # git
 alias depp='git'
