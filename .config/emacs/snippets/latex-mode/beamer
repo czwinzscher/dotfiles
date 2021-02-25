@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# name: beamer
+# key: beamer
+# --
+
+\documentclass[${1:aspectratio=169}]{beamer}
+
+\usetheme{${2:Boadilla}}
+\usecolortheme{${3:beaver}}
+\useinnertheme{${4:circles}}
+
+% set background of title on title page to white
+\setbeamercolor{title}{bg=white}
+% hide "border" of title on title page
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true]
+% set background of title on normal frames to white
+\setbeamercolor{frametitle}{bg=white}
+% show only frame number on footline
+\setbeamertemplate{footline}[frame number]
+% hide navigation symbols
+\setbeamertemplate{navigation symbols}{}
+% use circles for lists
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{enumerate item}[circle]
+% use the same size in sublists
+\setbeamertemplate{itemize/enumerate subbody begin}{\normalsize}
+
+$0

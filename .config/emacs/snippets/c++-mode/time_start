@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: time_start
+# key: time_start
+# --
+auto start = std::chrono::steady_clock::now();
