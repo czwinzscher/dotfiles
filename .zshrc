@@ -12,6 +12,7 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 
 . ~/.bash_aliases
 . ~/.inputrc
+. /etc/profile.d/vte.sh
 . /usr/share/fzf/key-bindings.zsh
 . /usr/share/fzf/completion.zsh
 
