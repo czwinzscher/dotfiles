@@ -14,8 +14,11 @@ paq 'junegunn/vim-slash'
 paq 'RRethy/vim-illuminate'
 paq 'nvim-lua/popup.nvim'
 paq 'nvim-lua/plenary.nvim'
+paq 'tami5/sql.nvim'
 paq 'nvim-telescope/telescope.nvim'
 paq {'nvim-telescope/telescope-fzy-native.nvim', hook='git submodule update --init --recursive' }
+paq 'nvim-telescope/telescope-frecency.nvim'
+paq 'nvim-telescope/telescope-project.nvim'
 -- 'shoumodip/ido.nvim'
 paq 'neovim/nvim-lspconfig'
 -- paq 'glepnir/lspsaga.nvim'
@@ -164,9 +167,14 @@ require'nvim-treesitter.configs'.setup {
 }
 
 --- telescope
-require('telescope').setup()
-require('telescope').load_extension('fzy_native')
-map('n', '<C-P>', '<cmd>Telescope git_files<cr>')
+local telescope = require('telescope')
+telescope.setup()
+telescope.load_extension('fzy_native')
+telescope.load_extension('frecency')
+telescope.load_extension('project')
+map('n', '<C-F>', '<cmd>Telescope git_files<cr>')
+map('n', '<C-P>',
+    "<cmd>lua require'telescope'.extensions.project.project{ change_dir = true }<cr>")
 map('n', '<C-B>', '<cmd>Telescope buffers<cr>')
 
 --- compe
