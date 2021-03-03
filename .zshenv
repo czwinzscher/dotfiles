@@ -23,7 +23,6 @@ export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NNN
-export NNN_BMS='s:~/Nextcloud/Studium'
 export NNN_CONTEXT_COLORS='2222'
 
 # CMake
