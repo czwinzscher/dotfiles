@@ -19,6 +19,7 @@ application/x-remmina=org.remmina.Remmina.desktop
 image/png=feh.desktop
 image/jpeg=feh.desktop
 x-scheme-handler/tg=userapp-Telegram Desktop-U9HMX0.desktop
+x-scheme-handler/msteams=teams.desktop
 
 [Added Associations]
 application/pdf=org.gnome.Evince.desktop;chromium.desktop;firefox.desktop;org.pwmt.zathura.desktop;
@@ -50,3 +51,4 @@ text/x-tex=org.gnome.gedit.desktop;
 application/postscript=org.gnome.Evince.desktop;
 application/json=org.gnome.gedit.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-U9HMX0.desktop;
+application/octet-stream=org.gnome.gedit.desktop;
