@@ -118,7 +118,7 @@
 
        use obconf if you want to change these without having to log out
        and back in -->
-    <number>4</number>
+    <number>5</number>
     <firstdesk>1</firstdesk>
     <names>
       <!-- set names up here if you want to, like this:
@@ -224,6 +224,12 @@
         <follow>no</follow>
       </action>
     </keybind>
+    <keybind key="W-5">
+      <action name="GoToDesktop">
+        <to>5</to>
+        <follow>no</follow>
+      </action>
+    </keybind>
     <keybind key="W-S-d">
       <action name="SendToDesktop">
         <to>right</to>
@@ -260,6 +266,12 @@
         <follow>no</follow>
       </action>
     </keybind>
+    <keybind key="W-S-5">
+      <action name="SendToDesktop">
+        <to>5</to>
+        <follow>no</follow>
+      </action>
+    </keybind>
     <keybind key="W-S-F1">
       <action name="SendToDesktop">
         <to>1</to>
@@ -278,6 +290,11 @@
     <keybind key="W-S-F4">
       <action name="SendToDesktop">
         <to>4</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-F5">
+      <action name="SendToDesktop">
+        <to>5</to>
       </action>
     </keybind>
     <keybind key="W-a">
@@ -733,13 +750,13 @@
     <application class="firefox">
       <decor>no</decor>
     </application>
-    <application class="spotify">
+    <application class="Spotify">
       <decor>no</decor>
     </application>
     <application class="discord">
       <decor>no</decor>
     </application>
-    <application class="telegram-desktop">
+    <application class="TelegramDesktop">
       <decor>no</decor>
     </application>
     <application class="Element">
