@@ -29,11 +29,18 @@ super + control + Print
     maim --quality 10 --select | xclip -selection clipboard -t image/png
 
 # volume control
+XF86AudioMute
+    pactl set-sink-mute 0 toggle
 XF86AudioRaiseVolume
     pactl set-sink-volume 0 +5%
 XF86AudioLowerVolume
     pactl set-sink-volume 0 -5%
-XF86AudioMute
+
+super + F10
+    pactl set-sink-volume 0 +5%
+super + F11
+    pactl set-sink-volume 0 -5%
+super + F12
     pactl set-sink-mute 0 toggle
 
 # brightness
@@ -57,6 +64,15 @@ XF86AudioNext
 XF86AudioPrev
     playerctl previous
 XF86AudioStop
+    playerctl stop
+
+super + F5
+    playerctl play-pause
+super + F6
+    playerctl previous
+super + F7
+    playerctl next
+super + F8
     playerctl stop
 
 # calculator
