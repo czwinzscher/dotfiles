@@ -24,72 +24,59 @@ paq 'neovim/nvim-lspconfig'
 -- paq 'glepnir/lspsaga.nvim'
 -- paq 'kosayoda/nvim-lightbulb'
 paq 'nvim-treesitter/nvim-treesitter'
+paq 'rafamadriz/friendly-snippets'
 paq 'hrsh7th/nvim-compe'
 paq 'hrsh7th/vim-vsnip'
--- paq 'hrsh7th/vim-vsnip-integ'
+paq 'hrsh7th/vim-vsnip-integ'
 paq 'mg979/vim-visual-multi'
 paq 'mattn/emmet-vim'
 paq 'sheerun/vim-polyglot'
-paq 'neovimhaskell/haskell-vim'
+-- paq 'neovimhaskell/haskell-vim'
 paq 'vim-pandoc/vim-pandoc'
 paq 'vim-pandoc/vim-pandoc-syntax'
 paq 'rhysd/git-messenger.vim'
 -- paq 'ttys3/nvim-blamer.lua'
 -- paq 'norcalli/nvim-colorizer.lua'
-paq 'tomasiser/vim-code-dark'
 paq 'Th3Whit3Wolf/one-nvim'
-paq 'bluz71/vim-moonfly-colors'
+-- paq 'bluz71/vim-moonfly-colors'
 
 --- options
--- local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
--- local function opt(scope, key, value)
---     scopes[scope][key] = value
---     if scope ~= 'o' then scopes['o'][key] = value end
--- end
+vim.opt.spell = false
+vim.opt.title = true
+vim.opt.titlestring = '%f'
+vim.opt.list = true
+vim.opt.showcmd = false
+vim.opt.showmode = false
+vim.opt.foldenable = false
+vim.opt.autochdir = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.breakindent = true
+vim.opt.confirm = true
+vim.opt.termguicolors = true
+vim.opt.hidden = true
+vim.opt.signcolumn = 'no'
+vim.opt.pumheight = 5
+vim.opt.scrolloff = 7
+vim.opt.cinoptions = {'N-s', 'g0', '+0'}
+vim.opt.pastetoggle = '<F6>'
+vim.opt.completeopt = {'menuone', 'noselect'}
+vim.opt.wildignore = {'*.so', '*.swp', '*.zip', '*.o', '*.tar*'}
+vim.opt.shortmess:append('caI')
+vim.opt.clipboard = 'unnamedplus'
+vim.opt.listchars = [[tab:  ]]
+vim.opt.fillchars = [[eob: ]]
 
-vim.o.spell = false
-vim.o.title = true
-vim.o.titlestring = '%f'
-vim.o.list = true
-vim.wo.list = true
-vim.o.showcmd = false
-vim.o.showmode = false
-vim.o.foldenable = false
-vim.wo.foldenable = false
-vim.o.autochdir = true
-vim.o.splitright = true
-vim.o.splitbelow = true
-vim.o.breakindent = true
-vim.o.confirm = true
-vim.o.termguicolors = true
-vim.o.hidden = true
-vim.o.signcolumn = 'no'
-vim.wo.signcolumn = 'no'
-vim.o.pumheight = 5
-vim.o.scrolloff = 7
-vim.o.cinoptions = 'N-s,g0,+0'
-vim.o.pastetoggle = '<F6>'
-vim.o.completeopt = 'menu,menuone,noselect,noinsert'
-vim.o.wildignore = '*.so,*.swp,*.zip,*.o,*.tar*'
-vim.o.shortmess = vim.o.shortmess .. 'caI'
-vim.o.clipboard = vim.o.clipboard .. 'unnamedplus'
-vim.o.listchars = [[tab:  ]]
-vim.o.fillchars = [[eob: ]]
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
 
-vim.o.shiftwidth = 4
-vim.bo.shiftwidth = 4
-vim.o.tabstop = 4
-vim.bo.tabstop = 4
-vim.o.softtabstop = 4
-vim.bo.softtabstop = 4
-vim.o.expandtab = true
-vim.bo.expandtab = true
-
-vim.o.hlsearch = false
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.wildignorecase = true
-vim.o.inccommand = 'nosplit'
+vim.opt.hlsearch = false
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.wildignorecase = true
+vim.opt.inccommand = 'nosplit'
 
 -- cmd 'colorscheme default'
 cmd 'colorscheme one-nvim'
@@ -148,10 +135,12 @@ map('n', '<leader>i', ':e ~/.config/nvim/init.lua<CR>')
 map('t', '<esc>', [[<C-\><C-n>]])
 map('n', '<cr>', [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], {expr = true})
 map('i', '<cr>', [[pumvisible() ? compe#confirm('<cr>') : "\<cr>"]], {expr = true})
+map('n', 'gp', ':bp<cr>')
+map('n', 'gn', ':bn<cr>')
 
 --- treesitter
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"cpp", "lua", "rust", "typescript", "go"},
+    ensure_installed = {"cpp", "lua", "rust", "go"},
     highlight = {
         enable = true,
     },
@@ -176,10 +165,11 @@ map('n', '<C-F>', '<cmd>Telescope git_files<cr>')
 map('n', '<C-P>',
     "<cmd>lua require'telescope'.extensions.project.project{ change_dir = true }<cr>")
 map('n', '<C-B>', '<cmd>Telescope buffers<cr>')
+map('n', '<leader>gr', [[<cmd>lua require('telescope.builtin').live_grep{ cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1] }<cr>]])
 
 --- compe
 require'compe'.setup {
-    min_length = 2,
+    min_length = 1,
   
     source = {
         path = true,
@@ -191,6 +181,11 @@ require'compe'.setup {
     },
 }
 map('i', '<C-Space>', 'compe#complete()', {expr = true, silent = true})
+
+-- vsnip
+map('i', '<C-l>', [[vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>']], {expr = true, silent = true})
+map('i', '<Tab>', [[vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>']], {expr = true, silent = true})
+map('i', '<S-Tab>', [[snip#jumpable(1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>']], {expr = true, silent = true})
 
 --- colorizer
 -- require'colorizer'.setup({ css = { rgb_fn = true } })
@@ -209,9 +204,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 -- highlighting
-cmd [[ hi def link LspReferenceText CursorLine ]]
-cmd [[ hi def link LspReferenceWrite CursorLine ]]
-cmd [[ hi def link LspReferenceRead CursorLine ]]
+cmd [[ highlight def link LspReferenceText CursorLine ]]
+cmd [[ highlight def link LspReferenceWrite CursorLine ]]
+cmd [[ highlight def link LspReferenceRead CursorLine ]]
 
 -- language servers
 function lsp_maps()
