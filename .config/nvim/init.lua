@@ -2,45 +2,44 @@ local cmd = vim.cmd
 local api = vim.api
 
 --- plugins
-cmd 'packadd paq-nvim'
-local paq = require'paq-nvim'.paq
+require "paq" {
+    'savq/paq-nvim';
 
-paq 'savq/paq-nvim'
-paq 'tpope/vim-surround'
-paq 'tpope/vim-commentary'
-paq 'jiangmiao/auto-pairs'
-paq 'justinmk/vim-sneak'
-paq 'junegunn/vim-slash'
-paq 'RRethy/vim-illuminate'
-paq 'nvim-lua/popup.nvim'
-paq 'nvim-lua/plenary.nvim'
-paq 'tami5/sql.nvim'
-paq 'nvim-telescope/telescope.nvim'
-paq {'nvim-telescope/telescope-fzy-native.nvim', hook='git submodule update --init --recursive' }
-paq 'nvim-telescope/telescope-frecency.nvim'
-paq 'nvim-telescope/telescope-project.nvim'
--- 'shoumodip/ido.nvim'
-paq 'neovim/nvim-lspconfig'
--- paq 'glepnir/lspsaga.nvim'
--- paq 'kosayoda/nvim-lightbulb'
-paq 'nvim-treesitter/nvim-treesitter'
-paq 'rafamadriz/friendly-snippets'
-paq 'hrsh7th/nvim-compe'
-paq 'hrsh7th/vim-vsnip'
-paq 'hrsh7th/vim-vsnip-integ'
-paq 'mg979/vim-visual-multi'
-paq 'mattn/emmet-vim'
-paq 'sheerun/vim-polyglot'
--- paq 'neovimhaskell/haskell-vim'
-paq 'vim-pandoc/vim-pandoc'
-paq 'vim-pandoc/vim-pandoc-syntax'
-paq 'rhysd/git-messenger.vim'
--- paq 'ttys3/nvim-blamer.lua'
--- paq 'norcalli/nvim-colorizer.lua'
-paq 'Th3Whit3Wolf/one-nvim'
--- paq 'bluz71/vim-moonfly-colors'
+    'tpope/vim-surround';
+    'tpope/vim-commentary';
+    'jiangmiao/auto-pairs';
+    'justinmk/vim-sneak';
+    'junegunn/vim-slash';
+    'RRethy/vim-illuminate';
+    'nvim-lua/popup.nvim';
+    'nvim-lua/plenary.nvim';
+    'tami5/sql.nvim';
+    'nvim-telescope/telescope.nvim';
+    {'nvim-telescope/telescope-fzy-native.nvim', hook='git submodule update --init --recursive' };
+    'nvim-telescope/telescope-frecency.nvim';
+    'nvim-telescope/telescope-project.nvim';
+    -- 'shoumodip/ido.nvim';
+    'neovim/nvim-lspconfig';
+    -- 'glepnir/lspsaga.nvim';
+    -- 'kosayoda/nvim-lightbulb';
+    {'nvim-treesitter/nvim-treesitter', branch='0.5-compat'};
+    'rafamadriz/friendly-snippets';
+    'hrsh7th/nvim-compe';
+    'hrsh7th/vim-vsnip';
+    'hrsh7th/vim-vsnip-integ';
+    'mg979/vim-visual-multi';
+    'mattn/emmet-vim';
+    'sheerun/vim-polyglot';
+    -- 'neovimhaskell/haskell-vim';
+    'vim-pandoc/vim-pandoc';
+    'vim-pandoc/vim-pandoc-syntax';
+    'rhysd/git-messenger.vim';
+    -- 'ttys3/nvim-blamer.lua';
+    -- 'norcalli/nvim-colorizer.lua';
+    'Th3Whit3Wolf/one-nvim';
+    -- 'bluz71/vim-moonfly-colors';
+}
 
---- options
 vim.opt.spell = false
 vim.opt.title = true
 vim.opt.titlestring = '%f'
@@ -140,7 +139,7 @@ map('n', 'gn', ':bn<cr>')
 
 --- treesitter
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"cpp", "lua", "rust", "go"},
+    -- ensure_installed = {"cpp", "lua", "rust", "go"},
     highlight = {
         enable = true,
     },
@@ -273,14 +272,6 @@ nvim_lsp.sumneko_lua.setup {
 }
 
 nvim_lsp.hls.setup{
-    init_options = {
-        haskell = {
-            hlintOn = true,
-            formattingProvider = "ormolu",
-            completionSnippetsOn = true,
-            formatOnImportOn = true,
-        },
-    },
     on_attach = lsp_on_attach,
 }
 
