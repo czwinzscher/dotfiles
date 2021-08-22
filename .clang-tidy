@@ -6,7 +6,9 @@ Checks: >
   -google-readability-todo,
   -llvm-header-guard,
   -modernize-use-trailing-return-type,
-  -hicpp-use-auto,
+  -altera-struct-pack-align,
+  -llvmlibc-restrict-system-libc-headers,
+  -llvmlibc-callee-namespace,
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
