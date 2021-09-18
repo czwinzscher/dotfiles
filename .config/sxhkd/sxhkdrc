@@ -7,9 +7,8 @@ super + Return
     gnome-terminal
 
 # program launcher
-#super + a
 super + shift + space
-    rofi -modi drun -show drun
+    rofi -modi drun -show-icons -show
 
 # screenshots
 # full screen

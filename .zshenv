@@ -12,7 +12,8 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 export GOPATH=/home/clemens/go
 
 # PATH
-export PATH=$PATH:$HOME/.cabal/bin:/usr/local/go/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin
+# export PATH=$PATH:$HOME/.cabal/bin:$HOME/.cargo/bin:$/usr/local/go/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
 # Rust
 rust_root=$(rustc --print sysroot)
@@ -23,7 +24,10 @@ export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NNN
-export NNN_CONTEXT_COLORS='2222'
+# export NNN_CONTEXT_COLORS='2222'
 
 # CMake
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+# nvm
+. /usr/share/nvm/init-nvm.sh

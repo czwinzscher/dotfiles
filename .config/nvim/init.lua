@@ -2,7 +2,13 @@ local cmd = vim.cmd
 local api = vim.api
 
 --- plugins
-require "paq" {
+require 'paq' {
+    'lewis6991/impatient.nvim';
+}
+
+require 'impatient'
+
+require 'paq' {
     'savq/paq-nvim';
 
     'tpope/vim-surround';
@@ -15,16 +21,19 @@ require "paq" {
     'nvim-lua/plenary.nvim';
     'tami5/sql.nvim';
     'nvim-telescope/telescope.nvim';
-    {'nvim-telescope/telescope-fzy-native.nvim', hook='git submodule update --init --recursive' };
-    'nvim-telescope/telescope-frecency.nvim';
     'nvim-telescope/telescope-project.nvim';
     -- 'shoumodip/ido.nvim';
     'neovim/nvim-lspconfig';
     -- 'glepnir/lspsaga.nvim';
     -- 'kosayoda/nvim-lightbulb';
-    {'nvim-treesitter/nvim-treesitter', branch='0.5-compat'};
+    'nvim-treesitter/nvim-treesitter';
     'rafamadriz/friendly-snippets';
-    'hrsh7th/nvim-compe';
+    'hrsh7th/nvim-cmp';
+    'hrsh7th/cmp-buffer';
+    'hrsh7th/cmp-nvim-lsp';
+    'hrsh7th/cmp-path';
+    -- 'hrsh7th/cmp-nvim-lua';
+    'hrsh7th/cmp-vsnip';
     'hrsh7th/vim-vsnip';
     'hrsh7th/vim-vsnip-integ';
     'mg979/vim-visual-multi';
@@ -133,32 +142,29 @@ map('n', 'gel', ':lopen<CR>')
 map('n', '<leader>i', ':e ~/.config/nvim/init.lua<CR>')
 map('t', '<esc>', [[<C-\><C-n>]])
 map('n', '<cr>', [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], {expr = true})
-map('i', '<cr>', [[pumvisible() ? compe#confirm('<cr>') : "\<cr>"]], {expr = true})
 map('n', 'gp', ':bp<cr>')
 map('n', 'gn', ':bn<cr>')
 
 --- treesitter
-require'nvim-treesitter.configs'.setup {
-    -- ensure_installed = {"cpp", "lua", "rust", "go"},
-    highlight = {
-        enable = true,
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
-        },
-    },
-}
+-- require'nvim-treesitter.configs'.setup {
+--     ensure_installed = {"cpp", "lua", "rust", "go"},
+--     highlight = {
+--         enable = true,
+--     },
+--     incremental_selection = {
+--         enable = true,
+--         keymaps = {
+--             init_selection = "gnn",
+--             node_incremental = "grn",
+--             scope_incremental = "grc",
+--             node_decremental = "grm",
+--         },
+--     },
+-- }
 
 --- telescope
 local telescope = require('telescope')
 telescope.setup()
-telescope.load_extension('fzy_native')
-telescope.load_extension('frecency')
 telescope.load_extension('project')
 map('n', '<C-F>', '<cmd>Telescope git_files<cr>')
 map('n', '<C-P>',
@@ -166,20 +172,33 @@ map('n', '<C-P>',
 map('n', '<C-B>', '<cmd>Telescope buffers<cr>')
 map('n', '<leader>gr', [[<cmd>lua require('telescope.builtin').live_grep{ cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1] }<cr>]])
 
---- compe
-require'compe'.setup {
-    min_length = 1,
-  
-    source = {
-        path = true,
-        buffer = true,
-        vsnip = true,
-        nvim_lsp = true,
-        nvim_lua = true,
-        treesitter = true,
+--- cmp
+local cmp = require('cmp')
+cmp.setup {
+    snippet = {
+        expand = function(args)
+            vim.fn['vsnip#anonymous'](args.body)
+        end
+    },
+
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({
+                behavior = cmp.ConfirmBehavior.Insert,
+                select = true,
+            }),
+    },
+
+    sources = {
+        { name = 'buffer' },
+        { name = 'path' },
+        { name = 'vsnip' },
+        { name = 'nvim_lsp' },
     },
 }
-map('i', '<C-Space>', 'compe#complete()', {expr = true, silent = true})
 
 -- vsnip
 map('i', '<C-l>', [[vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>']], {expr = true, silent = true})
@@ -257,19 +276,19 @@ nvim_lsp.tsserver.setup {
     on_attach = lsp_on_attach,
 }
 
-nvim_lsp.sumneko_lua.setup {
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { "vim" },
-            },
-            runtime = {
-                version = "LuaJIT",
-            },
-        },
-    },
-    on_attach = lsp_on_attach,
-}
+-- nvim_lsp.sumneko_lua.setup {
+--     settings = {
+--         Lua = {
+--             diagnostics = {
+--                 globals = { "vim" },
+--             },
+--             runtime = {
+--                 version = "LuaJIT",
+--             },
+--         },
+--     },
+--     on_attach = lsp_on_attach,
+-- }
 
 nvim_lsp.hls.setup{
     on_attach = lsp_on_attach,

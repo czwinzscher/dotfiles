@@ -338,6 +338,10 @@
     "o" 'haskell-evil-open-below
     "O" 'haskell-evil-open-above))
 
+(use-package typescript-mode
+  :defer t
+  :config (setq typescript-indent-level 2))
+
 (use-package ledger-mode
   :defer t
   :hook (ledger-mode . company-mode))

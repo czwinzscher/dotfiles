@@ -13,7 +13,6 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 . /etc/profile.d/vte.sh
 . /usr/share/fzf/key-bindings.zsh
 . /usr/share/fzf/completion.zsh
-. /usr/share/nvm/init-nvm.sh
 
 # https://github.com/gsamokovarov/jump
 eval "$(jump shell)"
