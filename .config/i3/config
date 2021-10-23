@@ -164,6 +164,7 @@ bindsym $mod+Shift+Tab workspace prev
 exec_always --no-startup-id ~/.config/i3/polybar.sh
 
 exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 exec --no-startup-id nextcloud
 exec --no-startup-id dunst
 exec --no-startup-id redshift-gtk
@@ -174,7 +175,7 @@ exec --no-startup-id xcape -e 'Super_L=Super_L|Shift_L|space'
 exec --no-startup-id sxhkd -m 1
 exec --no-startup-id cryptomator
 
-for_window [class="Spotify"] move to workspace $w5
+# for_window [class="Spotify"] move to workspace $w5
 
 for_window [urgent="latest"] focus
 
