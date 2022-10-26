@@ -7,8 +7,9 @@ Checks: >
   -llvm-header-guard,
   -modernize-use-trailing-return-type,
   -altera-struct-pack-align,
-  -llvmlibc-restrict-system-libc-headers,
-  -llvmlibc-callee-namespace,
+  -altera-unroll-loops,
+  -llvmlibc*,
+  -readability-identifier-length,
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
