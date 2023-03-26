@@ -2,6 +2,10 @@
 super + x
     i3lock --color "#000000"
 
+# suspend
+super + l
+    systemctl suspend
+
 # terminal emulator
 super + Return
     gnome-terminal
