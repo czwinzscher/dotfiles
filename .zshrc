@@ -4,7 +4,7 @@ DISABLE_AUTO_UPDATE="true"
 
 # autosuggestions
 . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=6"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff"
 bindkey '^[^M' autosuggest-execute # alt-return
 bindkey '^ ' autosuggest-accept # ctrl-space
 
