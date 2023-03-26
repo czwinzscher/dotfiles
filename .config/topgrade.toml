@@ -1,6 +1,8 @@
 # Disable specific steps - same options as the command line flag
 disable = ["node"]
 
+display_preamble = false
+
 # Run specific steps - same options as the command line flag
 #only = ["system", "emacs"]
 
