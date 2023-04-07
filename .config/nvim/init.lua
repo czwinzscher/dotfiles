@@ -16,7 +16,6 @@ vim.opt.signcolumn = 'no'
 vim.opt.pumheight = 5
 vim.opt.scrolloff = 7
 vim.opt.cinoptions = {'N-s', 'g0', '+0'}
-vim.opt.pastetoggle = '<F6>'
 vim.opt.completeopt = {'menuone', 'noselect'}
 vim.opt.wildignore = {'*.so', '*.swp', '*.zip', '*.o', '*.tar*'}
 vim.opt.shortmess:append('caI')
