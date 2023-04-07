@@ -26,5 +26,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # CMake
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
+# GHCup
+export GHCUP_USE_XDG_DIRS=1
+
 # nvm
 # . /usr/share/nvm/init-nvm.sh
