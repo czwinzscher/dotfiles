@@ -1,5 +1,5 @@
 # Disable specific steps - same options as the command line flag
-disable = ["node"]
+disable = ["node", "ghcup", "stack"]
 
 display_preamble = false
 
