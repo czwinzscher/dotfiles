@@ -8,12 +8,11 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 #[ "$TMUX" = "" ] && export TERM="xterm-256color"
 
+# PATH
+export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin
+
 # GO
 export GOPATH=/home/clemens/go
-
-# PATH
-# export PATH=$PATH:$HOME/.cabal/bin:$HOME/.cargo/bin:$/usr/local/go/bin
-export PATH=$PATH:$HOME/.local/bin
 
 # Rust
 rust_root=$(rustc --print sysroot)
