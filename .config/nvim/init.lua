@@ -311,9 +311,10 @@ require("lazy").setup({
                    ['<Down>'] = cmp.mapping.select_next_item(),
                    ['<C-Space>'] = cmp.mapping.complete(),
                    ['<C-e>'] = cmp.mapping.close(),
-                   ['<Tab>'] = cmp.mapping.confirm({
-                       behavior = cmp.ConfirmBehavior.Insert,
+                   ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+                   ['<CR>'] = cmp.mapping.confirm({
                        select = true,
+                       behavior = cmp.ConfirmBehavior.Replace,
                    }),
                },
 
