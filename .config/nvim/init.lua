@@ -98,13 +98,11 @@ map('n', '<leader>i', ':e ~/.config/nvim/init.lua<CR>')
 map('t', '<esc>', [[<C-\><C-n>]])
 map('n', '<cr>', [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], {expr = true})
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = false,
-        signs = false,
-        update_in_insert = false
-    }
-)
+vim.diagnostic.config({
+    virtual_text = false,
+    signs = false,
+    update_in_insert = false,
+})
 
 -- bootstrap lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -124,7 +122,12 @@ require("lazy").setup({
     "tpope/vim-commentary",
     "jiangmiao/auto-pairs",
     "mg979/vim-visual-multi",
-    "vim-pandoc/vim-pandoc",
+    {
+        "vim-pandoc/vim-pandoc",
+        init = function()
+            vim.g["pandoc#spell#enabled"] = false
+        end,
+    },
     "vim-pandoc/vim-pandoc-syntax",
     "rhysd/git-messenger.vim",
     {
@@ -135,6 +138,7 @@ require("lazy").setup({
         "justinmk/vim-sneak",
         init = function()
             vim.g["sneak#s_next"] = 1
+            vim.g["sneak#use_ic_scs"] = 1
         end,
     },
     {
@@ -238,12 +242,17 @@ require("lazy").setup({
         end,
     },
     {
+        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        config = true,
+    },
+    {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         opts = {
             ensure_installed = "all",
             highlight = {
                 enable = true,
+                disable = { "markdown" },
             },
             incremental_selection = {
                 enable = true,
