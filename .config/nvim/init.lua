@@ -100,6 +100,7 @@ map('n', '<cr>', [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], {expr = true}
 
 vim.diagnostic.config({
     virtual_text = false,
+    virtual_lines = { only_current_line = true },
     signs = false,
     update_in_insert = false,
 })
@@ -196,8 +197,8 @@ require("lazy").setup({
                 buf_map('n', '<leader>r', vim.lsp.buf.rename)
                 buf_map('n', '<leader>a', vim.lsp.buf.code_action)
                 buf_map('n', '<leader>d', vim.diagnostic.open_float)
-                buf_map('n', 'gen', vim.diagnostic.goto_next)
-                buf_map('n', 'gep', vim.diagnostic.goto_prev)
+                buf_map('n', 'gen', function() vim.diagnostic.goto_next {float = false} end)
+                buf_map('n', 'gep', function() vim.diagnostic.goto_prev {float = false} end)
                 buf_map('n', 'gel', vim.diagnostic.setloclist)
 
                 vim.cmd.setlocal([[omnifunc=v:lua.vim.lsp.omnifunc]])
