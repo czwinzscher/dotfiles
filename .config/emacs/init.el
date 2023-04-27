@@ -9,7 +9,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(package-selected-packages
    '(affe consult-lsp vertico-prescient consult vertico flycheck rainbow-delimiters company-prescient prescient lsp-latex auto-package-update key-chord lsp-haskell yaml-mode dockerfile-mode lua-mode lsp-ui ledger-mode htmlize cmake-mode rust-mode haskell-mode go-mode lsp-mode spacemacs-theme exec-path-from-shell org-bullets evil-mc evil-snipe yasnippet-snippets yasnippet evil-matchit evil-nerd-commenter evil-surround company evil magit use-package)))
 
@@ -50,6 +50,13 @@
   (setq enable-recursive-minibuffers t)
   (setq read-process-output-max (* 1024 1024))
   (fset 'yes-or-no-p 'y-or-n-p))
+
+(use-package autorevert
+  :ensure nil
+  :config
+  (setq global-auto-revert-non-file-buffers t)
+  (setq auto-revert-verbose nil)
+  (global-auto-revert-mode))
 
 (use-package frame
   :ensure nil
