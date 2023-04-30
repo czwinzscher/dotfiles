@@ -96,18 +96,9 @@
 (use-package org
   :ensure nil
   :hook (org-mode . visual-line-mode)
-  :bind
-  ("C-c a" . org-agenda)
-  ("C-c c" . org-capture)
   :config
   (setq org-startup-folded 'showall)
-  (setq org-startup-indented 1)
-  (setq org-directory "~/.local/share/Cryptomator/mnt/nextcloud/org")
-  (setq org-agenda-files (list "inbox.org" "agenda.org"))
-  (setq org-agenda-hide-tags-regexp ".")
-  (setq org-capture-templates
-        '(("i" "Inbox" entry (file "inbox.org")
-          "* TODO %?\nEntered on %U"))))
+  (setq org-startup-indented 1))
 
 (use-package ox
   :defer t
@@ -124,7 +115,7 @@
   (exec-path-from-shell-initialize))
 
 (use-package rainbow-delimiters
-  :hook (prog-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package magit
   :bind ("C-x g" . magit-status))
@@ -222,7 +213,7 @@
   :config (yas-reload-all))
 
 (use-package org-bullets
-  :hook (org-mode))
+  :hook (org-mode . org-bullets-mode))
 
 (use-package lsp-mode
   :hook ((c++-mode . lsp)
@@ -242,7 +233,7 @@
   :hook (lsp-mode))
 
 (use-package flycheck
-  :hook (prog-mode)
+  :hook (prog-mode . flycheck-mode)
   :config
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
@@ -264,7 +255,7 @@
     (haskell-indentation-mode -1)))
 
 (use-package company
-  :hook (prog-mode ledger-mode)
+  :hook ((prog-mode ledger-mode org-mode) . company-mode)
   :config
   (setq company-backends
         '((company-files
