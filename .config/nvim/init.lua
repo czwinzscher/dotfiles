@@ -132,6 +132,17 @@ require("lazy").setup({
     "vim-pandoc/vim-pandoc-syntax",
     "rhysd/git-messenger.vim",
     {
+        "TimUntersberger/neogit",
+        dependencies = {"nvim-lua/plenary.nvim"},
+        config = function()
+            local neogit = require("neogit")
+            neogit.setup{
+                kind = "replace",
+                disable_commit_confirmation = true,
+            }
+        end,
+    },
+    {
         "kylechui/nvim-surround",
         config = true,
     },
@@ -157,6 +168,9 @@ require("lazy").setup({
             require("illuminate").configure({
                 under_cursor = false,
                 delay = 500,
+                filetypes_denylist = {
+                    "NeogitStatus",
+                },
             })
         end,
     },
@@ -206,6 +220,7 @@ require("lazy").setup({
 
             local function lsp_on_attach(client)
                 lsp_maps()
+                client.server_capabilities.semanticTokensProvider = nil
             end
 
             nvim_lsp.clangd.setup {
@@ -330,14 +345,19 @@ require("lazy").setup({
     },
     {
         "Th3Whit3Wolf/one-nvim",
-        lazy = true,
+        -- lazy = true,
+        priority = 1000,
+        config = function()
+            vim.cmd.colorscheme('one-nvim')
+        end,
     },
     {
         "Th3Whit3Wolf/space-nvim",
-        priority = 1000,
-        config = function()
-            vim.cmd.colorscheme('space-nvim')
-        end,
+        lazy = true,
+        -- priority = 1000,
+        -- config = function()
+        --     vim.cmd.colorscheme('space-nvim')
+        -- end,
     },
 })
 
