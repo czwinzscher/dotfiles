@@ -11,7 +11,7 @@
  '(custom-safe-themes
    '("7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(package-selected-packages
-   '(affe consult-lsp vertico-prescient consult vertico flycheck rainbow-delimiters company-prescient prescient lsp-latex auto-package-update key-chord lsp-haskell yaml-mode dockerfile-mode lua-mode lsp-ui ledger-mode htmlize cmake-mode rust-mode haskell-mode go-mode lsp-mode spacemacs-theme exec-path-from-shell org-bullets evil-mc evil-snipe yasnippet-snippets yasnippet evil-matchit evil-nerd-commenter evil-surround company evil magit use-package)))
+   '(affe consult-lsp vertico-prescient consult vertico flycheck rainbow-delimiters company-prescient prescient lsp-latex auto-package-update key-chord lsp-haskell yaml-mode dockerfile-mode lua-mode lsp-ui ledger-mode htmlize cmake-mode rust-mode haskell-mode go-mode lsp-mode spacemacs-theme exec-path-from-shell org-bullets evil-mc evil-snipe yasnippet-snippets yasnippet evil-matchit evil-nerd-commenter evil-surround company evil magit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
