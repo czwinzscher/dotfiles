@@ -15,9 +15,9 @@ vim.opt.hidden = true
 vim.opt.signcolumn = 'no'
 vim.opt.pumheight = 5
 vim.opt.scrolloff = 7
-vim.opt.cinoptions = {'N-s', 'g0', '+0'}
-vim.opt.completeopt = {'menuone', 'noselect'}
-vim.opt.wildignore = {'*.so', '*.swp', '*.zip', '*.o', '*.tar*'}
+vim.opt.cinoptions = { 'N-s', 'g0', '+0' }
+vim.opt.completeopt = { 'menuone', 'noselect' }
+vim.opt.wildignore = { '*.so', '*.swp', '*.zip', '*.o', '*.tar*' }
 vim.opt.shortmess:append('caI')
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.listchars = [[tab:  ]]
@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = {"c", "cpp", "cs", "java"},
+    pattern = { "c", "cpp", "cs", "java" },
     callback = function()
         vim.cmd.setlocal([[commentstring=//\ %s]])
     end,
@@ -64,7 +64,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.cmd.command([[DeleteTrailingWhitespace :%s/\s\+$//e]])
 
-local map_default_opts = {silent = true}
+local map_default_opts = { silent = true }
 
 local function map(mode, lhs, rhs, opts)
     local options = opts or map_default_opts
@@ -72,11 +72,15 @@ local function map(mode, lhs, rhs, opts)
 end
 
 local function buf_map(mode, lhs, rhs)
-    map(mode, lhs, rhs, {buffer=true})
+    map(mode, lhs, rhs, { buffer = true })
 end
 
 local function find_git_root()
     local handle = io.popen('git rev-parse --show-toplevel 2> /dev/null')
+    if not handle then
+        return
+    end
+
     local result = handle:read("*a")
     handle:close()
 
@@ -96,7 +100,7 @@ map('x', '<', '<gv')
 map('x', '>', '>gv')
 map('n', '<leader>i', ':e ~/.config/nvim/init.lua<CR>')
 map('t', '<esc>', [[<C-\><C-n>]])
-map('n', '<cr>', [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], {expr = true})
+map('n', '<cr>', [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], { expr = true })
 
 vim.diagnostic.config({
     virtual_text = false,
@@ -108,14 +112,14 @@ vim.diagnostic.config({
 -- bootstrap lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -132,14 +136,15 @@ require("lazy").setup({
     "vim-pandoc/vim-pandoc-syntax",
     "rhysd/git-messenger.vim",
     {
-        "TimUntersberger/neogit",
-        dependencies = {"nvim-lua/plenary.nvim"},
+        "NeogitOrg/neogit",
+        dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             local neogit = require("neogit")
-            neogit.setup{
+            neogit.setup {
                 kind = "replace",
                 disable_commit_confirmation = true,
             }
+            map('n', '<leader>gs', neogit.open)
         end,
     },
     {
@@ -176,7 +181,7 @@ require("lazy").setup({
     },
     {
         "nvim-telescope/telescope.nvim",
-        dependencies = {"nvim-lua/plenary.nvim"},
+        dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             require("telescope").setup {
                 defaults = {
@@ -192,30 +197,35 @@ require("lazy").setup({
                 builtin.live_grep({ cwd = find_git_root() })
             end
 
-            map('n', 'gb', builtin.buffers)
-            map('n', 'go', builtin.oldfiles)
-            map('n', 'gh', builtin.help_tags)
-            map('n', 'gt', find_files_in_project)
-            map('n', 'ga', live_grep_in_project)
+            map('n', '<leader><space>', builtin.buffers)
+            map('n', '<leader>o', builtin.oldfiles)
+            map('n', '<leader>h', builtin.help_tags)
+            map('n', '<leader>t', find_files_in_project)
+            map('n', '<leader>n', live_grep_in_project)
         end,
     },
     {
         "neovim/nvim-lspconfig",
         config = function()
             local nvim_lsp = require("lspconfig")
+            local builtin = require("telescope.builtin")
 
-            function lsp_maps()
+            -- TODO LspAttach autocmd
+            local function lsp_maps()
                 buf_map('n', 'K', vim.lsp.buf.hover)
                 buf_map('n', 'gd', vim.lsp.buf.definition)
-                buf_map('n', '<leader>f', function() vim.lsp.buf.format {async = true} end)
+                buf_map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end)
                 buf_map('n', '<leader>r', vim.lsp.buf.rename)
                 buf_map('n', '<leader>a', vim.lsp.buf.code_action)
                 buf_map('n', '<leader>d', vim.diagnostic.open_float)
-                buf_map('n', 'gen', function() vim.diagnostic.goto_next {float = false} end)
-                buf_map('n', 'gep', function() vim.diagnostic.goto_prev {float = false} end)
-                buf_map('n', 'gel', vim.diagnostic.setloclist)
+                buf_map('n', '<leader>en', function() vim.diagnostic.goto_next { float = false } end)
+                buf_map('n', '<leader>ep', function() vim.diagnostic.goto_prev { float = false } end)
+                buf_map('n', '<leader>el', builtin.diagnostics)
+                buf_map('n', '<leader>s', builtin.lsp_document_symbols)
+                buf_map('n', '<leader>w', builtin.lsp_workspace_symbols)
+                buf_map('n', '<leader>c', builtin.lsp_references)
 
-                vim.cmd.setlocal([[omnifunc=v:lua.vim.lsp.omnifunc]])
+                -- vim.cmd.setlocal([[omnifunc=v:lua.vim.lsp.omnifunc]])
             end
 
             local function lsp_on_attach(client)
@@ -223,8 +233,11 @@ require("lazy").setup({
                 client.server_capabilities.semanticTokensProvider = nil
             end
 
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
             nvim_lsp.clangd.setup {
                 on_attach = lsp_on_attach,
+                capabilities = capabilities,
             }
 
             nvim_lsp.gopls.setup {
@@ -238,22 +251,37 @@ require("lazy").setup({
                     },
                 },
                 on_attach = lsp_on_attach,
+                capabilities = capabilities,
             }
 
             nvim_lsp.rust_analyzer.setup {
                 on_attach = lsp_on_attach,
+                capabilities = capabilities,
             }
 
             nvim_lsp.texlab.setup {
                 on_attach = lsp_on_attach,
+                capabilities = capabilities,
             }
 
             nvim_lsp.tsserver.setup {
                 on_attach = lsp_on_attach,
+                capabilities = capabilities,
             }
 
-            nvim_lsp.hls.setup{
+            nvim_lsp.hls.setup {
                 on_attach = lsp_on_attach,
+                capabilities = capabilities,
+            }
+
+            nvim_lsp.lua_ls.setup {
+                on_attach = lsp_on_attach,
+                capabilities = capabilities,
+            }
+
+            nvim_lsp.jsonls.setup {
+                on_attach = lsp_on_attach,
+                capabilities = capabilities,
             }
         end,
     },
@@ -286,7 +314,7 @@ require("lazy").setup({
     },
     {
         "L3MON4D3/LuaSnip",
-        dependencies = {"rafamadriz/friendly-snippets"},
+        dependencies = { "rafamadriz/friendly-snippets" },
         config = function()
             require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -297,9 +325,9 @@ require("lazy").setup({
                 function()
                     return luasnip.expand_or_jumpable() and "<Plug>luasnip-expand-or-jump" or "<Tab>"
                 end,
-                {expr = true})
+                { expr = true })
             map('s', '<Tab>', function() luasnip.jump(1) end)
-            map({'i', 's'}, '<C-Tab>', function() luasnip.jump(-1) end)
+            map({ 'i', 's' }, '<C-Tab>', function() luasnip.jump(-1) end)
         end,
     },
     {
@@ -307,48 +335,83 @@ require("lazy").setup({
         dependencies = {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
             "saadparwaiz1/cmp_luasnip",
         },
         config = function()
             local cmp = require("cmp")
 
             cmp.setup {
-               snippet = {
-                   expand = function(args)
-                       require("luasnip").lsp_expand(args.body)
-                   end,
-               },
+                snippet = {
+                    expand = function(args)
+                        require("luasnip").lsp_expand(args.body)
+                    end,
+                },
 
-               mapping = {
-                   ['<C-p>'] = cmp.mapping.select_prev_item(),
-                   ['<C-n>'] = cmp.mapping.select_next_item(),
-                   ['<Up>'] = cmp.mapping.select_prev_item(),
-                   ['<Down>'] = cmp.mapping.select_next_item(),
-                   ['<C-Space>'] = cmp.mapping.complete(),
-                   ['<C-e>'] = cmp.mapping.close(),
-                   ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-                   ['<CR>'] = cmp.mapping.confirm({
-                       select = true,
-                       behavior = cmp.ConfirmBehavior.Replace,
-                   }),
-               },
+                mapping = {
+                    ['<C-p>'] = cmp.mapping.select_prev_item(),
+                    ['<C-n>'] = cmp.mapping.select_next_item(),
+                    ['<Up>'] = cmp.mapping.select_prev_item(),
+                    ['<Down>'] = cmp.mapping.select_next_item(),
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.close(),
+                    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+                    ['<CR>'] = cmp.mapping.confirm({
+                        select = true,
+                        behavior = cmp.ConfirmBehavior.Replace,
+                    }),
+                },
 
-               sources = {
-                   { name = 'buffer' },
-                   { name = 'path' },
-                   { name = 'luasnip' },
-                   { name = 'nvim_lsp' },
-               },
-        }
+                sources = {
+                    { name = 'nvim_lsp' },
+                    { name = 'buffer' },
+                    { name = 'path' },
+                    { name = 'luasnip' },
+                    -- { name = 'nvim_lua' },
+                },
+            }
+
+            cmp.setup.cmdline(':', {
+                mapping = cmp.mapping.preset.cmdline(),
+                keyword_length = 3,
+                sources = cmp.config.sources({
+                    { name = 'path' }
+                }, {
+                    { name = 'cmdline' }
+                })
+            })
+
+            cmp.setup.cmdline('/', {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = 'buffer' }
+                }
+            })
         end,
     },
     {
+        "j-hui/fidget.nvim",
+        tag = "legacy",
+        event = "LspAttach",
+        opts = {},
+    },
+    {
         "Th3Whit3Wolf/one-nvim",
+        lazy = true,
+        -- priority = 1000,
+        -- config = function()
+        --     vim.cmd.colorscheme('one-nvim')
+        -- end,
+    },
+    {
+        "bluz71/vim-moonfly-colors",
         -- lazy = true,
         priority = 1000,
         config = function()
-            vim.cmd.colorscheme('one-nvim')
+            vim.g.moonflyVirtualTextColor = true
+            vim.cmd.colorscheme('moonfly')
         end,
     },
     {
@@ -364,5 +427,5 @@ require("lazy").setup({
 vim.api.nvim_set_hl(0, "Search", {})
 vim.api.nvim_set_hl(0, "QuickFixLine", {})
 
-vim.api.nvim_set_hl(0, "TrailingWhitespace", {ctermbg="red", bg="red"})
+vim.api.nvim_set_hl(0, "TrailingWhitespace", { ctermbg = "red", bg = "red" })
 vim.cmd.match([[TrailingWhitespace /\s\+\%#\@<!$/]])
