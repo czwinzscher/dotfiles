@@ -90,12 +90,11 @@ local function find_git_root()
     end
 end
 
-map('', 'r', 'j')
-map('', 'j', 'r')
-map('', 't', 'k')
-map('', 'k', 't')
-map('n', 'Y', 'y$')
-map('i', 'hh', '<esc>')
+map({ 'n', 'x' }, 'r', 'j')
+map({ 'n', 'x' }, 'j', 'r')
+map({ 'n', 'x' }, 't', 'k')
+map({ 'n', 'x' }, 'k', 't')
+-- map('i', 'hh', '<esc>')
 map('x', '<', '<gv')
 map('x', '>', '>gv')
 map('n', '<leader>i', ':e ~/.config/nvim/init.lua<CR>')
@@ -124,9 +123,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    "tpope/vim-commentary",
     "jiangmiao/auto-pairs",
-    "mg979/vim-visual-multi",
     {
         "vim-pandoc/vim-pandoc",
         init = function()
@@ -148,22 +145,55 @@ require("lazy").setup({
         end,
     },
     {
+        "max397574/better-escape.nvim",
+        config = {
+            mapping = { "hh" },
+        },
+    },
+    {
         "kylechui/nvim-surround",
         config = true,
     },
+    -- {
+    --     "justinmk/vim-sneak",
+    --     init = function()
+    --         vim.g["sneak#s_next"] = 1
+    --         vim.g["sneak#use_ic_scs"] = 1
+    --     end,
+    -- },
     {
-        "justinmk/vim-sneak",
-        init = function()
-            vim.g["sneak#s_next"] = 1
-            vim.g["sneak#use_ic_scs"] = 1
-        end,
-    },
-    {
-        "junegunn/vim-slash",
+        "ggandor/leap.nvim",
         config = function()
-            map('n', '<plug>(slash-after)', 'zz')
+            require("leap").add_default_mappings()
+
+            vim.api.nvim_create_autocmd(
+                "User",
+                {
+                    callback = function()
+                        vim.cmd.highlight("Cursor", "blend=100")
+                        vim.opt.guicursor:append { "a:Cursor/lCursor" }
+                    end,
+                    pattern = "LeapEnter"
+                }
+            )
+            vim.api.nvim_create_autocmd(
+                "User",
+                {
+                    callback = function()
+                        vim.cmd.highlight("Cursor", "blend=0")
+                        vim.opt.guicursor:remove { "a:Cursor/lCursor" }
+                    end,
+                    pattern = "LeapLeave"
+                }
+            )
         end,
     },
+    -- {
+    --     "junegunn/vim-slash",
+    --     config = function()
+    --         map('n', '<plug>(slash-after)', 'zz')
+    --     end,
+    -- },
     {
         "RRethy/vim-illuminate",
         config = function()
@@ -202,7 +232,19 @@ require("lazy").setup({
             map('n', '<leader>h', builtin.help_tags)
             map('n', '<leader>t', find_files_in_project)
             map('n', '<leader>n', live_grep_in_project)
+            map('n', '/', builtin.current_buffer_fuzzy_find)
         end,
+    },
+    {
+        "lukas-reineke/lsp-format.nvim",
+        config = {
+            json = {
+                sync = true,
+            },
+            lua = {
+                sync = true,
+            },
+        },
     },
     {
         "neovim/nvim-lspconfig",
@@ -213,7 +255,7 @@ require("lazy").setup({
             -- TODO LspAttach autocmd
             local function lsp_maps()
                 buf_map('n', 'K', vim.lsp.buf.hover)
-                buf_map('n', 'gd', vim.lsp.buf.definition)
+                buf_map('n', 'gd', builtin.lsp_definitions)
                 buf_map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end)
                 buf_map('n', '<leader>r', vim.lsp.buf.rename)
                 buf_map('n', '<leader>a', vim.lsp.buf.code_action)
@@ -222,14 +264,16 @@ require("lazy").setup({
                 buf_map('n', '<leader>ep', function() vim.diagnostic.goto_prev { float = false } end)
                 buf_map('n', '<leader>el', builtin.diagnostics)
                 buf_map('n', '<leader>s', builtin.lsp_document_symbols)
-                buf_map('n', '<leader>w', builtin.lsp_workspace_symbols)
+                buf_map('n', '<leader>w', builtin.lsp_dynamic_workspace_symbols)
                 buf_map('n', '<leader>c', builtin.lsp_references)
+                buf_map('n', '<leader>y', builtin.lsp_type_definitions)
 
                 -- vim.cmd.setlocal([[omnifunc=v:lua.vim.lsp.omnifunc]])
             end
 
             local function lsp_on_attach(client)
                 lsp_maps()
+                require("lsp-format").on_attach(client)
                 client.server_capabilities.semanticTokensProvider = nil
             end
 
@@ -279,6 +323,16 @@ require("lazy").setup({
                 capabilities = capabilities,
             }
 
+            nvim_lsp.html.setup {
+                on_attach = lsp_on_attach,
+                capabilities = capabilities,
+            }
+
+            nvim_lsp.cssls.setup {
+                on_attach = lsp_on_attach,
+                capabilities = capabilities,
+            }
+
             nvim_lsp.jsonls.setup {
                 on_attach = lsp_on_attach,
                 capabilities = capabilities,
@@ -292,6 +346,11 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
+        dependencies = {
+            "JoosepAlviste/nvim-ts-context-commentstring",
+            "windwp/nvim-ts-autotag",
+            "nvim-treesitter/nvim-treesitter-textobjects",
+        },
         opts = {
             ensure_installed = "all",
             highlight = {
@@ -307,9 +366,43 @@ require("lazy").setup({
                     node_decremental = "grm",
                 },
             },
+            indent = {
+                enable = true,
+            },
+            context_commentstring = {
+                enable = true,
+                enable_autocmd = false,
+            },
+            autotag = {
+                enable = true,
+                enable_close_on_slash = false,
+            },
+            textobjects = {
+                select = {
+                    enable = true,
+                    lookahead = true,
+                    keymaps = {
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                        ["ac"] = "@class.outer",
+                        ["ic"] = "@class.inner",
+                        ["aa"] = "@parameter.outer",
+                        ["ia"] = "@parameter.inner",
+                    },
+                },
+            },
         },
         config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)
+        end,
+    },
+    {
+        "numToStr/Comment.nvim",
+        dependencies = { "JoosepAlviste/nvim-ts-context-commentstring", },
+        config = function()
+            require("Comment").setup {
+                pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+            }
         end,
     },
     {
@@ -383,12 +476,12 @@ require("lazy").setup({
                 })
             })
 
-            cmp.setup.cmdline('/', {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = {
-                    { name = 'buffer' }
-                }
-            })
+            -- cmp.setup.cmdline('/', {
+            --     mapping = cmp.mapping.preset.cmdline(),
+            --     sources = {
+            --         { name = 'buffer' }
+            --     }
+            -- })
         end,
     },
     {
@@ -407,11 +500,19 @@ require("lazy").setup({
     },
     {
         "bluz71/vim-moonfly-colors",
+        lazy = true,
+        -- priority = 1000,
+        -- config = function()
+        --     vim.g.moonflyVirtualTextColor = true
+        --     vim.cmd.colorscheme('moonfly')
+        -- end,
+    },
+    {
+        "Mofiqul/adwaita.nvim",
         -- lazy = true,
         priority = 1000,
         config = function()
-            vim.g.moonflyVirtualTextColor = true
-            vim.cmd.colorscheme('moonfly')
+            vim.cmd.colorscheme('adwaita')
         end,
     },
     {
@@ -427,5 +528,5 @@ require("lazy").setup({
 vim.api.nvim_set_hl(0, "Search", {})
 vim.api.nvim_set_hl(0, "QuickFixLine", {})
 
-vim.api.nvim_set_hl(0, "TrailingWhitespace", { ctermbg = "red", bg = "red" })
-vim.cmd.match([[TrailingWhitespace /\s\+\%#\@<!$/]])
+-- vim.api.nvim_set_hl(0, "TrailingWhitespace", { ctermbg = "red", bg = "red" })
+-- vim.cmd.match([[TrailingWhitespace /\s\+\%#\@<!$/]])
