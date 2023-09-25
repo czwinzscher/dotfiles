@@ -90,10 +90,10 @@ local function find_git_root()
     end
 end
 
-map({ 'n', 'x' }, 'r', 'j')
-map({ 'n', 'x' }, 'j', 'r')
-map({ 'n', 'x' }, 't', 'k')
-map({ 'n', 'x' }, 'k', 't')
+map({ 'n', 'x', 'o' }, 'r', 'j')
+map({ 'n', 'x', 'o' }, 'j', 'r')
+map({ 'n', 'x', 'o' }, 't', 'k')
+map({ 'n', 'x', 'o' }, 'k', 't')
 -- map('i', 'hh', '<esc>')
 map('x', '<', '<gv')
 map('x', '>', '>gv')
