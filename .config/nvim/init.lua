@@ -123,14 +123,20 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    "jiangmiao/auto-pairs",
     {
-        "vim-pandoc/vim-pandoc",
-        init = function()
-            vim.g["pandoc#spell#enabled"] = false
+        "rcarriga/nvim-notify",
+        config = function()
+            vim.notify = require("notify")
         end,
     },
-    "vim-pandoc/vim-pandoc-syntax",
+    "jiangmiao/auto-pairs",
+    -- {
+    --     "vim-pandoc/vim-pandoc",
+    --     init = function()
+    --         vim.g["pandoc#spell#enabled"] = false
+    --     end,
+    -- },
+    -- "vim-pandoc/vim-pandoc-syntax",
     "rhysd/git-messenger.vim",
     {
         "NeogitOrg/neogit",
@@ -355,7 +361,7 @@ require("lazy").setup({
             ensure_installed = "all",
             highlight = {
                 enable = true,
-                disable = { "markdown" },
+                -- disable = { "markdown" },
             },
             incremental_selection = {
                 enable = true,
