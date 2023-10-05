@@ -139,6 +139,10 @@ require("lazy").setup({
     -- "vim-pandoc/vim-pandoc-syntax",
     "rhysd/git-messenger.vim",
     {
+        "stevearc/oil.nvim",
+        opts = {},
+    },
+    {
         "NeogitOrg/neogit",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
@@ -160,13 +164,6 @@ require("lazy").setup({
         "kylechui/nvim-surround",
         config = true,
     },
-    -- {
-    --     "justinmk/vim-sneak",
-    --     init = function()
-    --         vim.g["sneak#s_next"] = 1
-    --         vim.g["sneak#use_ic_scs"] = 1
-    --     end,
-    -- },
     {
         "ggandor/leap.nvim",
         config = function()
@@ -273,8 +270,6 @@ require("lazy").setup({
                 buf_map('n', '<leader>w', builtin.lsp_dynamic_workspace_symbols)
                 buf_map('n', '<leader>c', builtin.lsp_references)
                 buf_map('n', '<leader>y', builtin.lsp_type_definitions)
-
-                -- vim.cmd.setlocal([[omnifunc=v:lua.vim.lsp.omnifunc]])
             end
 
             local function lsp_on_attach(client)
@@ -499,23 +494,13 @@ require("lazy").setup({
     {
         "Th3Whit3Wolf/one-nvim",
         lazy = true,
-        -- priority = 1000,
-        -- config = function()
-        --     vim.cmd.colorscheme('one-nvim')
-        -- end,
     },
     {
         "bluz71/vim-moonfly-colors",
         lazy = true,
-        -- priority = 1000,
-        -- config = function()
-        --     vim.g.moonflyVirtualTextColor = true
-        --     vim.cmd.colorscheme('moonfly')
-        -- end,
     },
     {
         "Mofiqul/adwaita.nvim",
-        -- lazy = true,
         priority = 1000,
         config = function()
             vim.cmd.colorscheme('adwaita')
@@ -524,10 +509,6 @@ require("lazy").setup({
     {
         "Th3Whit3Wolf/space-nvim",
         lazy = true,
-        -- priority = 1000,
-        -- config = function()
-        --     vim.cmd.colorscheme('space-nvim')
-        -- end,
     },
 })
 
