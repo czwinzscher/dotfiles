@@ -11,6 +11,10 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 # PATH
 export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin
 
+# Android
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools
+
 # GO
 export GOPATH=/home/clemens/go
 
