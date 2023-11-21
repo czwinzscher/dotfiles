@@ -126,7 +126,9 @@ require("lazy").setup({
     {
         "rcarriga/nvim-notify",
         config = function()
-            vim.notify = require("notify")
+            local notify = require("notify")
+            notify.setup({ timeout = 1000 })
+            vim.notify = notify
         end,
     },
     "jiangmiao/auto-pairs",
@@ -338,6 +340,16 @@ require("lazy").setup({
                 on_attach = lsp_on_attach,
                 capabilities = capabilities,
             }
+
+            nvim_lsp.pyright.setup {
+                on_attach = lsp_on_attach,
+                capabilities = capabilities,
+            }
+
+            nvim_lsp.ruff_lsp.setup {
+                on_attach = lsp_on_attach,
+                capabilities = capabilities,
+            }
         end,
     },
     {
@@ -348,7 +360,6 @@ require("lazy").setup({
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         dependencies = {
-            "JoosepAlviste/nvim-ts-context-commentstring",
             "windwp/nvim-ts-autotag",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
@@ -369,10 +380,6 @@ require("lazy").setup({
             },
             indent = {
                 enable = true,
-            },
-            context_commentstring = {
-                enable = true,
-                enable_autocmd = false,
             },
             autotag = {
                 enable = true,
@@ -396,6 +403,12 @@ require("lazy").setup({
         config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)
         end,
+    },
+    {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        opts = {
+            enable_autocmd = false,
+        },
     },
     {
         "numToStr/Comment.nvim",
@@ -487,8 +500,7 @@ require("lazy").setup({
     },
     {
         "j-hui/fidget.nvim",
-        tag = "legacy",
-        event = "LspAttach",
+        -- event = "LspAttach",
         opts = {},
     },
     {
@@ -497,14 +509,15 @@ require("lazy").setup({
     },
     {
         "bluz71/vim-moonfly-colors",
-        lazy = true,
+        priority = 1000,
+        config = function()
+            vim.g.moonflyVirtualTextColor = true
+            vim.cmd.colorscheme('moonfly')
+        end,
     },
     {
         "Mofiqul/adwaita.nvim",
-        priority = 1000,
-        config = function()
-            vim.cmd.colorscheme('adwaita')
-        end,
+        lazy = true,
     },
     {
         "Th3Whit3Wolf/space-nvim",
