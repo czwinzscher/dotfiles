@@ -142,7 +142,11 @@ require("lazy").setup({
     "rhysd/git-messenger.vim",
     {
         "stevearc/oil.nvim",
-        opts = {},
+        opts = {
+            view_options = {
+                show_hidden = true,
+            }
+        },
     },
     {
         "NeogitOrg/neogit",
