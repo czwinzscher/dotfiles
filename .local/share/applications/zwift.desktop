@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=env DONT_PULL=1 /usr/local/bin/zwift
+Name=zwift
