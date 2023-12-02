@@ -35,7 +35,7 @@ disable = ["node", "ghcup", "stack"]
 #cleanup = true
 
 [linux]
-yay_arguments = "--nodevel"
+yay_arguments = "--devel=false"
 
 # [git]
 # repos = ["~/.zsh-autosuggestions"]
