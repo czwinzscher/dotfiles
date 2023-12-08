@@ -32,7 +32,7 @@ disable = ["node", "ghcup", "stack"]
 #verbose = true
 
 # Cleanup temporary or old files
-#cleanup = true
+cleanup = true
 
 [linux]
 yay_arguments = "--devel=false"
