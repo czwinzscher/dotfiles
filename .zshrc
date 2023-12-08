@@ -16,3 +16,6 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 
 # https://github.com/gsamokovarov/jump
 eval "$(jump shell)"
+
+HISTSIZE=10000000
+SAVEHIST=10000000
