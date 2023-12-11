@@ -345,6 +345,11 @@ require("lazy").setup({
                 capabilities = capabilities,
             }
 
+            nvim_lsp.dockerls.setup {
+                on_attach = lsp_on_attach,
+                capabilities = capabilities,
+            }
+
             nvim_lsp.pyright.setup {
                 on_attach = lsp_on_attach,
                 capabilities = capabilities,
