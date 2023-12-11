@@ -1,12 +1,16 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-export EDITOR=nvim
-export VISUAL=nvim
+if [ -x "$(command -v nvim)" ]; then
+    export EDITOR=nvim
+    export VISUAL=nvim
+else
+    export EDITOR=vim
+    export VISUAL=vim
+fi
+
 export TERMINAL=gnome-terminal
 export BROWSER=firefox
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-
-#[ "$TMUX" = "" ] && export TERM="xterm-256color"
 
 # PATH
 export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin
