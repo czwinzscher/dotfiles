@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "diagnostics": {
+    "globals": [
+      "vim"
+    ],
+    "neededFileStatus": {
+      "codestyle-check": "Any"
+    }
+  },
+  "workspace": {
+    "library": [
+      "/usr/share/nvim/runtime"
+    ]
+  }
+}
