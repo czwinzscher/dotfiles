@@ -11,7 +11,7 @@
  '(custom-safe-themes
    '("7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(package-selected-packages
-   '(affe consult-lsp vertico-prescient consult vertico flycheck rainbow-delimiters company-prescient prescient lsp-latex auto-package-update key-chord lsp-haskell yaml-mode dockerfile-mode lua-mode lsp-ui ledger-mode htmlize cmake-mode rust-mode haskell-mode go-mode lsp-mode spacemacs-theme exec-path-from-shell org-bullets evil-mc evil-snipe yasnippet-snippets yasnippet evil-matchit evil-nerd-commenter evil-surround company evil magit)))
+   '(affe vertico-prescient consult vertico flycheck rainbow-delimiters company-prescient prescient auto-package-update key-chord ledger-mode spacemacs-theme exec-path-from-shell org-bullets evil-snipe evil-matchit evil-nerd-commenter evil-surround company evil magit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -198,61 +198,19 @@
 (use-package evil-matchit
   :config (global-evil-matchit-mode 1))
 
-(use-package evil-mc
-  :config (global-evil-mc-mode 1))
-
 (use-package key-chord
   :config
   (key-chord-mode 1)
   (setq key-chord-two-keys-delay 0.5)
   (key-chord-define evil-insert-state-map "hh" 'evil-normal-state))
 
-(use-package yasnippet
-  :hook ((prog-mode . yas-minor-mode)
-         (latex-mode . yas-minor-mode))
-  :config (yas-reload-all))
-
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode))
-
-(use-package lsp-mode
-  :hook ((c++-mode . lsp)
-         (go-mode . lsp)
-         (haskell-mode . lsp)
-         (rust-mode . lsp)
-         (latex-mode . lsp)
-         (typescript-mode . lsp))
-  :init (setq lsp-keymap-prefix "C-c l")
-  :config
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-symbol-highlighting-skip-current t)
-  (setq lsp-response-timeout 25)
-  (setq lsp-file-watch-threshold nil))
-
-(use-package lsp-ui
-  :hook (lsp-mode))
 
 (use-package flycheck
   :hook (prog-mode . flycheck-mode)
   :config
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
-(use-package cc-mode
-  :ensure nil
-  :hook ((c++-mode . my-c++-mode-hook)
-         (c-mode . my-c-mode-hook))
-  :config
-  (defun my-c++-mode-hook()
-    (setq c-basic-offset 4)
-    (c-set-offset 'innamespace [0]))
-  (defun my-c-mode-hook()
-    (setq c-basic-offset 4)))
-
-(use-package haskell-mode
-  :hook (haskell-mode . my-haskell-mode-hook)
-  :config
-  (defun my-haskell-mode-hook()
-    (haskell-indentation-mode -1)))
 
 (use-package company
   :hook ((prog-mode ledger-mode org-mode) . company-mode)
