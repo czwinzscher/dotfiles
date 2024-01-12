@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: time_stop
-# key: time_stop
-# --
-auto stop = std::chrono::steady_clock::now();
-std::chrono::duration<double> d = stop - start;
-std::cout << d.count() << " s\n";
