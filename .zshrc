@@ -5,10 +5,12 @@ DISABLE_AUTO_UPDATE="true"
 # autosuggestions
 if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff"
-    bindkey '^[^M' autosuggest-execute # alt-return
-    bindkey '^ ' autosuggest-accept # ctrl-space
+elif [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff"
+bindkey '^[^M' autosuggest-execute # alt-return
+bindkey '^ ' autosuggest-accept # ctrl-space
 
 . ~/.bash_aliases
 . ~/.inputrc
