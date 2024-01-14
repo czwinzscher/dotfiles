@@ -24,8 +24,7 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && . /usr/share/doc/fzf/examples/key-bindings.zsh
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && . /usr/share/doc/fzf/examples/completion.zsh
 
-# https://github.com/gsamokovarov/jump
-eval "$(jump shell)"
+eval "$(zoxide init --cmd r zsh)"
 
 HISTSIZE=10000000
 SAVEHIST=10000000
