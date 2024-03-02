@@ -1,5 +1,3 @@
-alias ..='cd ..'
-alias ...="cd ../.."
 alias rmf='rm -rf'
 alias mkdir='mkdir -p'
 alias c='clear'
