@@ -11,7 +11,7 @@
  '(custom-safe-themes
    '("7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(package-selected-packages
-   '(affe vertico-prescient consult vertico flycheck rainbow-delimiters company-prescient prescient auto-package-update key-chord ledger-mode spacemacs-theme exec-path-from-shell org-bullets evil-snipe evil-matchit evil-nerd-commenter evil-surround company evil magit)))
+   '(affe vertico-prescient consult vertico rainbow-delimiters company-prescient prescient auto-package-update key-chord spacemacs-theme exec-path-from-shell org-bullets evil-snipe evil-matchit evil-nerd-commenter evil-surround company evil magit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -158,8 +158,6 @@
     (message ""))
   (evil-mode 1)
   (evil-set-initial-state 'dired-mode 'emacs)
-  (evil-set-initial-state 'ledger-report-mode 'emacs)
-  (evil-set-initial-state 'flycheck-error-list-mode 'emacs)
   (evil-set-initial-state 'Buffer-menu-mode 'emacs)
   (setq evil-vsplit-window-right t)
   (setq evil-mode-line-format 'nil)
@@ -168,9 +166,6 @@
   :bind (:map evil-normal-state-map
               ("gc" . evilnc-comment-or-uncomment-lines)
               ("gs" . magit-status)
-              ("gel" . flycheck-list-errors)
-              ("gen" . flycheck-next-error)
-              ("gep" . flycheck-previous-error)
               ("gt" . affe-find)
               ("ga" . affe-grep)
               ("gb" . consult-buffer)
@@ -207,13 +202,8 @@
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode))
 
-(use-package flycheck
-  :hook (prog-mode . flycheck-mode)
-  :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
 (use-package company
-  :hook ((prog-mode ledger-mode org-mode) . company-mode)
+  :hook ((prog-mode org-mode) . company-mode)
   :config
   (setq company-backends
         '((company-files
