@@ -1,4 +1,3 @@
-ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
 . $ZSH/oh-my-zsh.sh
 
@@ -24,7 +23,14 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && . /usr/share/doc/fzf/examples/key-bindings.zsh
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && . /usr/share/doc/fzf/examples/completion.zsh
 
+eval "$(starship init zsh)"
 eval "$(zoxide init --cmd r zsh)"
 
 HISTSIZE=10000000
 SAVEHIST=10000000
+
+export PNPM_HOME="/home/clemens/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
