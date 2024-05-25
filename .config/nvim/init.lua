@@ -12,6 +12,7 @@ vim.opt.breakindent = true
 vim.opt.confirm = true
 vim.opt.termguicolors = true
 vim.opt.hidden = true
+vim.opt.cursorline = true
 vim.opt.signcolumn = "no"
 vim.opt.pumheight = 5
 vim.opt.scrolloff = 7
@@ -94,7 +95,6 @@ map({ "n", "x", "o" }, "r", "j")
 map({ "n", "x", "o" }, "j", "r")
 map({ "n", "x", "o" }, "t", "k")
 map({ "n", "x", "o" }, "k", "t")
--- map('i', 'hh', '<esc>')
 map("x", "<", "<gv")
 map("x", ">", ">gv")
 map("n", "<leader>i", ":e ~/.config/nvim/init.lua<CR>")
@@ -103,14 +103,12 @@ map("n", "<cr>", [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], { expr = true
 
 vim.diagnostic.config({
   virtual_text = false,
-  virtual_lines = { only_current_line = true },
   signs = false,
-  update_in_insert = false,
 })
 
 -- bootstrap lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -132,7 +130,6 @@ require("lazy").setup({
     end,
   },
   "jiangmiao/auto-pairs",
-  "rhysd/git-messenger.vim",
   {
     "stevearc/oil.nvim",
     opts = {
@@ -141,6 +138,7 @@ require("lazy").setup({
       },
     },
   },
+  "rhysd/git-messenger.vim",
   {
     "NeogitOrg/neogit",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -149,6 +147,7 @@ require("lazy").setup({
       neogit.setup {
         kind = "replace",
         disable_commit_confirmation = true,
+        disable_hint = true,
       }
       map("n", "<leader>gs", neogit.open)
     end,
@@ -162,6 +161,10 @@ require("lazy").setup({
   {
     "kylechui/nvim-surround",
     config = true,
+  },
+  {
+    "nvim-focus/focus.nvim",
+    opts = {},
   },
   {
     "ggandor/leap.nvim",
@@ -190,12 +193,6 @@ require("lazy").setup({
       )
     end,
   },
-  -- {
-  --     "junegunn/vim-slash",
-  --     config = function()
-  --         map('n', '<plug>(slash-after)', 'zz')
-  --     end,
-  -- },
   {
     "RRethy/vim-illuminate",
     config = function()
@@ -238,27 +235,22 @@ require("lazy").setup({
     end,
   },
   {
-    "lukas-reineke/lsp-format.nvim",
-    config = {
-      json = {
-        sync = true,
-      },
-      lua = {
-        sync = true,
-      },
-    },
-  },
-  {
     "neovim/nvim-lspconfig",
     config = function()
       local nvim_lsp = require("lspconfig")
       local builtin = require("telescope.builtin")
 
       -- TODO LspAttach autocmd
-      local function lsp_maps()
-        buf_map("n", "K", vim.lsp.buf.hover)
+      local function lsp_on_attach(_, bufnr)
+        local lsp_format = function()
+          vim.lsp.buf.format {
+            -- async = true,
+            filter = function(client) return client.name ~= "tsserver" end,
+          }
+        end
+
         buf_map("n", "gd", builtin.lsp_definitions)
-        buf_map("n", "<leader>f", function() vim.lsp.buf.format { async = true } end)
+        buf_map("n", "<leader>f", lsp_format)
         buf_map("n", "<leader>r", vim.lsp.buf.rename)
         buf_map("n", "<leader>a", vim.lsp.buf.code_action)
         buf_map("n", "<leader>d", vim.diagnostic.open_float)
@@ -269,12 +261,16 @@ require("lazy").setup({
         buf_map("n", "<leader>w", builtin.lsp_dynamic_workspace_symbols)
         buf_map("n", "<leader>c", builtin.lsp_references)
         buf_map("n", "<leader>y", builtin.lsp_type_definitions)
-      end
 
-      local function lsp_on_attach(client)
-        lsp_maps()
-        require("lsp-format").on_attach(client)
-        client.server_capabilities.semanticTokensProvider = nil
+        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = augroup,
+          buffer = bufnr,
+          callback = lsp_format,
+        })
+
+        -- client.server_capabilities.semanticTokensProvider = nil
       end
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -299,6 +295,13 @@ require("lazy").setup({
       }
 
       nvim_lsp.rust_analyzer.setup {
+        settings = {
+          ["rust-analyzer"] = {
+            check = {
+              command = "clippy",
+            },
+          },
+        },
         on_attach = lsp_on_attach,
         capabilities = capabilities,
       }
@@ -323,6 +326,11 @@ require("lazy").setup({
         capabilities = capabilities,
       }
 
+      nvim_lsp.bashls.setup {
+        on_attach = lsp_on_attach,
+        capabilities = capabilities,
+      }
+
       nvim_lsp.html.setup {
         on_attach = lsp_on_attach,
         capabilities = capabilities,
@@ -334,6 +342,11 @@ require("lazy").setup({
       }
 
       nvim_lsp.jsonls.setup {
+        on_attach = lsp_on_attach,
+        capabilities = capabilities,
+      }
+
+      nvim_lsp.yamlls.setup {
         on_attach = lsp_on_attach,
         capabilities = capabilities,
       }
@@ -352,11 +365,19 @@ require("lazy").setup({
         on_attach = lsp_on_attach,
         capabilities = capabilities,
       }
+
+      nvim_lsp.biome.setup {
+        on_attach = lsp_on_attach,
+        capabilities = capabilities,
+      }
     end,
   },
   {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    config = true,
+    "dgagn/diagflow.nvim",
+    event = "LspAttach",
+    opts = {
+      scope = "line",
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -407,19 +428,9 @@ require("lazy").setup({
     end,
   },
   {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    opts = {
-      enable_autocmd = false,
-    },
-  },
-  {
-    "numToStr/Comment.nvim",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    config = function()
-      require("Comment").setup {
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      }
-    end,
+    "folke/ts-comments.nvim",
+    opts = {},
+    event = "VeryLazy",
   },
   {
     "L3MON4D3/LuaSnip",
@@ -491,13 +502,6 @@ require("lazy").setup({
           { name = "cmdline" },
         }),
       })
-
-      -- cmp.setup.cmdline('/', {
-      --     mapping = cmp.mapping.preset.cmdline(),
-      --     sources = {
-      --         { name = 'buffer' }
-      --     }
-      -- })
     end,
   },
   {
@@ -518,10 +522,6 @@ require("lazy").setup({
   },
   {
     "Mofiqul/adwaita.nvim",
-    lazy = true,
-  },
-  {
-    "Th3Whit3Wolf/space-nvim",
     lazy = true,
   },
 })
