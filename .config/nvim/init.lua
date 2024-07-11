@@ -154,8 +154,14 @@ require("lazy").setup({
   },
   {
     "max397574/better-escape.nvim",
-    config = {
-      mapping = { "hh" },
+    opts = {
+      mappings = {
+        i = {
+          h = {
+            h = "<Esc>",
+          },
+        },
+      },
     },
   },
   {
@@ -347,6 +353,11 @@ require("lazy").setup({
       }
 
       nvim_lsp.yamlls.setup {
+        on_attach = lsp_on_attach,
+        capabilities = capabilities,
+      }
+
+      nvim_lsp.docker_compose_language_service.setup {
         on_attach = lsp_on_attach,
         capabilities = capabilities,
       }

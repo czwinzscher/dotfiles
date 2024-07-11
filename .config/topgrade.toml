@@ -1,6 +1,6 @@
 [misc]
 # Disable specific steps - same options as the command line flag
-disable = ["node", "ghcup", "stack"]
+disable = ["node", "ghcup"]
 
 # Run specific steps - same options as the command line flag
 #only = ["system", "emacs"]
@@ -37,5 +37,7 @@ cleanup = true
 [linux]
 yay_arguments = "--devel=false"
 
-# [git]
-# repos = ["~/.zsh-autosuggestions"]
+[git]
+repos = [
+    "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/"
+]

@@ -1,12 +1,8 @@
 DISABLE_AUTO_UPDATE="true"
+plugins=(zsh-autosuggestions)
 . $ZSH/oh-my-zsh.sh
 
 # autosuggestions
-if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-elif [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff"
 bindkey '^[^M' autosuggest-execute # alt-return
 bindkey '^ ' autosuggest-accept # ctrl-space
