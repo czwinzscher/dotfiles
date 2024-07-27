@@ -372,7 +372,7 @@ require("lazy").setup({
         capabilities = capabilities,
       }
 
-      nvim_lsp.ruff_lsp.setup {
+      nvim_lsp.ruff.setup {
         on_attach = lsp_on_attach,
         capabilities = capabilities,
       }
