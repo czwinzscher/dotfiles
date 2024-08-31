@@ -2,6 +2,9 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(zsh-autosuggestions)
 . $ZSH/oh-my-zsh.sh
 
+HISTSIZE=10000000
+SAVEHIST=10000000
+
 # autosuggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff"
 bindkey '^[^M' autosuggest-execute # alt-return
@@ -21,9 +24,7 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd r zsh)"
-
-HISTSIZE=10000000
-SAVEHIST=10000000
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 export PNPM_HOME="/home/clemens/.local/share/pnpm"
 case ":$PATH:" in
