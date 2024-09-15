@@ -245,13 +245,14 @@ require("lazy").setup({
     config = function()
       local nvim_lsp = require("lspconfig")
       local builtin = require("telescope.builtin")
+      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
       -- TODO LspAttach autocmd
-      local function lsp_on_attach(_, bufnr)
+      local function lsp_on_attach(client, bufnr)
         local lsp_format = function()
           vim.lsp.buf.format {
             -- async = true,
-            filter = function(client) return client.name ~= "tsserver" end,
+            filter = function(c) return c.name ~= "tsserver" end,
           }
         end
 
@@ -268,7 +269,6 @@ require("lazy").setup({
         buf_map("n", "<leader>c", builtin.lsp_references)
         buf_map("n", "<leader>y", builtin.lsp_type_definitions)
 
-        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
         vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
         vim.api.nvim_create_autocmd("BufWritePre", {
           group = augroup,
@@ -276,7 +276,7 @@ require("lazy").setup({
           callback = lsp_format,
         })
 
-        -- client.server_capabilities.semanticTokensProvider = nil
+        client.server_capabilities.semanticTokensProvider = nil
       end
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -317,7 +317,7 @@ require("lazy").setup({
         capabilities = capabilities,
       }
 
-      nvim_lsp.tsserver.setup {
+      nvim_lsp.ts_ls.setup {
         on_attach = lsp_on_attach,
         capabilities = capabilities,
       }
@@ -352,10 +352,10 @@ require("lazy").setup({
         capabilities = capabilities,
       }
 
-      nvim_lsp.yamlls.setup {
-        on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      -- nvim_lsp.yamlls.setup {
+      --   on_attach = lsp_on_attach,
+      --   capabilities = capabilities,
+      -- }
 
       nvim_lsp.docker_compose_language_service.setup {
         on_attach = lsp_on_attach,
@@ -394,7 +394,6 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = {
-      "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = {
@@ -415,10 +414,6 @@ require("lazy").setup({
       indent = {
         enable = true,
       },
-      autotag = {
-        enable = true,
-        enable_close_on_slash = false,
-      },
       textobjects = {
         select = {
           enable = true,
@@ -437,6 +432,10 @@ require("lazy").setup({
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {},
   },
   {
     "folke/ts-comments.nvim",
