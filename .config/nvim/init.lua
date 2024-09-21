@@ -229,7 +229,7 @@ require("lazy").setup({
         builtin.find_files({ cwd = find_git_root(), hidden = true })
       end
       local function live_grep_in_project()
-        builtin.live_grep({ cwd = find_git_root() })
+        builtin.live_grep({ cwd = find_git_root(), additional_args = { "--hidden" } })
       end
 
       map("n", "<leader><space>", builtin.buffers)
