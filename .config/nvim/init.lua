@@ -15,7 +15,7 @@ vim.opt.hidden = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = "no"
 vim.opt.pumheight = 5
-vim.opt.scrolloff = 7
+vim.opt.scrolloff = 10
 vim.opt.cinoptions = { "N-s", "g0", "+0" }
 vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.wildignore = { "*.so", "*.swp", "*.zip", "*.o", "*.tar*" }
@@ -317,6 +317,14 @@ require("lazy").setup({
         capabilities = capabilities,
       }
 
+      nvim_lsp.tinymist.setup {
+        on_attach = lsp_on_attach,
+        capabilities = capabilities,
+        settings = {
+          formatterMode = "typstyle",
+        },
+      }
+
       nvim_lsp.ts_ls.setup {
         on_attach = lsp_on_attach,
         capabilities = capabilities,
@@ -400,7 +408,7 @@ require("lazy").setup({
       ensure_installed = "all",
       highlight = {
         enable = true,
-        -- disable = { "markdown" },
+        disable = { "markdown" },
       },
       incremental_selection = {
         enable = true,
@@ -496,7 +504,12 @@ require("lazy").setup({
 
         sources = {
           { name = "nvim_lsp" },
-          { name = "buffer" },
+          {
+            name = "buffer",
+            option = {
+              keyword_pattern = [[\k\+]],
+            },
+          },
           { name = "path" },
           { name = "luasnip" },
           -- { name = 'nvim_lua' },
@@ -517,10 +530,6 @@ require("lazy").setup({
   {
     "j-hui/fidget.nvim",
     opts = {},
-  },
-  {
-    "Th3Whit3Wolf/one-nvim",
-    lazy = true,
   },
   {
     "bluz71/vim-moonfly-colors",
