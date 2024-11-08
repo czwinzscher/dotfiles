@@ -36,7 +36,6 @@ vim.opt.wildignorecase = true
 vim.opt.inccommand = "nosplit"
 
 vim.g.loaded_python_provider = 0
-vim.g.python3_host_prog = "/usr/bin/python"
 vim.g.netrw_dirhistmax = 0
 vim.g.mapleader = " "
 
