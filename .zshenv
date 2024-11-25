@@ -10,7 +10,6 @@ fi
 
 export TERMINAL=gnome-terminal
 export BROWSER=firefox
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 # PATH
 export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin
@@ -35,6 +34,3 @@ export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 # GHCup
 export GHCUP_USE_XDG_DIRS=1
-
-# nvm
-# . /usr/share/nvm/init-nvm.sh
