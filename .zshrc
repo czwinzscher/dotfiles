@@ -12,7 +12,6 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 
 . ~/.bash_aliases
 . ~/.inputrc
-[ -f /etc/profile.d/vte.sh ] && . /etc/profile.d/vte.sh
 
 # fzf
 # arch
