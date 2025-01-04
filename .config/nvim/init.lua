@@ -10,7 +10,6 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.breakindent = true
 vim.opt.confirm = true
-vim.opt.termguicolors = true
 vim.opt.hidden = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = "no"
@@ -128,7 +127,11 @@ require("lazy").setup({
       vim.notify = notify
     end,
   },
-  "jiangmiao/auto-pairs",
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+  },
   {
     "stevearc/oil.nvim",
     opts = {
@@ -228,7 +231,7 @@ require("lazy").setup({
         builtin.find_files({ cwd = find_git_root(), hidden = true })
       end
       local function live_grep_in_project()
-        builtin.live_grep({ cwd = find_git_root(), additional_args = { "--hidden" } })
+        builtin.live_grep({ cwd = find_git_root(), glob_pattern = { "!.git/" }, additional_args = { "--hidden" } })
       end
 
       map("n", "<leader><space>", builtin.buffers)
@@ -241,6 +244,7 @@ require("lazy").setup({
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = { "saghen/blink.cmp" },
     config = function()
       local nvim_lsp = require("lspconfig")
       local builtin = require("telescope.builtin")
@@ -251,7 +255,7 @@ require("lazy").setup({
         local lsp_format = function()
           vim.lsp.buf.format {
             -- async = true,
-            filter = function(c) return c.name ~= "tsserver" end,
+            filter = function(c) return c.name ~= "ts_ls" end,
           }
         end
 
@@ -278,7 +282,7 @@ require("lazy").setup({
         client.server_capabilities.semanticTokensProvider = nil
       end
 
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
       nvim_lsp.clangd.setup {
         on_attach = lsp_on_attach,
@@ -450,81 +454,16 @@ require("lazy").setup({
     event = "VeryLazy",
   },
   {
-    "L3MON4D3/LuaSnip",
+    "saghen/blink.cmp",
     dependencies = { "rafamadriz/friendly-snippets" },
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
-
-      local luasnip = require("luasnip")
-
-      map("i",
-        "<Tab>",
-        function()
-          return luasnip.expand_or_jumpable() and "<Plug>luasnip-expand-or-jump" or "<Tab>"
-        end,
-        { expr = true })
-      map("s", "<Tab>", function() luasnip.jump(1) end)
-      map({ "i", "s" }, "<C-Tab>", function() luasnip.jump(-1) end)
-    end,
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "saadparwaiz1/cmp_luasnip",
+    version = "*",
+    opts = {
+      keymap = { preset = "enter", cmdline = { preset = "super-tab" } },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+      signature = { enabled = true },
     },
-    config = function()
-      local cmp = require("cmp")
-
-      cmp.setup {
-        snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end,
-        },
-
-        mapping = {
-          ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-n>"] = cmp.mapping.select_next_item(),
-          ["<Up>"] = cmp.mapping.select_prev_item(),
-          ["<Down>"] = cmp.mapping.select_next_item(),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.close(),
-          ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-          ["<CR>"] = cmp.mapping.confirm({
-            select = true,
-            behavior = cmp.ConfirmBehavior.Replace,
-          }),
-        },
-
-        sources = {
-          { name = "nvim_lsp" },
-          {
-            name = "buffer",
-            option = {
-              keyword_pattern = [[\k\+]],
-            },
-          },
-          { name = "path" },
-          { name = "luasnip" },
-          -- { name = 'nvim_lua' },
-        },
-      }
-
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        keyword_length = 3,
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-        }),
-      })
-    end,
   },
   {
     "j-hui/fidget.nvim",
