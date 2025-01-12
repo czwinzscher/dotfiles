@@ -231,7 +231,11 @@ require("lazy").setup({
 
       local builtin = require("telescope.builtin")
       local function find_files_in_project()
-        builtin.find_files({ cwd = find_git_root(), hidden = true })
+        builtin.find_files({
+          cwd = find_git_root(),
+          find_command = { "fd", "--type", "f", "--type", "d" },
+          hidden = true,
+        })
       end
       local function live_grep_in_project()
         builtin.live_grep({ cwd = find_git_root(), glob_pattern = { "!.git/" }, additional_args = { "--hidden" } })
