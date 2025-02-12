@@ -205,6 +205,15 @@ require("lazy").setup({
     end,
   },
   {
+    "stevearc/conform.nvim",
+    opts = {
+      default_format_opts = {
+        lsp_format = "fallback",
+      },
+      format_on_save = {},
+    },
+  },
+  {
     "RRethy/vim-illuminate",
     config = function()
       vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "LspReferenceText" })
@@ -255,14 +264,12 @@ require("lazy").setup({
     config = function()
       local nvim_lsp = require("lspconfig")
       local builtin = require("telescope.builtin")
-      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
       -- TODO LspAttach autocmd
       local function lsp_on_attach(client, bufnr)
         local lsp_format = function()
-          vim.lsp.buf.format {
-            -- async = true,
-            filter = function(c) return c.name ~= "ts_ls" end,
+          require("conform").format {
+            bufnr = bufnr,
           }
         end
 
@@ -278,13 +285,6 @@ require("lazy").setup({
         buf_map("n", "<leader>w", builtin.lsp_dynamic_workspace_symbols)
         buf_map("n", "<leader>c", builtin.lsp_references)
         buf_map("n", "<leader>y", builtin.lsp_type_definitions)
-
-        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = augroup,
-          buffer = bufnr,
-          callback = lsp_format,
-        })
 
         client.server_capabilities.semanticTokensProvider = nil
       end
@@ -483,6 +483,10 @@ require("lazy").setup({
       vim.g.moonflyVirtualTextColor = true
       vim.cmd.colorscheme("moonfly")
     end,
+  },
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    lazy = true,
   },
   {
     "Mofiqul/adwaita.nvim",
