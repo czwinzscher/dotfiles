@@ -465,7 +465,12 @@ require("lazy").setup({
     dependencies = { "rafamadriz/friendly-snippets" },
     version = "*",
     opts = {
-      keymap = { preset = "enter", cmdline = { preset = "super-tab" } },
+      keymap = { preset = "enter" },
+      cmdline = {
+        keymap = {
+          preset = "super-tab",
+        },
+      },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
       },
