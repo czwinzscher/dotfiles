@@ -235,6 +235,7 @@ require("lazy").setup({
       require("telescope").setup {
         defaults = {
           layout_strategy = "vertical",
+          path_display = { "truncate" },
         },
       }
 
