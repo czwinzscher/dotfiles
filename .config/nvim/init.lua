@@ -489,15 +489,20 @@ require("lazy").setup({
   },
   {
     "bluz71/vim-moonfly-colors",
-    priority = 1000,
-    config = function()
-      vim.g.moonflyVirtualTextColor = true
-      vim.cmd.colorscheme("moonfly")
-    end,
+    lazy = true,
+    -- priority = 1000,
+    -- config = function()
+    --   vim.g.moonflyVirtualTextColor = true
+    --   vim.cmd.colorscheme("moonfly")
+    -- end,
   },
   {
     "nyoom-engineering/oxocarbon.nvim",
-    lazy = true,
+    -- lazy = true,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("oxocarbon")
+    end,
   },
   {
     "Mofiqul/adwaita.nvim",
