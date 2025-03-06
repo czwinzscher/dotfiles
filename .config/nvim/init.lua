@@ -471,6 +471,11 @@ require("lazy").setup({
         keymap = {
           preset = "super-tab",
         },
+        completion = {
+          menu = {
+            auto_show = true,
+          },
+        },
       },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
