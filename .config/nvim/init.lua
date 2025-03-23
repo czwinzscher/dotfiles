@@ -102,6 +102,9 @@ map("n", "<cr>", [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], { expr = true
 vim.diagnostic.config({
   virtual_text = false,
   signs = false,
+  virtual_lines = {
+    only_current_line = true,
+  },
 })
 
 -- bootstrap lazy
@@ -403,11 +406,8 @@ require("lazy").setup({
     end,
   },
   {
-    "dgagn/diagflow.nvim",
-    event = "LspAttach",
-    opts = {
-      scope = "line",
-    },
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    opts = {},
   },
   {
     "nvim-treesitter/nvim-treesitter",
