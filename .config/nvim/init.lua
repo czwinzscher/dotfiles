@@ -373,6 +373,11 @@ require("lazy").setup({
         capabilities = capabilities,
       }
 
+      nvim_lsp.tailwindcss.setup {
+        on_attach = lsp_on_attach,
+        capabilities = capabilities,
+      }
+
       nvim_lsp.jsonls.setup {
         on_attach = lsp_on_attach,
         capabilities = capabilities,
