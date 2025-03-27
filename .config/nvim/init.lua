@@ -22,6 +22,7 @@ vim.opt.shortmess:append("caI")
 vim.opt.clipboard = "unnamedplus"
 vim.opt.listchars = [[tab:  ]]
 vim.opt.fillchars = [[eob: ]]
+vim.opt.winborder = "rounded"
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
@@ -100,10 +101,10 @@ map("t", "<esc>", [[<C-\><C-n>]])
 map("n", "<cr>", [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], { expr = true })
 
 vim.diagnostic.config({
-  virtual_text = false,
   signs = false,
+  -- virtual_lines = true,
   virtual_lines = {
-    only_current_line = true,
+    current_line = true,
   },
 })
 
@@ -413,10 +414,6 @@ require("lazy").setup({
         capabilities = capabilities,
       }
     end,
-  },
-  {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    opts = {},
   },
   {
     "nvim-treesitter/nvim-treesitter",
