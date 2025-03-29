@@ -287,8 +287,8 @@ require("lazy").setup({
         buf_map("n", "<leader>r", vim.lsp.buf.rename)
         buf_map("n", "<leader>a", vim.lsp.buf.code_action)
         buf_map("n", "<leader>d", vim.diagnostic.open_float)
-        buf_map("n", "<leader>en", function() vim.diagnostic.goto_next { float = false } end)
-        buf_map("n", "<leader>ep", function() vim.diagnostic.goto_prev { float = false } end)
+        buf_map("n", "<leader>en", function() vim.diagnostic.jump { count = 1, float = false } end)
+        buf_map("n", "<leader>ep", function() vim.diagnostic.jump { count = -1, float = false } end)
         buf_map("n", "<leader>el", builtin.diagnostics)
         buf_map("n", "<leader>s", builtin.lsp_document_symbols)
         buf_map("n", "<leader>w", builtin.lsp_dynamic_workspace_symbols)
@@ -494,25 +494,16 @@ require("lazy").setup({
     opts = {},
   },
   {
-    "bluz71/vim-moonfly-colors",
+    "catppuccin/nvim",
     lazy = true,
-    -- priority = 1000,
-    -- config = function()
-    --   vim.g.moonflyVirtualTextColor = true
-    --   vim.cmd.colorscheme("moonfly")
-    -- end,
+    name = "catppuccin",
   },
   {
-    "nyoom-engineering/oxocarbon.nvim",
-    -- lazy = true,
+    "folke/tokyonight.nvim",
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme("oxocarbon")
+      vim.cmd.colorscheme("tokyonight-night")
     end,
-  },
-  {
-    "Mofiqul/adwaita.nvim",
-    lazy = true,
   },
 })
 
