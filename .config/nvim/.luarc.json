@@ -5,7 +5,8 @@
   },
   "diagnostics": {
     "globals": [
-      "vim"
+      "vim",
+      "Snacks"
     ],
     "neededFileStatus": {
       "codestyle-check": "Any"
