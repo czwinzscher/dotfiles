@@ -75,21 +75,6 @@ local function buf_map(mode, lhs, rhs)
   map(mode, lhs, rhs, { buffer = true })
 end
 
-local function find_git_root()
-  local handle = io.popen("git rev-parse --show-toplevel 2> /dev/null")
-  if not handle then
-    return
-  end
-
-  local result = handle:read("*a")
-  handle:close()
-
-  local dir = string.sub(result, 1, string.len(result) - 1)
-  if dir ~= "" then
-    return dir
-  end
-end
-
 map({ "n", "x", "o" }, "r", "j")
 map({ "n", "x", "o" }, "j", "r")
 map({ "n", "x", "o" }, "t", "k")
@@ -124,17 +109,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
-    "rcarriga/nvim-notify",
-    config = function()
-      local notify = require("notify")
-      notify.setup({
-        timeout = 1000,
-        background_colour = "#000000",
-      })
-      vim.notify = notify
-    end,
-  },
-  {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = true,
@@ -147,7 +121,6 @@ require("lazy").setup({
       },
     },
   },
-  "rhysd/git-messenger.vim",
   {
     "NeogitOrg/neogit",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -222,57 +195,43 @@ require("lazy").setup({
     },
   },
   {
-    "RRethy/vim-illuminate",
-    config = function()
-      vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "LspReferenceText" })
-      vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "LspReferenceRead" })
-      vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "LspReferenceWrite" })
-      require("illuminate").configure({
-        under_cursor = false,
-        delay = 500,
-        filetypes_denylist = {
-          "NeogitStatus",
-        },
-      })
-    end,
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("telescope").setup {
-        defaults = {
-          layout_strategy = "vertical",
-          path_display = { "truncate" },
-        },
-      }
-
-      local builtin = require("telescope.builtin")
-      local function find_files_in_project()
-        builtin.find_files({
-          cwd = find_git_root(),
-          find_command = { "fd", "--type", "f", "--type", "d" },
-          hidden = true,
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      git = { enabled = true },
+      input = { enabled = true },
+      picker = { enabled = true },
+      notifier = { enabled = true },
+      words = {
+        enabled = true,
+        debounce = 500,
+      },
+    },
+    keys = {
+      { "<leader><space>", function()
+        Snacks.picker.smart({
+          multi = {
+            "buffers",
+            "recent",
+            {
+              source = "files",
+              cwd = Snacks.git.get_root(),
+              hidden = true,
+              args = { "--type", "d" },
+            } },
         })
-      end
-      local function live_grep_in_project()
-        builtin.live_grep({ cwd = find_git_root(), glob_pattern = { "!.git/" }, additional_args = { "--hidden" } })
-      end
-
-      map("n", "<leader><space>", builtin.buffers)
-      map("n", "<leader>o", builtin.oldfiles)
-      map("n", "<leader>h", builtin.help_tags)
-      map("n", "<leader>t", find_files_in_project)
-      map("n", "<leader>n", live_grep_in_project)
-      map("n", "/", builtin.current_buffer_fuzzy_find)
-    end,
+      end },
+      { "<leader>n", function() Snacks.picker.grep({ cwd = Snacks.git.get_root(), hidden = true }) end },
+      { "<leader>h", function() Snacks.picker.help() end },
+      { "/",         function() Snacks.picker.lines() end },
+    },
   },
   {
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp" },
     config = function()
       local nvim_lsp = require("lspconfig")
-      local builtin = require("telescope.builtin")
 
       -- TODO LspAttach autocmd
       local function lsp_on_attach(client, bufnr)
@@ -282,18 +241,18 @@ require("lazy").setup({
           }
         end
 
-        buf_map("n", "gd", builtin.lsp_definitions)
+        buf_map("n", "gd", Snacks.picker.lsp_definitions)
         buf_map("n", "<leader>f", lsp_format)
         buf_map("n", "<leader>r", vim.lsp.buf.rename)
         buf_map("n", "<leader>a", vim.lsp.buf.code_action)
         buf_map("n", "<leader>d", vim.diagnostic.open_float)
         buf_map("n", "<leader>en", function() vim.diagnostic.jump { count = 1, float = false } end)
         buf_map("n", "<leader>ep", function() vim.diagnostic.jump { count = -1, float = false } end)
-        buf_map("n", "<leader>el", builtin.diagnostics)
-        buf_map("n", "<leader>s", builtin.lsp_document_symbols)
-        buf_map("n", "<leader>w", builtin.lsp_dynamic_workspace_symbols)
-        buf_map("n", "<leader>c", builtin.lsp_references)
-        buf_map("n", "<leader>y", builtin.lsp_type_definitions)
+        buf_map("n", "<leader>el", Snacks.picker.diagnostics)
+        buf_map("n", "<leader>s", Snacks.picker.lsp_symbols)
+        buf_map("n", "<leader>w", Snacks.picker.lsp_workspace_symbols)
+        buf_map("n", "<leader>c", Snacks.picker.lsp_references)
+        buf_map("n", "<leader>y", Snacks.picker.lsp_type_definitions)
 
         client.server_capabilities.semanticTokensProvider = nil
       end
