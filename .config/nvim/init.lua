@@ -39,6 +39,13 @@ vim.g.loaded_python_provider = 0
 vim.g.netrw_dirhistmax = 0
 vim.g.mapleader = " "
 
+vim.filetype.add({
+  filename = {
+    ["docker-compose.yml"] = "yaml.docker-compose",
+    ["docker-compose.yaml"] = "yaml.docker-compose",
+  },
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank {
