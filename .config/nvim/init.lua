@@ -238,9 +238,6 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp" },
     config = function()
-      local nvim_lsp = require("lspconfig")
-
-      -- TODO LspAttach autocmd
       local function lsp_on_attach(client, bufnr)
         local lsp_format = function()
           require("conform").format {
@@ -264,14 +261,12 @@ require("lazy").setup({
         client.server_capabilities.semanticTokensProvider = nil
       end
 
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-      nvim_lsp.clangd.setup {
+      vim.lsp.config("clangd", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("clangd")
 
-      nvim_lsp.gopls.setup {
+      vim.lsp.config("gopls", {
         settings = {
           gopls = {
             analyses = {
@@ -282,10 +277,10 @@ require("lazy").setup({
           },
         },
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("gopls")
 
-      nvim_lsp.rust_analyzer.setup {
+      vim.lsp.config("rust_analyzer", {
         settings = {
           ["rust-analyzer"] = {
             check = {
@@ -294,91 +289,91 @@ require("lazy").setup({
           },
         },
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("rust_analyzer")
 
-      nvim_lsp.texlab.setup {
+      vim.lsp.config("texlab", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("texlab")
 
-      nvim_lsp.tinymist.setup {
-        on_attach = lsp_on_attach,
-        capabilities = capabilities,
+      vim.lsp.config("tinymist", {
         settings = {
           formatterMode = "typstyle",
         },
-      }
-
-      nvim_lsp.ts_ls.setup {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("tinymist")
 
-      nvim_lsp.hls.setup {
+      vim.lsp.config("ts_ls", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("ts_ls")
 
-      nvim_lsp.lua_ls.setup {
+      vim.lsp.config("hls", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("hls")
 
-      nvim_lsp.bashls.setup {
+      vim.lsp.config("lua_ls", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("lua_ls")
 
-      nvim_lsp.html.setup {
+      vim.lsp.config("bashls", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("bashls")
 
-      nvim_lsp.cssls.setup {
+      vim.lsp.config("html", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("html")
 
-      nvim_lsp.tailwindcss.setup {
+      vim.lsp.config("cssls", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("cssls")
 
-      nvim_lsp.jsonls.setup {
+      vim.lsp.config("tailwindcss", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("tailwindcss")
 
-      -- nvim_lsp.yamlls.setup {
+      vim.lsp.config("jsonls", {
+        on_attach = lsp_on_attach,
+      })
+      vim.lsp.enable("jsonls")
+
+      -- vim.lsp.config("yamlls", {
       --   on_attach = lsp_on_attach,
-      --   capabilities = capabilities,
-      -- }
+      -- })
+      -- vim.lsp.enable("yamlls")
 
-      nvim_lsp.docker_compose_language_service.setup {
+      vim.lsp.config("docker_compose_language_service", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("docker_compose_language_service")
 
-      nvim_lsp.dockerls.setup {
+      vim.lsp.config("dockerls", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("dockerls")
 
-      nvim_lsp.pyright.setup {
+      vim.lsp.config("pyright", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("pyright")
 
-      nvim_lsp.ruff.setup {
+      vim.lsp.config("ruff", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("ruff")
 
-      nvim_lsp.biome.setup {
+      vim.lsp.config("biome", {
         on_attach = lsp_on_attach,
-        capabilities = capabilities,
-      }
+      })
+      vim.lsp.enable("biome")
     end,
   },
   {
