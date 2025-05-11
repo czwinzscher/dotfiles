@@ -286,16 +286,19 @@ require("lazy").setup({
             check = {
               command = "clippy",
             },
+            cargo = {
+              targetDir = true,
+            },
           },
         },
         on_attach = lsp_on_attach,
       })
       vim.lsp.enable("rust_analyzer")
 
-      vim.lsp.config("texlab", {
-        on_attach = lsp_on_attach,
-      })
-      vim.lsp.enable("texlab")
+      -- vim.lsp.config("texlab", {
+      --   on_attach = lsp_on_attach,
+      -- })
+      -- vim.lsp.enable("texlab")
 
       vim.lsp.config("tinymist", {
         settings = {
