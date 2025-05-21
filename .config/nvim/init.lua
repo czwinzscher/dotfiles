@@ -94,10 +94,11 @@ map("n", "<cr>", [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], { expr = true
 
 vim.diagnostic.config({
   signs = false,
+  -- virtual_text = true,
   -- virtual_lines = true,
-  virtual_lines = {
-    current_line = true,
-  },
+  -- virtual_lines = {
+  --   current_line = true,
+  -- },
 })
 
 -- bootstrap lazy
