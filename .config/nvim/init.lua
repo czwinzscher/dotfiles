@@ -91,6 +91,7 @@ map("x", ">", ">gv")
 map("n", "<leader>i", ":e ~/.config/nvim/init.lua<CR>")
 map("t", "<esc>", [[<C-\><C-n>]])
 map("n", "<cr>", [[&buftype ==# 'quickfix' ? "\<cr>" : "o<esc>"]], { expr = true })
+map("n", "<leader>o", ":e .<CR>")
 
 vim.diagnostic.config({
   signs = false,
@@ -232,6 +233,7 @@ require("lazy").setup({
       end },
       { "<leader>n", function() Snacks.picker.grep({ cwd = Snacks.git.get_root(), hidden = true }) end },
       { "<leader>h", function() Snacks.picker.help() end },
+      { "<leader>l", function() Snacks.picker.resume() end },
       { "/",         function() Snacks.picker.lines() end },
     },
   },
