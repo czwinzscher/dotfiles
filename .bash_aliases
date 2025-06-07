@@ -8,7 +8,6 @@ alias df='df -h'
 alias free='free -h'
 alias cal='cal -m'
 alias feh='feh -.'
-alias fd='fdfind'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # git
