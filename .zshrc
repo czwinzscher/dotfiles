@@ -21,6 +21,13 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && . /usr/share/doc/fzf/examples/key-bindings.zsh
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && . /usr/share/doc/fzf/examples/completion.zsh
 
+# alias fd to fdfind on ubuntu
+if ! type fd &> /dev/null; then
+  if type fdfind &> /dev/null; then
+    alias fd='fdfind'
+  fi
+fi
+
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd r zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
