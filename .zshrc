@@ -13,13 +13,6 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 . ~/.bash_aliases
 . ~/.inputrc
 
-# alias fd to fdfind on ubuntu
-if ! type fd &> /dev/null; then
-  if type fdfind &> /dev/null; then
-    alias fd='fdfind'
-  fi
-fi
-
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd r zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
