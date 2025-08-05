@@ -1,5 +1,5 @@
 DISABLE_AUTO_UPDATE="true"
-plugins=(zsh-autosuggestions)
+plugins=(zsh-autosuggestions fzf)
 . $ZSH/oh-my-zsh.sh
 
 HISTSIZE=10000000
@@ -12,14 +12,6 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 
 . ~/.bash_aliases
 . ~/.inputrc
-
-# fzf
-# arch
-[ -f /usr/share/fzf/key-bindings.zsh ] && . /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && . /usr/share/fzf/completion.zsh
-# ubuntu
-[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && . /usr/share/doc/fzf/examples/key-bindings.zsh
-[ -f /usr/share/doc/fzf/examples/completion.zsh ] && . /usr/share/doc/fzf/examples/completion.zsh
 
 # alias fd to fdfind on ubuntu
 if ! type fd &> /dev/null; then
