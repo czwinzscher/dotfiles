@@ -16,9 +16,3 @@ bindkey '^ ' autosuggest-accept # ctrl-space
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd r zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
-
-export PNPM_HOME="/home/clemens/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
