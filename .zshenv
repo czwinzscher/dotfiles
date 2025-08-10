@@ -12,7 +12,14 @@ export TERMINAL=ghostty
 export BROWSER=firefox
 
 # PATH
-export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.local/share/pnpm
+export PATH=$PATH:$HOME/.local/bin:$HOME/.cargo/bin
+
+# pnpm
+export PNPM_HOME="/home/clemens/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 
 # Android
 export ANDROID_HOME=$HOME/Android/Sdk
