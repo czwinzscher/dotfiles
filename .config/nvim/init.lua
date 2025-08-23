@@ -123,6 +123,18 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "zbirenbaum/copilot.lua",
+    event = "InsertEnter",
+    config = {
+      suggestion = {
+        auto_trigger = true,
+      },
+      filetypes = {
+        -- toml = true,
+      },
+    },
+  },
+  {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = true,
