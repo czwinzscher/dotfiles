@@ -308,6 +308,12 @@ require("lazy").setup({
             cargo = {
               targetDir = true,
             },
+            imports = {
+              granularity = {
+                group = "item",
+                -- enforce = true,
+              },
+            },
           },
         },
         on_attach = lsp_on_attach,
