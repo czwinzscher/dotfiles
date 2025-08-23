@@ -102,6 +102,11 @@ vim.diagnostic.config({
   -- },
 })
 
+
+local format_filter = function(c)
+  return c.name ~= "ts_ls" and c.name ~= "jsonls"
+end
+
 -- bootstrap lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -197,9 +202,7 @@ require("lazy").setup({
         lsp_format = "fallback",
       },
       format_on_save = {
-        filter = function(c)
-          return c.name ~= "ts_ls"
-        end,
+        filter = format_filter,
       },
     },
   },
@@ -245,6 +248,7 @@ require("lazy").setup({
         local lsp_format = function()
           require("conform").format {
             bufnr = bufnr,
+            filter = format_filter,
           }
         end
 
