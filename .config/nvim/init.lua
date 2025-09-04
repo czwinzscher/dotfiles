@@ -128,6 +128,11 @@ require("lazy").setup({
     config = {
       suggestion = {
         auto_trigger = true,
+        keymap = {
+          accept = "<M-l>",
+          accept_word = "<M-x>",
+          accept_line = "<M-v>",
+        },
       },
       filetypes = {
         -- toml = true,
