@@ -261,33 +261,37 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = { "saghen/blink.cmp" },
     config = function()
-      local function lsp_on_attach(client, bufnr)
-        local lsp_format = function()
-          require("conform").format {
-            bufnr = bufnr,
-            filter = format_filter,
-          }
-        end
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+          local lsp_format = function()
+            require("conform").format {
+              filter = format_filter,
+            }
+          end
 
-        buf_map("n", "gd", Snacks.picker.lsp_definitions)
-        buf_map("n", "<leader>f", lsp_format)
-        buf_map("n", "<leader>r", vim.lsp.buf.rename)
-        buf_map("n", "<leader>a", vim.lsp.buf.code_action)
-        buf_map("n", "<leader>d", vim.diagnostic.open_float)
-        buf_map("n", "<leader>en", function() vim.diagnostic.jump { count = 1, float = false } end)
-        buf_map("n", "<leader>ep", function() vim.diagnostic.jump { count = -1, float = false } end)
-        buf_map("n", "<leader>el", Snacks.picker.diagnostics)
-        buf_map("n", "<leader>s", Snacks.picker.lsp_symbols)
-        buf_map("n", "<leader>w", Snacks.picker.lsp_workspace_symbols)
-        buf_map("n", "<leader>c", Snacks.picker.lsp_references)
-        buf_map("n", "<leader>y", Snacks.picker.lsp_type_definitions)
+          buf_map("n", "gd", Snacks.picker.lsp_definitions)
+          buf_map("n", "<leader>f", lsp_format)
+          buf_map("n", "<leader>r", vim.lsp.buf.rename)
+          buf_map("n", "<leader>a", vim.lsp.buf.code_action)
+          buf_map("n", "<leader>d", vim.diagnostic.open_float)
+          buf_map("n", "<leader>en", function()
+            vim.diagnostic.jump { count = 1, float = false }
+          end)
+          buf_map("n", "<leader>ep", function()
+            vim.diagnostic.jump { count = -1, float = false }
+          end)
+          buf_map("n", "<leader>el", Snacks.picker.diagnostics)
+          buf_map("n", "<leader>s", Snacks.picker.lsp_symbols)
+          buf_map("n", "<leader>w", Snacks.picker.lsp_workspace_symbols)
+          buf_map("n", "<leader>c", Snacks.picker.lsp_references)
+          buf_map("n", "<leader>y", Snacks.picker.lsp_type_definitions)
 
-        client.server_capabilities.semanticTokensProvider = nil
-      end
-
-      vim.lsp.config("clangd", {
-        on_attach = lsp_on_attach,
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
       })
+
+      vim.lsp.config("clangd", {})
       vim.lsp.enable("clangd")
 
       vim.lsp.config("gopls", {
@@ -300,7 +304,6 @@ require("lazy").setup({
             staticcheck = true,
           },
         },
-        on_attach = lsp_on_attach,
       })
       vim.lsp.enable("gopls")
 
@@ -321,12 +324,10 @@ require("lazy").setup({
             },
           },
         },
-        on_attach = lsp_on_attach,
       })
       vim.lsp.enable("rust_analyzer")
 
       -- vim.lsp.config("texlab", {
-      --   on_attach = lsp_on_attach,
       -- })
       -- vim.lsp.enable("texlab")
 
@@ -334,48 +335,31 @@ require("lazy").setup({
         settings = {
           formatterMode = "typstyle",
         },
-        on_attach = lsp_on_attach,
       })
       vim.lsp.enable("tinymist")
 
-      vim.lsp.config("ts_ls", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("ts_ls", {})
       vim.lsp.enable("ts_ls")
 
-      vim.lsp.config("hls", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("hls", {})
       vim.lsp.enable("hls")
 
-      vim.lsp.config("lua_ls", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("lua_ls", {})
       vim.lsp.enable("lua_ls")
 
-      vim.lsp.config("bashls", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("bashls", {})
       vim.lsp.enable("bashls")
 
-      vim.lsp.config("html", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("html", {})
       vim.lsp.enable("html")
 
-      vim.lsp.config("cssls", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("cssls", {})
       vim.lsp.enable("cssls")
 
-      vim.lsp.config("tailwindcss", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("tailwindcss", {})
       vim.lsp.enable("tailwindcss")
 
-      vim.lsp.config("jsonls", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("jsonls", {})
       vim.lsp.enable("jsonls")
 
       -- vim.lsp.config("yamlls", {
@@ -383,29 +367,18 @@ require("lazy").setup({
       -- })
       -- vim.lsp.enable("yamlls")
 
-      vim.lsp.config("docker_compose_language_service", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("docker_compose_language_service", {})
       vim.lsp.enable("docker_compose_language_service")
-
-      vim.lsp.config("dockerls", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("dockerls", {})
       vim.lsp.enable("dockerls")
 
-      vim.lsp.config("pyright", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("pyright", {})
       vim.lsp.enable("pyright")
 
-      vim.lsp.config("ruff", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("ruff", {})
       vim.lsp.enable("ruff")
 
-      vim.lsp.config("biome", {
-        on_attach = lsp_on_attach,
-      })
+      vim.lsp.config("biome", {})
       vim.lsp.enable("biome")
     end,
   },
