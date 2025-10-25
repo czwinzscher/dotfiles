@@ -14,7 +14,7 @@ vim.opt.hidden = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = "no"
 vim.opt.pumheight = 5
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 15
 vim.opt.cinoptions = { "N-s", "g0", "+0" }
 vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.wildignore = { "*.so", "*.swp", "*.zip", "*.o", "*.tar*" }
@@ -38,6 +38,7 @@ vim.opt.inccommand = "nosplit"
 vim.g.loaded_python_provider = 0
 vim.g.netrw_dirhistmax = 0
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 vim.filetype.add({
   filename = {
@@ -145,6 +146,29 @@ require("lazy").setup({
     config = true,
   },
   {
+    "MagicDuck/grug-far.nvim",
+    opts = {
+      windowCreationCommand = "split",
+    },
+  },
+  {
+    "nvim-mini/mini.move",
+    version = "*",
+    opts = {
+      mappings = {
+        left = "<A-n>",
+        right = "<A-d>",
+        down = "<A-r>",
+        up = "<A-t>",
+
+        line_left = "<A-n>",
+        line_right = "<A-d>",
+        line_down = "<A-r>",
+        line_up = "<A-t>",
+      },
+    },
+  },
+  {
     "stevearc/oil.nvim",
     opts = {
       view_options = {
@@ -188,28 +212,7 @@ require("lazy").setup({
   {
     "ggandor/leap.nvim",
     config = function()
-      require("leap").add_default_mappings()
-
-      vim.api.nvim_create_autocmd(
-        "User",
-        {
-          callback = function()
-            vim.cmd.highlight("Cursor", "blend=100")
-            vim.opt.guicursor:append { "a:Cursor/lCursor" }
-          end,
-          pattern = "LeapEnter",
-        }
-      )
-      vim.api.nvim_create_autocmd(
-        "User",
-        {
-          callback = function()
-            vim.cmd.highlight("Cursor", "blend=0")
-            vim.opt.guicursor:remove { "a:Cursor/lCursor" }
-          end,
-          pattern = "LeapLeave",
-        }
-      )
+      vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
     end,
   },
   {
@@ -251,7 +254,14 @@ require("lazy").setup({
             } },
         })
       end },
-      { "<leader>n", function() Snacks.picker.grep({ cwd = Snacks.git.get_root(), hidden = true }) end },
+      { "<leader>b", function() Snacks.picker.buffers() end },
+      { "<leader>u", function() Snacks.picker.pickers() end },
+      { "<leader>nn", function()
+        Snacks.picker.grep({ cwd = Snacks.git.get_root(), hidden = true })
+      end },
+      { "<leader>nw", function()
+        Snacks.picker.grep_word({ cwd = Snacks.git.get_root(), hidden = true })
+      end },
       { "<leader>h", function() Snacks.picker.help() end },
       { "<leader>l", function() Snacks.picker.resume() end },
       { "/",         function() Snacks.picker.lines() end },
