@@ -2,6 +2,8 @@
 # Disable specific steps - same options as the command line flag
 disable = ["node", "ghcup"]
 
+no_self_update = true
+
 # Run specific steps - same options as the command line flag
 #only = ["system", "emacs"]
 
