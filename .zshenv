@@ -8,7 +8,7 @@ else
     export VISUAL=vim
 fi
 
-export TERMINAL=ghostty
+export TERMINAL=kitty
 export BROWSER=firefox
 
 # PATH
