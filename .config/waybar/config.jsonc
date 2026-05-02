@@ -2,7 +2,7 @@
     "layer": "top",
     "height": 20,
     "spacing": 4,
-    // "modules-left": ["wlr/workspaces"],
+    "modules-left": ["hyprland/workspaces"],
     "modules-center": [],
     "modules-right": ["pulseaudio", "battery", "clock", "tray"],
     "wlr/workspaces": {
@@ -14,6 +14,21 @@
             "focused": "",
             "default": ""
         }
+    },
+    "hyprland/workspaces": {
+        "format": "{icon}: {windows}",
+        "format-window-separator": "",
+        "workspace-taskbar": {
+            "enable": true,
+            "update-active-window": true,
+            "format": "{icon} {title:.20}",
+            "on-click-window": "~/.config/waybar/scripts/focus-window.sh {address} {button}"
+        }
+    },
+    "wlr/taskbar": {
+        "format": "{name}",
+        "on-click": "minimize-raise",
+        "on-click-middle": "close"
     },
     "keyboard-state": {
         "numlock": true,
