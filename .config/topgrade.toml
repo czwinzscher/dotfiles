@@ -1,6 +1,6 @@
 [misc]
 # Disable specific steps - same options as the command line flag
-disable = ["node", "ghcup"]
+disable = ["node", "ghcup", "hyprpm"]
 
 no_self_update = true
 
